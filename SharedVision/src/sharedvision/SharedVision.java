@@ -18,6 +18,8 @@ public class SharedVision {
         Mapa mapa = new Mapa();
 
         System.out.println(mapa);
+        
+        mapa.vistagrafica();
     }
 
 }
