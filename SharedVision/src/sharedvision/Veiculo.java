@@ -2,28 +2,17 @@ package sharedvision;
 
 public class Veiculo extends Thread {
     
-    private int x;
-    private int y;
+    private Coordenadas coordenadas;
+    private int inicio;
+    private int fim;
+    // (podem ser substituidos por um objecto)
+    private int [][] mapa;
+    //via
     
-    public Veiculo(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-    
+    public Veiculo(Coordenadas c, int inicio, int fim, int [][] mapa){
+        this.coordenadas = c;
+        this.inicio = inicio;
+        this.fim = fim;
+        this.mapa = mapa;
+    } 
 }
