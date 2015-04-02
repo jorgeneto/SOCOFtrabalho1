@@ -18,7 +18,7 @@ public class Mapa {
     private final int C_N = 102, E_N = 202, B_N = 302, D_N = 402, crN = 502;// Neve
     private final int C_G = 103, E_G = 203, B_G = 303, D_G = 403, crG = 503;// Gelo
 
-    int[][] mapa = {
+    private int[][] mapa = {
         /*0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19*/
         {B_M, E_M, E_M, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M},// 0
         {B_M, E_M, E_M, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M},// 1
@@ -43,6 +43,10 @@ public class Mapa {
     };
 
     public Mapa() {
+    }
+
+    public int[][] getMapa() {
+        return mapa;
     }
 
     @Override

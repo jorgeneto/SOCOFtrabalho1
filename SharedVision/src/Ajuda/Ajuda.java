@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Ajuda;
 
 import static java.lang.Thread.sleep;
+import java.util.ArrayList;
 import java.util.Random;
+import sharedvision.Coordenadas;
 
 public class Ajuda {
 
@@ -26,5 +23,25 @@ public class Ajuda {
             sleep(random_entre(LimiteInferior, LimiteSuperior));
         } catch (InterruptedException ex) {
         }
+    }
+
+    public void printCaminho(ArrayList<Coordenadas> caminho) {
+        System.out.println("[");
+        Coordenadas antigo = caminho.get(0);
+        String aux = "";
+        for (Coordenadas elemento : caminho) {
+            if (antigo.getX() > elemento.getX()) {
+                aux = "↑";
+            } else if (antigo.getX() < elemento.getX()) {
+                aux = "↓";
+            } else if (antigo.getY() > elemento.getY()) {
+                aux = "←";
+            } else if (antigo.getY() < elemento.getY()) {
+                aux = "→";
+            }
+            System.out.println(aux + " " + elemento);
+            antigo = elemento;
+        }
+        System.out.println("]");
     }
 }
