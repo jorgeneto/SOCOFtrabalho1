@@ -12,9 +12,11 @@ import javax.swing.JPanel;
 
 public class Mapa {
 
+    // Cima = 100.  Estrada = 00.  Molhado 1.     Estrada para cima molhada = 100 + 000 + 1 = 101
     private final int C_E = 100, E_E = 200, B_E = 300, D_E = 400, crE = 500;// Estrada
+    private final int C_M = 101, E_M = 201, B_M = 301, D_M = 401, crM = 501;// Estrada Molhada
     private final int C_P = 110, E_P = 210, B_P = 310, D_P = 410, crP = 510;// Paralelo
-    private final int C_M = 101, E_M = 201, B_M = 301, D_M = 401, crM = 501;// Molhada
+    private final int C_W = 111, E_W = 211, B_W = 311, D_W = 411, crW = 511;// Paralelo Molhado
     private final int C_N = 102, E_N = 202, B_N = 302, D_N = 402, crN = 502;// Neve
     private final int C_G = 103, E_G = 203, B_G = 303, D_G = 403, crG = 503;// Gelo
 
@@ -57,55 +59,23 @@ public class Mapa {
         for (int i = 0; i < mapa.length; i++) {
             for (int j = 0; j < mapa[0].length; j++) {
 
-                switch (mapa[i][j]) {
+                switch (mapa[i][j] / 100) {
                     case 0:
                         aux += " ";
                         break;
-                    case C_E:
+                    case 1:
                         aux += "↑";
                         break;
-                    case E_E:
+                    case 2:
                         aux += "←";
                         break;
-                    case B_E:
+                    case 3:
                         aux += "↓";
                         break;
-                    case D_E:
+                    case 4:
                         aux += "→";
                         break;
-                    case crE:
-                        aux += "+";
-                        break;
-
-                    case C_P:
-                        aux += "↑";
-                        break;
-                    case E_P:
-                        aux += "←";
-                        break;
-                    case B_P:
-                        aux += "↓";
-                        break;
-                    case D_P:
-                        aux += "→";
-                        break;
-                    case crP:
-                        aux += "+";
-                        break;
-
-                    case C_M:
-                        aux += "↑";
-                        break;
-                    case E_M:
-                        aux += "←";
-                        break;
-                    case B_M:
-                        aux += "↓";
-                        break;
-                    case D_M:
-                        aux += "→";
-                        break;
-                    case crM:
+                    case 5:
                         aux += "+";
                         break;
                 }
