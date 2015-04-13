@@ -29,7 +29,16 @@ public class AstarMembro implements Comparable<AstarMembro> {
 
     @Override
     public int compareTo(AstarMembro obj) {
-        return (int) (this.funcao - obj.funcao);
+        final int BEFORE = -1;
+        final int EQUAL = 0;
+        final int AFTER = 1;
+        if (this.funcao < obj.funcao) {
+            return BEFORE;
+        }
+        if (this.funcao > obj.funcao) {
+            return AFTER;
+        }
+        return EQUAL;
     }
 
     @Override

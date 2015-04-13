@@ -29,7 +29,11 @@ public class Astar {
             return null;
         }
         if (caminhos.get(0).lista.get(0).getX() == fim.getX() && caminhos.get(0).lista.get(0).getY() == fim.getY()) {
-            return caminhos.get(0).lista;
+            ArrayList<Coordenadas> caminho = new ArrayList<Coordenadas>();
+            for (Coordenadas cord : caminhos.get(0).lista) {
+                caminho.add(0, cord);
+            }
+            return caminho;
         } else {
             Coordenadas intermedio = caminhos.get(0).lista.get(0);
             System.out.println("    atual " + intermedio + "    mapa=" + mapa[intermedio.getX()][intermedio.getY()] + "    switch=" + mapa[intermedio.getX()][intermedio.getY()] / 100);
@@ -38,7 +42,7 @@ public class Astar {
                 case 1:
                     System.out.println("        case 1");
                     proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!caminhos.get(0).lista.contains(proximo)) {
                             caminhos.get(0).lista.add(0, proximo);
                             caminhos.get(0).soma += 1;
@@ -51,7 +55,7 @@ public class Astar {
                 case 2:
                     System.out.println("        case 2");
                     proximo = new Coordenadas(intermedio.getX(), intermedio.getY() - 1);
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!caminhos.get(0).lista.contains(proximo)) {
                             caminhos.get(0).lista.add(0, proximo);
                             caminhos.get(0).soma += 1;
@@ -64,7 +68,7 @@ public class Astar {
                 case 3:
                     System.out.println("        case 3");
                     proximo = new Coordenadas(intermedio.getX() + 1, intermedio.getY());
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!caminhos.get(0).lista.contains(proximo)) {
                             caminhos.get(0).lista.add(0, proximo);
                             caminhos.get(0).soma += 1;
@@ -77,7 +81,7 @@ public class Astar {
                 case 4:
                     System.out.println("        case 4");
                     proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!caminhos.get(0).lista.contains(proximo)) {
                             caminhos.get(0).lista.add(0, proximo);
                             caminhos.get(0).soma += 1;
@@ -91,7 +95,7 @@ public class Astar {
                     System.out.println("        case 5");
                     AstarMembro atual = new AstarMembro(caminhos.get(0));
                     proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!atual.lista.contains(proximo)) {
                             atual.lista.add(0, proximo);
                             atual.soma += 1;
@@ -101,7 +105,7 @@ public class Astar {
                     }
                     atual = new AstarMembro(caminhos.get(0));
                     proximo = new Coordenadas(intermedio.getX(), intermedio.getY() - 1);
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!atual.lista.contains(proximo)) {
                             atual.lista.add(0, proximo);
                             atual.soma += 1;
@@ -111,7 +115,7 @@ public class Astar {
                     }
                     atual = new AstarMembro(caminhos.get(0));
                     proximo = new Coordenadas(intermedio.getX() + 1, intermedio.getY());
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!atual.lista.contains(proximo)) {
                             atual.lista.add(0, proximo);
                             atual.soma += 1;
@@ -120,7 +124,7 @@ public class Astar {
                         }
                     }
                     proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
-                    if (proximo.getX() > -1 || proximo.getX() < mapaSize || proximo.getY() > -1 || proximo.getY() < mapaSize) {
+                    if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                         if (!caminhos.get(0).lista.contains(proximo)) {
                             caminhos.get(0).lista.add(0, proximo);
                             caminhos.get(0).soma += 1;
@@ -136,6 +140,7 @@ public class Astar {
                     caminhos.remove(0);
                     break;
             }
+            
             Collections.sort(caminhos);
             for (AstarMembro caminho : caminhos) {
                 System.out.println("                " + caminho);
