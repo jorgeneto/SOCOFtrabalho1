@@ -4,6 +4,7 @@ import Ajuda.Ajuda;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import static java.lang.System.exit;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -56,6 +57,18 @@ public class Mapa {
         veiculos.add(v);
 
         new Thread(v).start();
+    }
+
+    void removeVeiculo(Veiculo v) {
+        JLabel atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
+        atual.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
+        atual.revalidate();
+        atual.repaint();
+
+        veiculos.remove(v);
+        if (veiculos.size() == 0) {
+            exit(0);
+        }
     }
 
     public void redesenhar() {

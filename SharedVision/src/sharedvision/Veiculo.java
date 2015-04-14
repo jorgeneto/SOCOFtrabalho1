@@ -67,6 +67,55 @@ public class Veiculo extends Observable implements Runnable, Observer {
         // serve para me notificarem
     }
 
+    private int distSeguranca(int mapa) {
+        int distSeguranca = 0;
+        switch (mapa) {
+            case C_E:
+            case E_E:
+            case B_E:
+            case D_E:
+            case crE:
+                distSeguranca = 1;
+                break;
+            case C_M:
+            case E_M:
+            case B_M:
+            case D_M:
+            case crM:
+                distSeguranca = 2;
+                break;
+            case C_P:
+            case E_P:
+            case B_P:
+            case D_P:
+            case crP:
+                distSeguranca = 3;
+                break;
+            case C_W:
+            case E_W:
+            case B_W:
+            case D_W:
+            case crW:
+                distSeguranca = 4;
+                break;
+            case C_N:
+            case E_N:
+            case B_N:
+            case D_N:
+            case crN:
+                distSeguranca = 5;
+                break;
+            case C_G:
+            case E_G:
+            case B_G:
+            case D_G:
+            case crG:
+                distSeguranca = 6;
+                break;
+        }
+        return distSeguranca;
+    }
+
     @Override
     public void run() {
         procuraCaminho();
@@ -75,50 +124,8 @@ public class Veiculo extends Observable implements Runnable, Observer {
 
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
             // se estou numa estrada, paralelo, neve ou gelo
-            switch (mapa[atual.getX()][atual.getY()]) {
-                case C_E:
-                case E_E:
-                case B_E:
-                case D_E:
-                case crE:
-                    distSeguranca = 1;
-                    break;
-                case C_M:
-                case E_M:
-                case B_M:
-                case D_M:
-                case crM:
-                    distSeguranca = 2;
-                    break;
-                case C_P:
-                case E_P:
-                case B_P:
-                case D_P:
-                case crP:
-                    distSeguranca = 3;
-                    break;
-                case C_W:
-                case E_W:
-                case B_W:
-                case D_W:
-                case crW:
-                    distSeguranca = 4;
-                    break;
-                case C_N:
-                case E_N:
-                case B_N:
-                case D_N:
-                case crN:
-                    distSeguranca = 5;
-                    break;
-                case C_G:
-                case E_G:
-                case B_G:
-                case D_G:
-                case crG:
-                    distSeguranca = 6;
-                    break;
-            }
+            distSeguranca = distSeguranca(mapa[atual.getX()][atual.getY()]);
+
             boolean podeAndar = true;
             int menor = (caminho.size() < distSeguranca) ? caminho.size() : distSeguranca;
             for (int i = 0; i < menor; i++) {
@@ -141,5 +148,9 @@ public class Veiculo extends Observable implements Runnable, Observer {
             // simula o carro a andar
             new Ajuda().sleep_entre(500, 1000);
         }
+        
+        new Ajuda().sleep_entre(1000, 2000);
+        mapaObj.removeVeiculo(this);
     }
+
 }
