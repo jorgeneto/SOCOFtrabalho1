@@ -16,36 +16,35 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private final int C_G = 103, E_G = 203, B_G = 303, D_G = 403, crG = 503;// Gelo
 
     private int id;
+    private Coordenadas anterior;
     private Coordenadas atual;
     private Coordenadas fim;
     private ArrayList<Coordenadas> caminho;
     private ArrayList<Veiculo> carrosProximos;
 
     private int[][] mapa;
-    //via
+    private Mapa mapaObj;
 
-    public Veiculo(int[][] mapa, int id, Coordenadas inicio, Coordenadas fim) {
+    public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim) {
         this.id = id;
+        this.anterior = inicio;
         this.atual = inicio;
         this.fim = fim;
-        this.mapa = mapa;
-        this.carrosProximos = new ArrayList<Veiculo>();
+        this.mapa = mapaObj.getMapa();
+        this.mapaObj = mapaObj;
+
+        this.carrosProximos = new ArrayList<>();
     }
 
     private void procuraCaminho() {
         try {
             Astar astar = new Astar(mapa, 0);
-            caminho = new ArrayList<Coordenadas>();
+            caminho = new ArrayList<>();
             caminho = astar.caminho(atual, fim);
             new Ajuda().printCaminho(caminho);
         } catch (Exception e) {
-            System.out.println("ASTAR estourou por isso o caminho e de 0,9 ate 0,0");
-            caminho = new ArrayList<Coordenadas>();
-            caminho.add(new Coordenadas(0, 9));
-            caminho.add(new Coordenadas(0, 8));
-            caminho.add(new Coordenadas(0, 7));
-            caminho.add(new Coordenadas(0, 6));
-            caminho.add(new Coordenadas(0, 5));
+            //System.out.println("ASTAR estourou por isso o caminho e de 0,4 ate 0,0");
+            caminho = new ArrayList<>();
             caminho.add(new Coordenadas(0, 4));
             caminho.add(new Coordenadas(0, 3));
             caminho.add(new Coordenadas(0, 2));
@@ -53,6 +52,10 @@ public class Veiculo extends Observable implements Runnable, Observer {
             caminho.add(new Coordenadas(0, 0));
             fim = new Coordenadas(0, 0);
         }
+    }
+
+    public Coordenadas getAnterior() {
+        return anterior;
     }
 
     public Coordenadas getAtual() {
@@ -127,8 +130,10 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 }
             }
             if (podeAndar) {
+                anterior = atual;
                 atual = caminho.remove(0);
                 System.err.println("Carro " + id + " anda para " + atual);
+                mapaObj.redesenhar();
             } else {
                 // nao pode andar
             }

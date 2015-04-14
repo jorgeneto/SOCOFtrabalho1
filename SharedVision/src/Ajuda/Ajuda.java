@@ -26,7 +26,7 @@ public class Ajuda {
     }
 
     public void printCaminho(ArrayList<Coordenadas> caminho) {
-        System.out.println("[");
+        //System.out.println("[");
         Coordenadas antigo = caminho.get(0);
         String aux = "";
         for (Coordenadas elemento : caminho) {
@@ -39,9 +39,9 @@ public class Ajuda {
             } else if (antigo.getY() < elemento.getY()) {
                 aux = "→";
             }
-            System.out.println(aux + " " + elemento);
+            //System.out.println(aux + " " + elemento);
             antigo = elemento;
         }
-        System.out.println("]");
+        //System.out.println("]");
     }
 }

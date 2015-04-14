@@ -8,22 +8,18 @@ public class SharedVision {
     public static void main(String[] args) {
         Mapa mapa = new Mapa();
 
-        System.out.println(mapa);
+        //System.out.println(mapa);
+        mapa.vistaGrafica();
 
-        mapa.vistagrafica();
+        Veiculo carro1 = new Veiculo(mapa, 1, new Coordenadas(0, 0), new Coordenadas(15, 0));
+        Veiculo carro2 = new Veiculo(mapa, 2, new Coordenadas(19, 0), new Coordenadas(15, 15));
+        Veiculo carro3 = new Veiculo(mapa, 3, new Coordenadas(19, 19), new Coordenadas(0, 0));
+        Veiculo carro4 = new Veiculo(mapa, 4, new Coordenadas(0, 19), new Coordenadas(7, 6));
 
-        //Veiculo carro1 = new Veiculo(mapa.getMapa(), 1, new Coordenadas(9, 0), new Coordenadas(0, 0));
-        Veiculo carro2 = new Veiculo(mapa.getMapa(), 2, new Coordenadas(19, 19), new Coordenadas(15, 15));
-
-        //new Thread(carro1).start();
-        new Thread(carro2).start();
-
-//        Astar teste = new Astar(mapa.getMapa(), 0);
-//        ArrayList<Coordenadas> caminho = teste.caminho(new Coordenadas(19, 3), new Coordenadas(19, 2));
-//        new Ajuda().printCaminho(caminho);
-//
-//        caminho = teste.caminho(new Coordenadas(19, 19), new Coordenadas(0, 0));
-//        new Ajuda().printCaminho(caminho);
+        mapa.addVeiculo(carro1);
+        mapa.addVeiculo(carro2);
+        mapa.addVeiculo(carro3);
+        mapa.addVeiculo(carro4);
     }
 
 }
