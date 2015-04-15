@@ -25,6 +25,17 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private int[][] mapa;
     private Mapa mapaObj;
 
+    public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim, Observer o) {
+        this.id = id;
+        this.anterior = inicio;
+        this.atual = inicio;
+        this.fim = fim;
+        this.mapa = mapaObj.getMapa();
+        this.mapaObj = mapaObj;
+
+        this.carrosProximos = new ArrayList<>();
+        this.addObserver(o);
+    }
     public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim) {
         this.id = id;
         this.anterior = inicio;
@@ -34,8 +45,8 @@ public class Veiculo extends Observable implements Runnable, Observer {
         this.mapaObj = mapaObj;
 
         this.carrosProximos = new ArrayList<>();
+       
     }
-
     private void procuraCaminho() {
         try {
             Astar astar = new Astar(mapa, 0);
@@ -64,8 +75,12 @@ public class Veiculo extends Observable implements Runnable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        // serve para me notificarem
+         System.out.println("Carro "+this+" acabou de correr");
     }
+     public void done(){
+            this.setChanged(); // protected method
+            this.notifyObservers();
+      }
 
     private int distSeguranca(int mapa) {
         int distSeguranca = 0;
@@ -147,10 +162,12 @@ public class Veiculo extends Observable implements Runnable, Observer {
 
             // simula o carro a andar
             new Ajuda().sleep_entre(500, 1000);
-        }
-        
+        }        
+       
+        this.done();
         new Ajuda().sleep_entre(1000, 2000);
         mapaObj.removeVeiculo(this);
+        
     }
 
 }
