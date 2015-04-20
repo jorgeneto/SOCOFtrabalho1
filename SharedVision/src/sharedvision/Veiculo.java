@@ -50,14 +50,14 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 if (Math.abs(mensagem.getPerigoCoord().getX() - atual.getX()) < 7) {
                     if (Math.abs(mensagem.getPerigoCoord().getY() - atual.getY()) < 7) {
                         System.out.println("Carro " + this + " recebe " + mensagem);
-                        for (int i = 0; i < caminho.size(); i++) {
-                            if (mensagem.getPerigoCoord().getX() == caminho.get(i).getX()) {
+//                        for (int i = 0; i < caminho.size(); i++) {
+//                            if (mensagem.getPerigoCoord().getX() == caminho.get(i).getX()) {
                                 if (!veiculosProximos.contains(mensagem.getVeiculo())) {
                                     System.out.println("Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
                                     veiculosProximos.add(mensagem.getVeiculo());
                                 }
-                            }
-                        }
+//                            }
+//                        }
                     }
                 }
                 break;
