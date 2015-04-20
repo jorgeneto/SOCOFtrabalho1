@@ -2,7 +2,9 @@ package sharedvision;
 
 import Ajuda.Ajuda;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import static java.lang.System.exit;
 import java.util.ArrayList;
@@ -53,10 +55,14 @@ public class Mapa {
         veiculos = new ArrayList<>();
     }
 
-    public void addVeiculo(Veiculo v) {
-        veiculos.add(v);
+    public void addVeiculo(Veiculo novoVeiculo) {
+        for (Veiculo veiculo : veiculos) {
+            veiculo.adicionaObserver(novoVeiculo);
+            novoVeiculo.adicionaObserver(veiculo);
+        }
+        veiculos.add(novoVeiculo);
 
-        new Thread(v).start();
+        new Thread(novoVeiculo).start();
     }
 
     void removeVeiculo(Veiculo v) {
@@ -71,38 +77,38 @@ public class Mapa {
         }
     }
 
-    public void redesenhar() {
+    public void redesenhar(Veiculo v) {
         JLabel anterior, atual;
-        for (Veiculo v : veiculos) {
-            anterior = mapaGrafico[v.getAnterior().getX()][v.getAnterior().getY()];
-            if (anterior.getIcon() != new ImageIcon("./img/carro_preto_desce.png")) {
-                if (anterior.getIcon() != new ImageIcon("./img/carro_preto_sobe.png")) {
-                    if (anterior.getIcon() != new ImageIcon("./img/carro_preto_direita.png")) {
-                        if (anterior.getIcon() != new ImageIcon("./img/carro_preto_esquerda.png")) {
-                            anterior.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
-                            anterior.revalidate();
-                            anterior.repaint();
-                        }
-                    }
-                }
-            }
 
-            atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
-            if (v.getAtual().getX() > v.getAnterior().getX()) {
-                atual.setIcon(new ImageIcon("./img/carro_preto_desce.png"));
-            } else {
-                atual.setIcon(new ImageIcon("./img/carro_preto_sobe.png"));
-            }
-            if (v.getAtual().getY() > v.getAnterior().getY()) {
-                atual.setIcon(new ImageIcon("./img/carro_preto_direita.png"));
-            }
-            if (v.getAtual().getY() < v.getAnterior().getY()) {
-                atual.setIcon(new ImageIcon("./img/carro_preto_esquerda.png"));
-            }
+        anterior = mapaGrafico[v.getAnterior().getX()][v.getAnterior().getY()];
+        anterior.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
+        anterior.setText("");
+        anterior.revalidate();
+        anterior.repaint();
 
-            atual.revalidate();
-            atual.repaint();
+        atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
+        if (v.getAtual().getX() > v.getAnterior().getX()) {
+            atual.setIcon(new ImageIcon("./img/carro_preto_desce.png"));
+            atual.setText("" + v.getId());
+        } else {
+            atual.setIcon(new ImageIcon("./img/carro_preto_sobe.png"));
+            atual.setText("" + v.getId());
         }
+        if (v.getAtual().getY() > v.getAnterior().getY()) {
+            atual.setIcon(new ImageIcon("./img/carro_preto_direita.png"));
+            atual.setText("" + v.getId());
+        }
+        if (v.getAtual().getY() < v.getAnterior().getY()) {
+            atual.setIcon(new ImageIcon("./img/carro_preto_esquerda.png"));
+            atual.setText("" + v.getId());
+        }
+        atual.setHorizontalTextPosition(JLabel.CENTER);
+        atual.setVerticalTextPosition(JLabel.CENTER);
+        atual.setFont(new Font("Arial", Font.BOLD, 20));
+        atual.setForeground(Color.red);
+
+        atual.revalidate();
+        atual.repaint();
     }
 
     public int[][] getMapa() {

@@ -20,22 +20,11 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private Coordenadas atual;
     private Coordenadas fim;
     private ArrayList<Coordenadas> caminho;
-    private ArrayList<Veiculo> carrosProximos;
+    private ArrayList<Veiculo> veiculosProximos;
 
     private int[][] mapa;
     private Mapa mapaObj;
 
-    public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim, Observer o) {
-        this.id = id;
-        this.anterior = inicio;
-        this.atual = inicio;
-        this.fim = fim;
-        this.mapa = mapaObj.getMapa();
-        this.mapaObj = mapaObj;
-
-        this.carrosProximos = new ArrayList<>();
-        this.addObserver(o);
-    }
     public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim) {
         this.id = id;
         this.anterior = inicio;
@@ -44,9 +33,37 @@ public class Veiculo extends Observable implements Runnable, Observer {
         this.mapa = mapaObj.getMapa();
         this.mapaObj = mapaObj;
 
-        this.carrosProximos = new ArrayList<>();
-       
+        this.veiculosProximos = new ArrayList<>();
+        //this.addObserver(o);
     }
+
+    public void adicionaObserver(Observer o) {
+        this.addObserver(o);
+    }
+
+    @Override
+    public void update(Observable o, Object m) {
+        Mensagem mensagem = (Mensagem) m;
+        if (Math.abs(mensagem.getPerigoCoord().getX() - atual.getX()) < 7) {
+            if (Math.abs(mensagem.getPerigoCoord().getY() - atual.getY()) < 7) {
+                System.out.println("Carro " + this + " recebe " + mensagem);
+                for (int i = 0; i < caminho.size(); i++) {
+                    if (mensagem.getPerigoCoord().getX() == caminho.get(i).getX()) {
+                        if (!veiculosProximos.contains(mensagem.getVeiculo())) {
+                            System.out.println("Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
+                            veiculosProximos.add(mensagem.getVeiculo());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void enviaMensagem(Mensagem.TipoMensagem tipo, Coordenadas cordenadas) {
+        this.setChanged();
+        this.notifyObservers(new Mensagem(tipo, cordenadas, this));
+    }
+
     private void procuraCaminho() {
         try {
             Astar astar = new Astar(mapa, 0);
@@ -54,7 +71,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
             caminho = astar.caminho(atual, fim);
             new Ajuda().printCaminho(caminho);
         } catch (Exception e) {
-            //System.out.println("ASTAR estourou por isso o caminho e de 0,4 ate 0,0");
+            System.out.println("ASTAR estourou por isso o caminho e de 0,4 ate 0,0");
             caminho = new ArrayList<>();
             caminho.add(new Coordenadas(0, 4));
             caminho.add(new Coordenadas(0, 3));
@@ -73,14 +90,9 @@ public class Veiculo extends Observable implements Runnable, Observer {
         return atual;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-         System.out.println("Carro "+this+" acabou de correr");
+    public int getId() {
+        return id;
     }
-     public void done(){
-            this.setChanged(); // protected method
-            this.notifyObservers();
-      }
 
     private int distSeguranca(int mapa) {
         int distSeguranca = 0;
@@ -141,33 +153,37 @@ public class Veiculo extends Observable implements Runnable, Observer {
             // se estou numa estrada, paralelo, neve ou gelo
             distSeguranca = distSeguranca(mapa[atual.getX()][atual.getY()]);
 
+            // verifica se tem veiculos no caminho
             boolean podeAndar = true;
             int menor = (caminho.size() < distSeguranca) ? caminho.size() : distSeguranca;
             for (int i = 0; i < menor; i++) {
                 proximo = caminho.get(i);
-                for (Veiculo carro : carrosProximos) {
-                    if (carro.getAtual().getX() == proximo.getX() && carro.getAtual().getY() == proximo.getY()) {
+                for (Veiculo veiculo : veiculosProximos) {
+                    if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
                         podeAndar = false;
                     }
                 }
             }
             if (podeAndar) {
+                // anda
                 anterior = atual;
                 atual = caminho.remove(0);
                 System.err.println("Carro " + id + " anda para " + atual);
-                mapaObj.redesenhar();
+                mapaObj.redesenhar(this);
+                enviaMensagem(Mensagem.TipoMensagem.Movimento, anterior);
+                new Ajuda().sleep_entre(500, 1000);
             } else {
                 // nao pode andar
+                new Ajuda().sleep_entre(200, 400);
             }
+        }
 
-            // simula o carro a andar
-            new Ajuda().sleep_entre(500, 1000);
-        }        
-       
-        this.done();
         new Ajuda().sleep_entre(1000, 2000);
         mapaObj.removeVeiculo(this);
-        
     }
 
+    @Override
+    public String toString() {
+        return "id=" + id + " coordAtual=" + atual;
+    }
 }
