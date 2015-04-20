@@ -2,19 +2,15 @@ package sharedvision;
 
 public class Mensagem {
 
-    /**
-     * Movimento = mensagem normal que simboliza o movimento PerdaDeControlo
-     * =sinaliza que me torno num obstaculo Obstaculo = sinaliza que encontrou
-     * um obstaculo ProximidadeDeIntersecao = sinaliza que vai para intersecao
-     * PerigoColisaoFrontal = vai bater frontalmente
-     */
     public enum TipoMensagem {
 
-        Movimento, PerdaDeControlo, Obstaculo, ProximidadeDeIntersecao, PerigoColisaoFrontal;
+        Terminou, Movimento, PerdaDeControlo, Obstaculo, ProximidadeDeIntersecao, PerigoColisaoFrontal;
 
         @Override
         public String toString() {
             switch (this) {
+                case Terminou:
+                    return "Terminou";
                 case Movimento:
                     return "Movimento";
                 case PerdaDeControlo:

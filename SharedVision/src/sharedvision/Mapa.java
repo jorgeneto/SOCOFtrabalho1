@@ -6,12 +6,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
 import static java.lang.System.exit;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Mapa {
@@ -23,6 +26,7 @@ public class Mapa {
     private final int C_W = 111, E_W = 211, B_W = 311, D_W = 411, crW = 511;// Paralelo Molhado
     private final int C_N = 102, E_N = 202, B_N = 302, D_N = 402, crN = 502;// Neve
     private final int C_G = 103, E_G = 203, B_G = 303, D_G = 403, crG = 503;// Gelo
+    private final int C_O = 190, E_O = 190, B_O = 190, D_O = 190, crO = 590, Obs = 999;// Obstaculo
 
     private int[][] mapa = {
         /*0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19*/
@@ -308,6 +312,25 @@ public class Mapa {
 
                 mapaGrafico[i][j] = new JLabel(img);
                 mapaGrafico[i][j].setPreferredSize(new Dimension(32, 32));
+                mapaGrafico[i][j].addMouseListener(new MouseAdapter() {
+
+                    @Override
+                    public void mouseReleased(java.awt.event.MouseEvent e) {
+                        //Custom button text
+                        Object[] options = {"Yes, please",
+                            "No, thanks",
+                            "No eggs, no ham!"};
+                        int n = JOptionPane.showOptionDialog(frame,
+                                "Would you like some green eggs to go "
+                                + "with that ham?",
+                                "A Silly Question",
+                                JOptionPane.YES_NO_CANCEL_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options,
+                                options[2]);
+                    }
+                });
 
                 painel_butoes.add(mapaGrafico[i][j]);
 
