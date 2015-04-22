@@ -157,7 +157,23 @@ public class Mapa {
         Icon img;
         switch (mapa) {
             case 0:
-                img = new ImageIcon("./img/terra1.png");
+                switch (new Ajuda().random_entre(0, 10)) {
+                    case 1:
+                        img = new ImageIcon("./img/terra_arvore1.png");
+                        break;
+                    case 2:
+                        img = new ImageIcon("./img/terra_arvore1.png");
+                        break;
+                    case 3:
+                        img = new ImageIcon("./img/terra_lago1.png");
+                        break;
+                    case 4:
+                        img = new ImageIcon("./img/terra_casa1.png");
+                        break;
+                    default:
+                        img = new ImageIcon("./img/terra.png");
+                        break;
+                }
                 break;
 
             case C_E:
