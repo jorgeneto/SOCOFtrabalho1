@@ -415,6 +415,11 @@ public class Mapa {
         painel_output.add(new JTextField(2));
         painel_output.add(new JLabel("Y"));
         painel_output.add(new JTextField(2));
+        painel_output.add(new JButton("Escolher no mapa"));
+        painel_output.add(new JLabel("X"));
+        painel_output.add(new JTextField(2));
+        painel_output.add(new JLabel("Y"));
+        painel_output.add(new JTextField(2));
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
