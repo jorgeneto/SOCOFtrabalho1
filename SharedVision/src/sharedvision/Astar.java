@@ -25,7 +25,7 @@ public class Astar {
 
     private ArrayList<Coordenadas> caminho(ArrayList<AstarMembro> caminhos, Coordenadas fim) {
         while (true) {
-            System.out.println("size = " + caminhos.size());
+//            System.out.println("size = " + caminhos.size());
             if (caminhos.size() < 1) {
                 return null;
             }
@@ -37,11 +37,11 @@ public class Astar {
                 return caminho;
             } else {
                 Coordenadas intermedio = caminhos.get(0).lista.get(0);
-                System.out.println("    atual " + intermedio + "    mapa=" + mapa[intermedio.getX()][intermedio.getY()] + "    switch=" + mapa[intermedio.getX()][intermedio.getY()] / 100);
+//                System.out.println("    atual " + intermedio + "    mapa=" + mapa[intermedio.getX()][intermedio.getY()] + "    switch=" + mapa[intermedio.getX()][intermedio.getY()] / 100);
                 Coordenadas proximo;
                 switch (mapa[intermedio.getX()][intermedio.getY()] / 100) {
                     case 1:
-                        System.out.println("        case 1");
+//                        System.out.println("        case 1");
                         proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (!caminhos.get(0).lista.contains(proximo)) {
@@ -54,7 +54,7 @@ public class Astar {
                         }
                         break;
                     case 2:
-                        System.out.println("        case 2");
+//                        System.out.println("        case 2");
                         proximo = new Coordenadas(intermedio.getX(), intermedio.getY() - 1);
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (!caminhos.get(0).lista.contains(proximo)) {
@@ -67,7 +67,7 @@ public class Astar {
                         }
                         break;
                     case 3:
-                        System.out.println("        case 3");
+//                        System.out.println("        case 3");
                         proximo = new Coordenadas(intermedio.getX() + 1, intermedio.getY());
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (!caminhos.get(0).lista.contains(proximo)) {
@@ -80,7 +80,7 @@ public class Astar {
                         }
                         break;
                     case 4:
-                        System.out.println("        case 4");
+//                        System.out.println("        case 4");
                         proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (!caminhos.get(0).lista.contains(proximo)) {
@@ -94,7 +94,7 @@ public class Astar {
                         break;
                     case 5:
                         boolean adicionouPeloMenosUm = false;
-                        System.out.println("        case 5");
+//                        System.out.println("        case 5");
                         AstarMembro atual = new AstarMembro(caminhos.get(0));
                         proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
@@ -142,15 +142,15 @@ public class Astar {
                         }
                         break;
                     default:
-                        System.out.println("              apaga= " + caminhos.get(0));
+                        //System.out.println("              apaga= " + caminhos.get(0));
                         caminhos.remove(0);
                         break;
                 }
 
                 Collections.sort(caminhos);
-                for (AstarMembro caminho : caminhos) {
-                    System.out.println("                " + caminho);
-                }
+//                for (AstarMembro caminho : caminhos) {
+//                    System.out.println("                " + caminho);
+//                }
                 //return caminho(caminhos, fim);
             }
         }
