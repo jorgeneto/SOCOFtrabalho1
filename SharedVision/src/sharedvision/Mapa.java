@@ -4,18 +4,23 @@ import Ajuda.Ajuda;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import static java.lang.System.exit;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class Mapa {
 
@@ -218,7 +223,7 @@ public class Mapa {
             case Obs:
                 img = new ImageIcon("./img/obstaculo3.png");
                 break;
-                
+
             case C_M:
                 switch (new Ajuda().random_entre(0, 5)) {
                     case 1:
@@ -324,13 +329,12 @@ public class Mapa {
 
     //Método que gera o mapa
     public void vistaGrafica() {
-        //1. Create the frame.
+        //1. Cria a janela
         JFrame frame = new JFrame("Mapa");
-
-        //2. Optional: What happens when the frame closes?
+        //2. Define que o programa acaba quando a janela feixa
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //3. Create components and put them in the frame.
+        frame.setResizable(false);
+        //3. Serve de contentor para o mapa
         JPanel painel_butoes = new JPanel(new GridLayout(mapa.length, mapa[0].length));
 
         Icon img;
@@ -345,7 +349,7 @@ public class Mapa {
 
                     @Override
                     public void mouseReleased(java.awt.event.MouseEvent e) {
-                        //Custom button text
+                        //Texto para os botoes
                         Object[] options = {"Yes",
                             "No"};
                         int n = JOptionPane.showOptionDialog(frame,
@@ -372,12 +376,70 @@ public class Mapa {
             }
         }
         frame.add(painel_butoes, BorderLayout.CENTER);
+        frame.add(new JLabel("Carregue no ecrã para poder adicionar obstaculos"), BorderLayout.NORTH);
 
-        //4. Size the frame.
+        //4. Determina o tamanho automatico da janela
         frame.pack();
-
-        //5. Show it.
+        //5. Mostra a janela
         frame.setVisible(true);
     }
 
+    //Método que gera o mapa
+    public void vistaCarros() {
+        //1. Cria a janela
+        JFrame frame = new JFrame("Carros");
+        frame.setLocation(32 * mapa.length + 4, 0);
+        //2. Define que o programa acaba quando a janela feixa
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //3. Serve de contentor para o mapa
+        JPanel painel_principal = new JPanel();
+        painel_principal.setLayout(new BoxLayout(painel_principal, BoxLayout.PAGE_AXIS));
+
+        JLabel label;
+        JPanel painel_veiculo, painel_input, painel_output;
+
+        painel_veiculo = new JPanel(new BorderLayout());
+
+        painel_input = new JPanel(new GridLayout(4, 1));
+        label = new JLabel("Novo veiculo");
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        label.setForeground(Color.BLUE);
+        painel_input.add(label);
+        painel_input.add(new JButton("Adicionar"));
+        painel_input.add(new JButton("Parar Veiculos"));
+        painel_veiculo.add(painel_input, BorderLayout.WEST);
+
+        painel_output = new JPanel(new FlowLayout());
+        painel_output.add(new JButton("Escolher no mapa"));
+        painel_output.add(new JLabel("X"));
+        painel_output.add(new JTextField(2));
+        painel_output.add(new JLabel("Y"));
+        painel_output.add(new JTextField(2));
+        painel_veiculo.add(painel_output, BorderLayout.CENTER);
+        painel_principal.add(painel_veiculo);
+
+        for (Veiculo veiculo : veiculos) {
+            painel_veiculo = new JPanel(new BorderLayout());
+
+            painel_input = new JPanel(new GridLayout(2, 1));
+            label = new JLabel("Veiculo " + veiculo.getId());
+            label.setFont(new Font("Arial", Font.BOLD, 14));
+            label.setForeground(Color.red);
+            painel_input.add(label);
+            painel_input.add(new JButton("Perder o controlo"));
+            painel_veiculo.add(painel_input, BorderLayout.WEST);
+
+            painel_output = new JPanel(new FlowLayout());
+            painel_output.add(new JLabel("Vai servir para por as mensagens deste veiculo"));
+            painel_veiculo.add(painel_output, BorderLayout.CENTER);
+
+            painel_principal.add(painel_veiculo);
+        }
+        frame.add(painel_principal, BorderLayout.CENTER);
+
+        //4. Determina o tamanho automatico da janela
+        frame.pack();
+        //5. Mostra a janela
+        frame.setVisible(true);
+    }
 }

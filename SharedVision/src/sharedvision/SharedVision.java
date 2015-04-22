@@ -23,6 +23,8 @@ public class SharedVision {
         mapa.addVeiculo(carro2);
         mapa.addVeiculo(carro3);
         mapa.addVeiculo(carro4);
+
+        mapa.vistaCarros();
     }
 
 }
