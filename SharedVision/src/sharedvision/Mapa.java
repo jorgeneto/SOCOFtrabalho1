@@ -121,9 +121,7 @@ public class Mapa {
 
     @Override
     public String toString() {
-        String aux = "1- carrega com o segundo butao nesta couxa de output\n";
-        aux += "2- carrega em setings\n";
-        aux += "3- altera a font para courier new\n";
+        String aux = "Mapa:\n ";
         for (int i = 0; i < mapa.length; i++) {
             for (int j = 0; j < mapa[0].length; j++) {
 
@@ -207,7 +205,16 @@ public class Mapa {
             case crP:
                 img = new ImageIcon("./img/paralelo.png");
                 break;
-
+            case C_O | E_O | B_O | D_O:
+                img = new ImageIcon("./img/obstaculo1.png");
+                break;
+            case crO:
+                img = new ImageIcon("./img/obstaculo2.png");
+                break;
+            case Obs:
+                img = new ImageIcon("./img/obstaculo3.png");
+                break;
+                
             case C_M:
                 switch (new Ajuda().random_entre(0, 5)) {
                     case 1:
@@ -303,6 +310,7 @@ public class Mapa {
                         break;
                 }
                 break;
+
             default:
                 img = new ImageIcon("./img/estrada.png");
                 break;
@@ -333,18 +341,25 @@ public class Mapa {
                     @Override
                     public void mouseReleased(java.awt.event.MouseEvent e) {
                         //Custom button text
-                        Object[] options = {"Yes, please",
-                            "No, thanks",
-                            "No eggs, no ham!"};
+                        Object[] options = {"Yes",
+                            "No"};
                         int n = JOptionPane.showOptionDialog(frame,
-                                "Would you like some green eggs to go "
-                                + "with that ham?",
-                                "A Silly Question",
-                                JOptionPane.YES_NO_CANCEL_OPTION,
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
+                                "Would you like to place an obstacle here?",
+                                "Obstacle Input",
+                                JOptionPane.OK_OPTION,
+                                JOptionPane.CANCEL_OPTION,
+                                new ImageIcon("./img/obstaculo1.png"),
                                 options,
-                                options[2]);
+                                options[1]);
+
+                        if (n == JOptionPane.OK_OPTION) {
+                            // Code to use when OK is PRESSED.
+                            //System.out.println("Selected Option is OK : " + n);
+
+                        } else if (n == JOptionPane.CANCEL_OPTION) {
+                            // Code to use when CANCEL is PRESSED.
+                            // Não faz nada
+                        }
                     }
                 });
 
