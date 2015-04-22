@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import static java.lang.System.exit;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -59,6 +57,9 @@ public class Mapa {
 
     private JLabel[][] mapaGrafico = new JLabel[20][20];
     private ArrayList<Veiculo> veiculos;
+
+    private boolean selecaoAtica = false;
+    private final Coordenadas coord1 = new Coordenadas(-1, -1);
 
     public Mapa() {
         veiculos = new ArrayList<>();
@@ -214,16 +215,6 @@ public class Mapa {
             case crP:
                 img = new ImageIcon("./img/paralelo.png");
                 break;
-            case C_O | E_O | B_O | D_O:
-                img = new ImageIcon("./img/obstaculo1.png");
-                break;
-            case crO:
-                img = new ImageIcon("./img/obstaculo2.png");
-                break;
-            case Obs:
-                img = new ImageIcon("./img/obstaculo3.png");
-                break;
-
             case C_M:
                 switch (new Ajuda().random_entre(0, 5)) {
                     case 1:
@@ -319,6 +310,16 @@ public class Mapa {
                         break;
                 }
                 break;
+            // ISTO É PARA APAGAR
+            case C_O | E_O | B_O | D_O:
+                img = new ImageIcon("./img/obstaculo1.png");
+                break;
+            case crO:
+                img = new ImageIcon("./img/obstaculo2.png");
+                break;
+            case Obs:
+                img = new ImageIcon("./img/obstaculo3.png");
+                break;
 
             default:
                 img = new ImageIcon("./img/estrada.png");
@@ -349,22 +350,56 @@ public class Mapa {
 
                     @Override
                     public void mouseReleased(java.awt.event.MouseEvent e) {
+                        for (int i = 0; i < mapa.length; i++) {
+                            for (int j = 0; j < mapa[0].length; j++) {
+                                if (mapaGrafico[i][j].equals(e.getComponent())) {
+                                    if (selecaoAtica) {
+                                        coord1.setCoordenadas(i, j);
+                                        return;
+                                    } else {
+                                        coord1.setCoordenadas(i, j);
+                                    }
+                                }
+                            }
+                        }
                         //Texto para os botoes
-                        Object[] options = {"Yes",
-                            "No"};
-                        int n = JOptionPane.showOptionDialog(frame,
-                                "Would you like to place an obstacle here?",
-                                "Obstacle Input",
+                        Object[] options = {"Sim",
+                            "Não"};
+                        int janela = JOptionPane.showOptionDialog(frame,
+                                "Queres colocar um obstaculo em X=" + coord1.getX() + " Y=" + coord1.getY() + " ?",
+                                "Obstaculo",
                                 JOptionPane.OK_OPTION,
                                 JOptionPane.CANCEL_OPTION,
                                 new ImageIcon("./img/obstaculo1.png"),
                                 options,
                                 options[1]);
 
-                        if (n == JOptionPane.OK_OPTION) {
-                            // Code to use when OK is PRESSED.
-                            //System.out.println("Selected Option is OK : " + n);
-                        } else if (n == JOptionPane.CANCEL_OPTION) {
+                        if (janela == JOptionPane.OK_OPTION) {
+                            switch (mapa[coord1.getX()][coord1.getY()] / 100) {
+                                case 1:
+                                    mapa[coord1.getX()][coord1.getY()] = C_O;
+                                    mapaGrafico[coord1.getX()][coord1.getY()].setIcon(new ImageIcon("./img/obstaculo_racha.png"));
+                                    break;
+                                case 2:
+                                    mapa[coord1.getX()][coord1.getY()] = E_O;
+                                    mapaGrafico[coord1.getX()][coord1.getY()].setIcon(new ImageIcon("./img/obstaculo_racha.png"));
+                                    break;
+                                case 3:
+                                    mapa[coord1.getX()][coord1.getY()] = D_O;
+                                    mapaGrafico[coord1.getX()][coord1.getY()].setIcon(new ImageIcon("./img/obstaculo_racha.png"));
+                                    break;
+                                case 4:
+                                    mapa[coord1.getX()][coord1.getY()] = D_O;
+                                    mapaGrafico[coord1.getX()][coord1.getY()].setIcon(new ImageIcon("./img/obstaculo_racha.png"));
+                                    break;
+                                case 5:
+                                    mapa[coord1.getX()][coord1.getY()] = crO;
+                                    mapaGrafico[coord1.getX()][coord1.getY()].setIcon(new ImageIcon("./img/obstaculo_racha.png"));
+                                    break;
+                            }
+                            mapaGrafico[coord1.getX()][coord1.getY()].revalidate();
+                            mapaGrafico[coord1.getX()][coord1.getY()].repaint();
+                        } else if (janela == JOptionPane.CANCEL_OPTION) {
                             // Code to use when CANCEL is PRESSED.
                             // Não faz nada
                         }
