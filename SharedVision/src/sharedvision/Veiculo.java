@@ -182,7 +182,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 // anda
                 anterior = atual;
                 atual = caminho.remove(0);
-                System.err.println("Carro " + id + " anda para " + atual);
+                System.out.println("Carro " + id + " anda para " + atual);
                 mapaObj.redesenhar(this);
                 enviaMensagem(Mensagem.TipoMensagem.Movimento, anterior);
                 new Ajuda().sleep_entre(500, 1000);

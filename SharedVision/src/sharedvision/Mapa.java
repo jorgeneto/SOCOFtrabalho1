@@ -84,12 +84,15 @@ public class Mapa {
     public void redesenhar(Veiculo v) {
         JLabel anterior, atual;
 
+        //Repôr icon que o carro ocupou antes
         anterior = mapaGrafico[v.getAnterior().getX()][v.getAnterior().getY()];
         anterior.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
         anterior.setText("");
         anterior.revalidate();
         anterior.repaint();
 
+        //Compara-se os novos X e Y com os anteriores de forma a perceber o novo sentido do carro
+        //e redesenha-se o mapa consoante o mesmo
         atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
         if (v.getAtual().getX() > v.getAnterior().getX()) {
             atual.setIcon(new ImageIcon("./img/carro_preto_desce.png"));
@@ -151,6 +154,7 @@ public class Mapa {
         return aux;
     }
 
+    //Método usado para importar as imagens da pasta img no mapa pré-definido
     private Icon escolheImagem(int mapa) {
         Icon img;
         switch (mapa) {
@@ -318,6 +322,7 @@ public class Mapa {
         return img;
     }
 
+    //Método que gera o mapa
     public void vistaGrafica() {
         //1. Create the frame.
         JFrame frame = new JFrame("Mapa");
@@ -355,7 +360,6 @@ public class Mapa {
                         if (n == JOptionPane.OK_OPTION) {
                             // Code to use when OK is PRESSED.
                             //System.out.println("Selected Option is OK : " + n);
-
                         } else if (n == JOptionPane.CANCEL_OPTION) {
                             // Code to use when CANCEL is PRESSED.
                             // Não faz nada
