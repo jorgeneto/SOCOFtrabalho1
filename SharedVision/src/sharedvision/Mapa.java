@@ -69,7 +69,8 @@ public class Mapa {
         veiculos = new ArrayList<>();
     }
 
-    public void addVeiculo(Veiculo novoVeiculo) {
+    public void addVeiculo(int id, Coordenadas inicio, Coordenadas fim) {
+        Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim);
         for (Veiculo veiculo : veiculos) {
             veiculo.adicionaObserver(novoVeiculo);
             novoVeiculo.adicionaObserver(veiculo);
@@ -427,8 +428,12 @@ public class Mapa {
         frame.setVisible(true);
     }
 
+    private JTextField nID, nXi, nYi, nXf, nYf;
+
     //Método que gera o mapa
     public void vistaCarros() {
+        JButton btn;
+
         //1. Cria a janela
         JFrame frame = new JFrame("Carros");
         frame.setLocation(32 * mapa.length + 4, 0);
@@ -448,34 +453,38 @@ public class Mapa {
         label.setFont(new Font("Arial", Font.BOLD, 14));
         label.setForeground(Color.BLUE);
         painel_input.add(label);
-        painel_input.add(new JButton("Adicionar"));
-        JButton btn = new JButton("Parar Veiculos");
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (estadoParado) {
-                    ((JButton) e.getSource()).setText("Parar Veiculos");
-                    estadoParado = false;
-                } else {
-                    ((JButton) e.getSource()).setText("Continuar Veiculos");
-                    estadoParado = true;
-                }
+        btn = new JButton("Adicionar");
+        btn.addActionListener((ActionEvent e) -> {
+            System.err.println(nID.getText() + nXi.getText() + nYi.getText() + nXf.getText() + nYf.getText());
+            addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
+        });
+        painel_input.add(btn);
+        btn = new JButton("Parar Veiculos");
+        btn.addActionListener((ActionEvent e) -> {
+            if (estadoParado) {
+                ((JButton) e.getSource()).setText("Parar Veiculos");
+                estadoParado = false;
+            } else {
+                ((JButton) e.getSource()).setText("Continuar Veiculos");
+                estadoParado = true;
             }
         });
         painel_input.add(btn);
         painel_veiculo.add(painel_input, BorderLayout.WEST);
 
         painel_output = new JPanel(new FlowLayout());
+        painel_output.add(new JLabel("ID"));
+        painel_output.add(nID = new JTextField(2));
         painel_output.add(new JButton("Escolher no mapa"));
         painel_output.add(new JLabel("X"));
-        painel_output.add(new JTextField(2));
+        painel_output.add(nXi = new JTextField(2));
         painel_output.add(new JLabel("Y"));
-        painel_output.add(new JTextField(2));
+        painel_output.add(nYi = new JTextField(2));
         painel_output.add(new JButton("Escolher no mapa"));
         painel_output.add(new JLabel("X"));
-        painel_output.add(new JTextField(2));
+        painel_output.add(nXf = new JTextField(2));
         painel_output.add(new JLabel("Y"));
-        painel_output.add(new JTextField(2));
+        painel_output.add(nYf = new JTextField(2));
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
