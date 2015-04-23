@@ -5,3 +5,20 @@
 
 <mapaVistaCarro> quase todos as labels têm de passar para uma variavel global (um vetor/array) </mapaVistaCarro>
 <mapaVistaCarro> de forma a ser pussivel fazer o set text nelas </mapaVistaCarro>
+
+
+O que alterei:
+
+<mapa>Acrescentei o método "public void printJanelaCarros(Veiculo v, String print")
+Este método basicamente faz update à janela dos carros. Testei isto da seguinte forma:
+se o carro encontrar o obstaculo, ele manda a mensagem
+e então é como se substituisse o print. (Foi só para testar
+podes tirar a linha onde chamo o método na classe Veículo, se quiseres)</mapa>
+<mapa>Meti quase todas as variáveis globais e substituí o painel_output por painel_print
+(que é agora um array de JPanels para distinguir os carros que mandam as mensagem)</mapa>
+
+<veiculo>Só acrescentei a linha de chamar o método printJanelCarros, podes tirar se quiseres,
+foi só para testar</veiculo>
+
+Podes mudar o que quiseres, não sei se era +/- isto que estavas a pensar. Se não concordares ou assim muda
+ou a gente amanhã fala melhor. <3

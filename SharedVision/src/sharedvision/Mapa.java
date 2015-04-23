@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -63,6 +64,11 @@ public class Mapa {
     private boolean selecaoAtica = false;
     private final Coordenadas coord1 = new Coordenadas(-1, -1);
 
+    private JPanel painel_veiculo, painel_input, painel_output, painel_principal;
+    private JPanel[] painel_print = new JPanel[10];
+    private JFrame frame;
+    private JButton btn;
+    private JLabel label;
     private boolean estadoParado = false;
 
     public Mapa() {
@@ -91,6 +97,82 @@ public class Mapa {
             exit(0);
         }
     }
+    
+    public void printJanelaCarros(Veiculo v, String print){
+                      
+        painel_principal = new JPanel();
+        painel_principal.setLayout(new BoxLayout(painel_principal, BoxLayout.PAGE_AXIS));
+
+        painel_veiculo = new JPanel(new BorderLayout());
+
+        painel_input = new JPanel(new GridLayout(4, 1));
+        label = new JLabel("Novo veiculo");
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        label.setForeground(Color.BLUE);
+        painel_input.add(label);
+        btn = new JButton("Adicionar novo veiculo");
+        btn.addActionListener((ActionEvent e) -> {
+            if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
+                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
+            }
+        });
+        painel_input.add(btn);
+        btn = new JButton("Parar Veiculos");
+        btn.addActionListener((ActionEvent e) -> {
+            if (estadoParado) {
+                ((JButton) e.getSource()).setText("Parar Veiculos");
+                estadoParado = false;
+            } else {
+                ((JButton) e.getSource()).setText("Continuar Veiculos");
+                estadoParado = true;
+            }
+        });
+        painel_input.add(btn);
+        painel_veiculo.add(painel_input, BorderLayout.WEST);
+
+        painel_output = new JPanel(new FlowLayout());
+        painel_output.add(new JLabel("ID"));
+        painel_output.add(nID = new JTextField(2));
+        painel_output.add(new JButton("Escolher no mapa"));
+        painel_output.add(new JLabel("X"));
+        painel_output.add(nXi = new JTextField(2));
+        painel_output.add(new JLabel("Y"));
+        painel_output.add(nYi = new JTextField(2));
+        painel_output.add(new JButton("Escolher no mapa"));
+        painel_output.add(new JLabel("X"));
+        painel_output.add(nXf = new JTextField(2));
+        painel_output.add(new JLabel("Y"));
+        painel_output.add(nYf = new JTextField(2));
+        painel_veiculo.add(painel_output, BorderLayout.CENTER);
+        painel_principal.add(painel_veiculo);
+
+        for (int i = 0; i<veiculos.size(); i++) {
+            painel_veiculo = new JPanel(new BorderLayout());          
+            
+            painel_input = new JPanel(new GridLayout(2, 1));
+            label = new JLabel("Veiculo " + veiculos.get(i).getId());
+            label.setFont(new Font("Arial", Font.BOLD, 14));
+            label.setForeground(Color.red);
+            painel_input.add(label);
+            painel_input.add(new JButton("Perder o controlo"));
+            painel_veiculo.add(painel_input, BorderLayout.WEST);
+
+            painel_print[i] = new JPanel(new FlowLayout());
+            if(v.getId() == i)
+            painel_print[i].add(new JLabel(print));
+            else
+            painel_print[i].add(new JLabel("Mensagem"));
+            painel_veiculo.add(painel_print[i], BorderLayout.CENTER);
+
+            painel_principal.add(painel_veiculo);
+        }
+        frame.add(painel_principal, BorderLayout.CENTER);
+
+        //4. Determina o tamanho automatico da janela
+        frame.pack();
+        //5. Mostra a janela
+        frame.setVisible(true);
+     }
 
     public void redesenhar(Veiculo v) {
         JLabel anterior, atual;
@@ -375,7 +457,7 @@ public class Mapa {
                         Object[] options = {"Sim",
                             "Não"};
                         int janela = JOptionPane.showOptionDialog(frame,
-                                "Queres colocar um obstaculo em X=" + coord1.getX() + " Y=" + coord1.getY() + " ?",
+                                "Deseja colocar um obstaculo em X=" + coord1.getX() + " Y=" + coord1.getY() + " ?",
                                 "Obstaculo",
                                 JOptionPane.OK_OPTION,
                                 JOptionPane.CANCEL_OPTION,
@@ -420,7 +502,7 @@ public class Mapa {
             }
         }
         frame.add(painel_butoes, BorderLayout.CENTER);
-        frame.add(new JLabel("Carregue no ecrã para poder adicionar obstaculos"), BorderLayout.NORTH);
+        frame.add(new JLabel("Clique na estrada para poder adicionar obstáculos"), BorderLayout.NORTH);
 
         //4. Determina o tamanho automatico da janela
         frame.pack();
@@ -432,19 +514,15 @@ public class Mapa {
 
     //Método que gera o mapa
     public void vistaCarros() {
-        JButton btn;
-
+       
         //1. Cria a janela
-        JFrame frame = new JFrame("Carros");
+        frame = new JFrame("Carros");
         frame.setLocation(32 * mapa.length + 4, 0);
         //2. Define que o programa acaba quando a janela feixa
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //3. Serve de contentor para o mapa
-        JPanel painel_principal = new JPanel();
+        painel_principal = new JPanel();
         painel_principal.setLayout(new BoxLayout(painel_principal, BoxLayout.PAGE_AXIS));
-
-        JLabel label;
-        JPanel painel_veiculo, painel_input, painel_output;
 
         painel_veiculo = new JPanel(new BorderLayout());
 
@@ -489,20 +567,20 @@ public class Mapa {
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
-        for (Veiculo veiculo : veiculos) {
-            painel_veiculo = new JPanel(new BorderLayout());
-
+        for (int i = 0; i<veiculos.size(); i++) {
+            painel_veiculo = new JPanel(new BorderLayout());          
+            
             painel_input = new JPanel(new GridLayout(2, 1));
-            label = new JLabel("Veiculo " + veiculo.getId());
+            label = new JLabel("Veiculo " + veiculos.get(i).getId());
             label.setFont(new Font("Arial", Font.BOLD, 14));
             label.setForeground(Color.red);
             painel_input.add(label);
             painel_input.add(new JButton("Perder o controlo"));
             painel_veiculo.add(painel_input, BorderLayout.WEST);
 
-            painel_output = new JPanel(new FlowLayout());
-            painel_output.add(new JLabel("Vai servir para por as mensagens deste veiculo"));
-            painel_veiculo.add(painel_output, BorderLayout.CENTER);
+            painel_print[i] = new JPanel(new FlowLayout());
+            painel_print[i].add(new JLabel("Mensagem"));
+            painel_veiculo.add(painel_print[i], BorderLayout.CENTER);
 
             painel_principal.add(painel_veiculo);
         }

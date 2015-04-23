@@ -191,6 +191,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                     if (((mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 10) == 19)
                             || (mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 10) == 99) {
                         enviaMensagem(Mensagem.TipoMensagem.Obstaculo, proximo);
+                        mapaObj.printJanelaCarros(this, "Obstáculo encontrado");
                     }
 
                     for (Veiculo veiculo : veiculosProximos) {
