@@ -455,8 +455,9 @@ public class Mapa {
         painel_input.add(label);
         btn = new JButton("Adicionar");
         btn.addActionListener((ActionEvent e) -> {
-            System.err.println(nID.getText() + nXi.getText() + nYi.getText() + nXf.getText() + nYf.getText());
-            addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
+            if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
+                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
+            }
         });
         painel_input.add(btn);
         btn = new JButton("Parar Veiculos");
