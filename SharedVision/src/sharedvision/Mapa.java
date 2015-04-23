@@ -453,7 +453,7 @@ public class Mapa {
         label.setFont(new Font("Arial", Font.BOLD, 14));
         label.setForeground(Color.BLUE);
         painel_input.add(label);
-        btn = new JButton("Adicionar");
+        btn = new JButton("Adicionar novo veiculo");
         btn.addActionListener((ActionEvent e) -> {
             if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
                 addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
