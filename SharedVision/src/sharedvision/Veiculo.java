@@ -5,6 +5,7 @@ import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.ImageIcon;
 
 public class Veiculo extends Observable implements Runnable, Observer {
 
@@ -66,6 +67,15 @@ public class Veiculo extends Observable implements Runnable, Observer {
             case PerdaDeControlo:
                 break;
             case Obstaculo:
+                if (Math.abs(mensagem.getPerigoCoord().getX() - atual.getX()) < 7) {
+                    if (Math.abs(mensagem.getPerigoCoord().getY() - atual.getY()) < 7) {
+                        System.out.println("Carro " + this + " recebe " + mensagem);
+                        if (!veiculosProximos.contains(mensagem.getVeiculo())) {
+                            System.out.println("Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
+                            veiculosProximos.add(mensagem.getVeiculo());
+                        }
+                    }
+                }
                 break;
             case ProximidadeDeIntersecao:
                 break;
@@ -176,6 +186,13 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 int menor = (caminho.size() < distSeguranca) ? caminho.size() : distSeguranca;
                 for (int i = 0; i < menor; i++) {
                     proximo = caminho.get(i);
+
+                    //Caso a próxima posição seja um obstáculo, então envia-se um aviso aos outros carros
+                    if (((mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 10) == 19)
+                            || (mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 10) == 99) {
+                        enviaMensagem(Mensagem.TipoMensagem.Obstaculo, proximo);
+                    }
+
                     for (Veiculo veiculo : veiculosProximos) {
                         if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
                             podeAndar = false;
