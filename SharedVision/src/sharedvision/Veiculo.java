@@ -1,6 +1,7 @@
 package sharedvision;
 
 import Ajuda.Ajuda;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -53,10 +54,10 @@ public class Veiculo extends Observable implements Runnable, Observer {
                         System.out.println("Carro " + this + " recebe " + mensagem);
 //                        for (int i = 0; i < caminho.size(); i++) {
 //                            if (mensagem.getPerigoCoord().getX() == caminho.get(i).getX()) {
-                                if (!veiculosProximos.contains(mensagem.getVeiculo())) {
-                                    System.out.println("Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
-                                    veiculosProximos.add(mensagem.getVeiculo());
-                                }
+                        if (!veiculosProximos.contains(mensagem.getVeiculo())) {
+                            System.out.println("Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
+                            veiculosProximos.add(mensagem.getVeiculo());
+                        }
 //                            }
 //                        }
                     }
@@ -164,31 +165,35 @@ public class Veiculo extends Observable implements Runnable, Observer {
         int distSeguranca = 0;
 
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
-            // se estou numa estrada, paralelo, neve ou gelo
-            distSeguranca = distSeguranca(mapaObj.getMapa()[atual.getX()][atual.getY()]);
+            if (mapaObj.getEstadoParado()) {
+                new Ajuda().sleepDuracao(500);
+            } else {
+                // se estou numa estrada, paralelo, neve ou gelo
+                distSeguranca = distSeguranca(mapaObj.getMapa()[atual.getX()][atual.getY()]);
 
-            // verifica se tem veiculos no caminho
-            boolean podeAndar = true;
-            int menor = (caminho.size() < distSeguranca) ? caminho.size() : distSeguranca;
-            for (int i = 0; i < menor; i++) {
-                proximo = caminho.get(i);
-                for (Veiculo veiculo : veiculosProximos) {
-                    if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
-                        podeAndar = false;
+                // verifica se tem veiculos no caminho
+                boolean podeAndar = true;
+                int menor = (caminho.size() < distSeguranca) ? caminho.size() : distSeguranca;
+                for (int i = 0; i < menor; i++) {
+                    proximo = caminho.get(i);
+                    for (Veiculo veiculo : veiculosProximos) {
+                        if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
+                            podeAndar = false;
+                        }
                     }
                 }
-            }
-            if (podeAndar) {
-                // anda
-                anterior = atual;
-                atual = caminho.remove(0);
-                System.out.println("Carro " + id + " anda para " + atual);
-                mapaObj.redesenhar(this);
-                enviaMensagem(Mensagem.TipoMensagem.Movimento, anterior);
-                new Ajuda().sleep_entre(500, 1000);
-            } else {
-                // nao pode andar
-                new Ajuda().sleep_entre(200, 400);
+                if (podeAndar) {
+                    // anda
+                    anterior = atual;
+                    atual = caminho.remove(0);
+                    System.out.println("Carro " + id + " anda para " + atual);
+                    mapaObj.redesenhar(this);
+                    enviaMensagem(Mensagem.TipoMensagem.Movimento, anterior);
+                    new Ajuda().sleep_entre(500, 1000);
+                } else {
+                    // nao pode andar
+                    new Ajuda().sleep_entre(200, 400);
+                }
             }
         }
 

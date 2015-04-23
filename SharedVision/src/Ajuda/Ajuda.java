@@ -3,6 +3,8 @@ package Ajuda;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sharedvision.Coordenadas;
 
 public class Ajuda {
@@ -15,6 +17,13 @@ public class Ajuda {
             return new Random().nextInt(LimiteSuperior - LimiteInferior) + LimiteInferior + 1;
         } else {
             return new Random().nextInt(LimiteInferior - LimiteSuperior) + LimiteSuperior + 1;
+        }
+    }
+
+    public void sleepDuracao(int duracao) {
+        try {
+            sleep(duracao);
+        } catch (InterruptedException ex) {
         }
     }
 

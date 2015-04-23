@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import static java.lang.System.exit;
 import java.util.ArrayList;
@@ -60,6 +62,8 @@ public class Mapa {
 
     private boolean selecaoAtica = false;
     private final Coordenadas coord1 = new Coordenadas(-1, -1);
+
+    private boolean estadoParado = false;
 
     public Mapa() {
         veiculos = new ArrayList<>();
@@ -126,6 +130,10 @@ public class Mapa {
 
     public int[][] getMapa() {
         return mapa;
+    }
+
+    public boolean getEstadoParado() {
+        return estadoParado;
     }
 
     @Override
@@ -441,7 +449,20 @@ public class Mapa {
         label.setForeground(Color.BLUE);
         painel_input.add(label);
         painel_input.add(new JButton("Adicionar"));
-        painel_input.add(new JButton("Parar Veiculos"));
+        JButton btn = new JButton("Parar Veiculos");
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (estadoParado) {
+                    ((JButton) e.getSource()).setText("Parar Veiculos");
+                    estadoParado = false;
+                } else {
+                    ((JButton) e.getSource()).setText("Continuar Veiculos");
+                    estadoParado = true;
+                }
+            }
+        });
+        painel_input.add(btn);
         painel_veiculo.add(painel_input, BorderLayout.WEST);
 
         painel_output = new JPanel(new FlowLayout());
