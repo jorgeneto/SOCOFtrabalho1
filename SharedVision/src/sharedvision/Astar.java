@@ -17,7 +17,7 @@ public class Astar {
 
     public ArrayList<Coordenadas> caminho(Coordenadas inicio, Coordenadas fim) {
         //System.out.println("fim " + fim);
-        ArrayList<AstarMembro> caminhos = new ArrayList<AstarMembro>();
+        ArrayList<AstarMembro> caminhos = new ArrayList<>();
         AstarMembro primeiro = new AstarMembro(inicio, fim);
         caminhos.add(0, primeiro);
         return caminho(caminhos, fim);
@@ -30,7 +30,7 @@ public class Astar {
                 return null;
             }
             if (caminhos.get(0).lista.get(0).getX() == fim.getX() && caminhos.get(0).lista.get(0).getY() == fim.getY()) {
-                ArrayList<Coordenadas> caminho = new ArrayList<Coordenadas>();
+                ArrayList<Coordenadas> caminho = new ArrayList<>();
                 for (Coordenadas cord : caminhos.get(0).lista) {
                     caminho.add(0, cord);
                 }
@@ -51,6 +51,8 @@ public class Astar {
                             } else {
                                 caminhos.remove(0);
                             }
+                        } else {
+                            caminhos.remove(0);
                         }
                         break;
                     case 2:
@@ -64,6 +66,8 @@ public class Astar {
                             } else {
                                 caminhos.remove(0);
                             }
+                        } else {
+                            caminhos.remove(0);
                         }
                         break;
                     case 3:
@@ -77,6 +81,8 @@ public class Astar {
                             } else {
                                 caminhos.remove(0);
                             }
+                        } else {
+                            caminhos.remove(0);
                         }
                         break;
                     case 4:
@@ -90,6 +96,8 @@ public class Astar {
                             } else {
                                 caminhos.remove(0);
                             }
+                        } else {
+                            caminhos.remove(0);
                         }
                         break;
                     case 5:

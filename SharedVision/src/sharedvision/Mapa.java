@@ -46,8 +46,8 @@ public class Mapa {
         {B_E, 000, 000, B_E, C_E, 000, crE, crE, crE, crE, E_E, E_E, E_E, E_E, E_E, crE, crE, 000, B_E, C_E},// 6
         {B_E, 000, 000, B_E, C_E, 000, crE, 000, crE, crE, D_E, D_E, D_E, D_E, D_E, crE, crE, 000, B_E, C_E},// 7
         {B_E, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_E, C_E, 000, B_E, C_E},// 8
-        {crE, D_E, D_E, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE, crE, E_E, E_E, C_E},// 9
-        {crE, D_E, D_E, crE, crE, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, crE, C_E},// 10
+        {crE, D_E, D_E, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE, E_E, E_E, C_E},// 9
+        {crE, D_E, D_E, crE, crE, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, crE, D_E, crE, C_E},// 10
         {C_E, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_P, C_P},// 11
         {C_E, 000, 000, B_E, C_E, 000, 000, B_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, 000, B_P, C_P},// 12
         {C_E, 000, 000, B_E, C_E, 000, 000, B_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, B_P, C_P, 000, B_P, C_P},// 13
