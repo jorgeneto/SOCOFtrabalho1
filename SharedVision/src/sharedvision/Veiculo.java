@@ -5,6 +5,8 @@ import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class Veiculo extends Observable implements Runnable, Observer {
@@ -84,19 +86,19 @@ public class Veiculo extends Observable implements Runnable, Observer {
         }
     }
 
-    public void enviaMensagem(Mensagem.TipoMensagem tipo, Coordenadas cordenadas) {
+    public void enviaMensagem(Mensagem.TipoMensagem tipo, Coordenadas coordenadas) {
         this.setChanged();
-        this.notifyObservers(new Mensagem(tipo, cordenadas, this));
+        this.notifyObservers(new Mensagem(tipo, coordenadas, this));
     }
 
-    private void procuraCaminho() {
+    private boolean procuraCaminho() {
         try {
             Astar astar = new Astar(mapaObj.getMapa(), 0);
             caminho = new ArrayList<>();
             caminho = astar.caminho(atual, fim);
             new Ajuda().printCaminho(caminho);
         } catch (Exception e) {
-            System.out.println("ASTAR estourou por isso o caminho e de 0,4 ate 0,0");
+            System.err.println("ASTAR estourou por isso o caminho e de 0,4 ate 0,0");
             caminho = new ArrayList<>();
             caminho.add(new Coordenadas(0, 4));
             caminho.add(new Coordenadas(0, 3));
@@ -104,6 +106,12 @@ public class Veiculo extends Observable implements Runnable, Observer {
             caminho.add(new Coordenadas(0, 1));
             caminho.add(new Coordenadas(0, 0));
             fim = new Coordenadas(0, 0);
+            return false;
+        }
+        if (caminho == null) {
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -175,13 +183,81 @@ public class Veiculo extends Observable implements Runnable, Observer {
         simulaVeiculoAndar();
     }
 
+    public boolean posicaoValida(Coordenadas coord) {
+        if (coord.getX() >= mapaObj.getMapa().length || coord.getY() >= mapaObj.getMapa().length || coord.getX() < 0 || coord.getY() < 0) {
+            return false;
+        }
+        if (coord.getX() == anterior.getX() && coord.getY() == anterior.getY()) {
+            return false;
+        }
+
+        switch ((mapaObj.getMapa()[coord.getX()][coord.getY()]) / 100) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void encontraObstaculo() {
+        Coordenadas aux = new Coordenadas(atual.getX(), atual.getY());
+
+        atual = new Coordenadas(aux.getX() + 1, aux.getY());
+        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        if (posicaoValida(atual)) {
+            if (procuraCaminho()) {
+                mapaObj.redesenhar(aux);
+                simulaVeiculoAndar();
+                return;
+            }
+        }
+        atual = new Coordenadas(aux.getX() - 1, aux.getY());
+        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        if (posicaoValida(atual)) {
+            if (procuraCaminho()) {
+                mapaObj.redesenhar(aux);
+                simulaVeiculoAndar();
+                return;
+            }
+        }
+        atual = new Coordenadas(aux.getX(), aux.getY() + 1);
+        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        if (posicaoValida(atual)) {
+            if (procuraCaminho()) {
+                mapaObj.redesenhar(aux);
+                simulaVeiculoAndar();
+                return;
+            }
+        }
+        atual = new Coordenadas(aux.getX(), aux.getY() - 1);
+        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        if (posicaoValida(atual)) {
+            if (procuraCaminho()) {
+                mapaObj.redesenhar(aux);
+                simulaVeiculoAndar();
+                return;
+            }
+        }
+        atual = new Coordenadas(aux.getX(), aux.getY());
+        // tornar o veiculo num obstaculo
+        System.err.println("Veiculo " + id + " FICOU SEM CAMINHOS");
+        enviaMensagem(Mensagem.TipoMensagem.Obstaculo, aux);
+        enviaMensagem(Mensagem.TipoMensagem.Terminou, aux);
+        mapaObj.removeVeiculo(this);
+        mapaObj.addObstaculo(aux);
+    }
+
     private void simulaVeiculoAndar() {
         Coordenadas proximo;
         int distSeguranca = 0;
 
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
             if (mapaObj.getEstadoParado()) {
-                new Ajuda().sleepDuracao(500);
+                new Ajuda().sleepDuracao(1000);
             } else {
                 // se estou numa estrada, paralelo, neve ou gelo
                 distSeguranca = distSeguranca(mapaObj.getMapa()[atual.getX()][atual.getY()]);
@@ -200,10 +276,15 @@ public class Veiculo extends Observable implements Runnable, Observer {
                             case B_O:
                             case D_O:
                             case crO:
+                                mapaObj.addObstaculo(proximo);
                                 enviaMensagem(Mensagem.TipoMensagem.Obstaculo, proximo);
                                 mapaObj.printJanelaCarros(this, "Obstáculo encontrado");
                                 podeAndar = false;
-                                break;
+                                encontraObstaculo();
+                                return;
+                            case Obs:
+                                encontraObstaculo();
+                                return;
                         }
                     }
 

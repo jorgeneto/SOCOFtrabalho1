@@ -75,6 +75,31 @@ public class Mapa {
         veiculos = new ArrayList<>();
     }
 
+    public int[][] getMapa() {
+        return mapa;
+    }
+
+    public boolean getEstadoParado() {
+        return estadoParado;
+    }
+
+    public void addObstaculo(Coordenadas coordenadas) {
+        mapa[coordenadas.getX()][coordenadas.getY()] = Obs;
+        Icon img = new ImageIcon("");
+        switch (new Ajuda().random_entre(0, 3)) {
+            case 1:
+                img = new ImageIcon("./img/obstaculo1.png");
+                break;
+            case 2:
+                img = new ImageIcon("./img/obstaculo2.png");
+                break;
+            case 3:
+                img = new ImageIcon("./img/obstaculo3.png");
+                break;
+        }
+        mapaGrafico[coordenadas.getX()][coordenadas.getY()].setIcon(img);
+    }
+
     public void addVeiculo(int id, Coordenadas inicio, Coordenadas fim) {
         Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim);
         for (Veiculo veiculo : veiculos) {
@@ -93,15 +118,26 @@ public class Mapa {
         atual.repaint();
 
         veiculos.remove(v);
-        if (veiculos.size() == 0) {
+        if (veiculos.isEmpty()) {
             exit(0);
         }
+    }
+
+    public void redesenhar(Coordenadas coord) {
+        JLabel anterior;
+
+        //Repor icon que o carro ocupou antes
+        anterior = mapaGrafico[coord.getX()][coord.getY()];
+        anterior.setIcon(escolheImagem(mapa[coord.getX()][coord.getY()]));
+        anterior.setText("");
+        anterior.revalidate();
+        anterior.repaint();
     }
 
     public void redesenhar(Veiculo v) {
         JLabel anterior, atual;
 
-        //Repôr icon que o carro ocupou antes
+        //Repor icon que o carro ocupou antes
         anterior = mapaGrafico[v.getAnterior().getX()][v.getAnterior().getY()];
         anterior.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
         anterior.setText("");
@@ -133,14 +169,6 @@ public class Mapa {
 
         atual.revalidate();
         atual.repaint();
-    }
-
-    public int[][] getMapa() {
-        return mapa;
-    }
-
-    public boolean getEstadoParado() {
-        return estadoParado;
     }
 
     @Override
