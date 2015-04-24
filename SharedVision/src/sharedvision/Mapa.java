@@ -466,6 +466,7 @@ public class Mapa {
     }
 
     private JTextField nID, nXi, nYi, nXf, nYf;
+    private ArrayList<JLabel> labelPrint = new ArrayList<>();
 
     //Método que gera o mapa
     public void vistaCarros() {
@@ -534,7 +535,8 @@ public class Mapa {
             painel_veiculo.add(painel_input, BorderLayout.WEST);
 
             painel_print[i] = new JPanel(new FlowLayout());
-            painel_print[i].add(new JLabel("Mensagem"));
+            labelPrint.add(new JLabel("Mensagem " + i));
+            painel_print[i].add(labelPrint.get(i));
             painel_veiculo.add(painel_print[i], BorderLayout.CENTER);
 
             painel_principal.add(painel_veiculo);
