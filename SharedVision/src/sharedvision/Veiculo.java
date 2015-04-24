@@ -109,6 +109,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
         if (caminho == null) {
             return false;
         } else {
+            new Ajuda().sleepDuracao(200);
             String aux = new Ajuda().printCaminho(caminho);
             mapaObj.printJanelaCarros(this, "caminho= " + aux);
             return true;
