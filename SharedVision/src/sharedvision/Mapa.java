@@ -133,7 +133,7 @@ public class Mapa {
             if (janela == JOptionPane.OK_OPTION) {
                 exit(0);
             } else if (janela == JOptionPane.CANCEL_OPTION) {
-                            // Code to use when CANCEL is PRESSED.
+                // Code to use when CANCEL is PRESSED.
                 // Não faz nada
             }
 
@@ -570,40 +570,35 @@ public class Mapa {
         frame.setVisible(true);
     }
 
-    //stringOutput.get(v.getId()).getText() contar os \n que tem
-    //para contar usar o string.contains, para partir a string usar split,
-    //partir por \n e buscar as últimas 5.
     public void printJanelaCarros(Veiculo v, String print) {
         if (v.getId() < stringOutput.size()) {
-
             ArrayList<String> list = new ArrayList<>();
             //Partir o array
             String[] splitArray = stringOutput.get(v.getId()).getText().split("\n");
-
             String aux = "";
 
-            //Se tivermos + mais que 4 mensagens para aparecer
-            if (splitArray.length > 4) {
+            //Converter array em lista
+            for (String s : splitArray) {
+                list.add(s);
+            }
 
-                //Converter array em lista
-                for (String s : splitArray) {
-                    list.add(s);
-                }
+            //Se tivermos + mais que 4 mensagens para aparecer
+            while (list.size() > 4) {
                 //Remover 1º linha (mensagem mais desatualizada)
                 list.remove(0);
-                for (int i = 0; i < list.size(); i++) {
-                    if (i != list.size()) {
-                        aux = aux + list.get(i) + "\n";
-                    }
+            }
+            for (int i = 0; i < list.size(); i++) {
+                if (i != list.size()) {
+                    aux += list.get(i) + "\n";
                 }
-                //Metemos o texto sem o 1º elemento + o texto a imprimir na Text Area
-                stringOutput.get(v.getId()).setText(aux + print);
             }
-
-            //Se não precisarmos de tratamento de linhas, então faz o print normal
-            if (splitArray.length <= 4) {
-                stringOutput.get(v.getId()).setText(stringOutput.get(v.getId()).getText() + "\n" + print);
+            while (print.length() > 90) {
+                aux += print.substring(0, 90) + "\n";
+                print = print.substring(40, print.length());
             }
+            aux += print + "\n";
+            //Metemos o texto sem o 1º elemento + o texto a imprimir na Text Area
+            stringOutput.get(v.getId()).setText(aux);
             stringOutput.get(v.getId()).revalidate();
             stringOutput.get(v.getId()).repaint();
         }

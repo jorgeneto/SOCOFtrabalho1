@@ -94,8 +94,8 @@ public class Veiculo extends Observable implements Runnable, Observer {
             Astar astar = new Astar(mapaObj.getMapa(), 0);
             caminho = new ArrayList<>();
             caminho = astar.caminho(atual, fim);
-            new Ajuda().printCaminho(caminho);
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("ASTAR estourou por isso o caminho e de 0,4 ate 0,0");
             caminho = new ArrayList<>();
             caminho.add(new Coordenadas(0, 4));
@@ -109,6 +109,8 @@ public class Veiculo extends Observable implements Runnable, Observer {
         if (caminho == null) {
             return false;
         } else {
+            String aux = new Ajuda().printCaminho(caminho);
+            mapaObj.printJanelaCarros(this, "caminho= " + aux);
             return true;
         }
     }
@@ -204,8 +206,16 @@ public class Veiculo extends Observable implements Runnable, Observer {
     public void encontraObstaculo() {
         Coordenadas aux = new Coordenadas(atual.getX(), atual.getY());
 
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        if (posicaoValida(atual)) {
+            if (procuraCaminho()) {
+                mapaObj.redesenhar(aux);
+                simulaVeiculoAndar();
+                return;
+            }
+        }
         atual = new Coordenadas(aux.getX() + 1, aux.getY());
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
                 mapaObj.redesenhar(aux);
@@ -214,7 +224,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
             }
         }
         atual = new Coordenadas(aux.getX() - 1, aux.getY());
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
                 mapaObj.redesenhar(aux);
@@ -223,7 +233,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
             }
         }
         atual = new Coordenadas(aux.getX(), aux.getY() + 1);
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
                 mapaObj.redesenhar(aux);
@@ -232,7 +242,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
             }
         }
         atual = new Coordenadas(aux.getX(), aux.getY() - 1);
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
                 mapaObj.redesenhar(aux);
@@ -241,12 +251,12 @@ public class Veiculo extends Observable implements Runnable, Observer {
             }
         }
         atual = new Coordenadas(aux.getX(), aux.getY());
-        // tornar o veiculo num obstaculo
-        System.err.println("Veiculo " + id + " FICOU SEM CAMINHOS");
+        //System.err.println("Veiculo " + id + " FICOU SEM CAMINHOS");
         mapaObj.printJanelaCarros(this, "Veiculo " + id + " FICOU SEM CAMINHOS");
         enviaMensagem(Mensagem.TipoMensagem.Obstaculo, aux);
         enviaMensagem(Mensagem.TipoMensagem.Terminou, aux);
         mapaObj.removeVeiculo(this);
+        // tornar o veiculo num obstaculo
         mapaObj.addObstaculo(aux);
     }
 

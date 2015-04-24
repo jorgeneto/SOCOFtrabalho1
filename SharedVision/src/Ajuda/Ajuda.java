@@ -34,23 +34,23 @@ public class Ajuda {
         }
     }
 
-    public void printCaminho(ArrayList<Coordenadas> caminho) {
-        //System.out.println("[");
+    public String printCaminho(ArrayList<Coordenadas> caminho) {
         Coordenadas antigo = caminho.get(0);
-        String aux = "";
+        String aux = "[ ";
         for (Coordenadas elemento : caminho) {
             if (antigo.getX() > elemento.getX()) {
-                aux = "↑";
+                aux += " ↑";
             } else if (antigo.getX() < elemento.getX()) {
-                aux = "↓";
+                aux += " ↓";
             } else if (antigo.getY() > elemento.getY()) {
-                aux = "←";
+                aux += " ←";
             } else if (antigo.getY() < elemento.getY()) {
-                aux = "→";
+                aux += " →";
             }
-            //System.out.println(aux + " " + elemento);
+            aux += " " + elemento;
             antigo = elemento;
         }
-        //System.out.println("]");
+        System.out.println(aux + " ]");
+        return aux + "]";
     }
 }
