@@ -552,6 +552,9 @@ public class Mapa {
         frame.setVisible(true);
     }
 
+    //stringOutput.get(v.getId()).getText() contar os \n que tem
+    //para contar usar o string.contains, para partir a string usar split,
+    //partir por \n e buscar as últimas 5.
     public void printJanelaCarros(Veiculo v, String print) {
         if (v.getId() < stringOutput.size()) {
             stringOutput.get(v.getId()).setText(stringOutput.get(v.getId()).getText()+"\n"+print);

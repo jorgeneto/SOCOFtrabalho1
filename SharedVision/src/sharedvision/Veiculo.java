@@ -59,6 +59,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
 //                            if (mensagem.getPerigoCoord().getX() == caminho.get(i).getX()) {
                         if (!veiculosProximos.contains(mensagem.getVeiculo())) {
                             System.out.println("Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
+                            mapaObj.printJanelaCarros(this, "Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
                             veiculosProximos.add(mensagem.getVeiculo());
                         }
 //                            }
@@ -74,6 +75,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                         System.out.println("Carro " + this + " recebe " + mensagem);
                         if (!veiculosProximos.contains(mensagem.getVeiculo())) {
                             System.out.println("Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
+                            mapaObj.printJanelaCarros(this, "Carro " + this + "adiciona Carro " + mensagem.getVeiculo());
                             veiculosProximos.add(mensagem.getVeiculo());
                         }
                     }
@@ -245,6 +247,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
         atual = new Coordenadas(aux.getX(), aux.getY());
         // tornar o veiculo num obstaculo
         System.err.println("Veiculo " + id + " FICOU SEM CAMINHOS");
+        mapaObj.printJanelaCarros(this, "Veiculo " + id + " FICOU SEM CAMINHOS");
         enviaMensagem(Mensagem.TipoMensagem.Obstaculo, aux);
         enviaMensagem(Mensagem.TipoMensagem.Terminou, aux);
         mapaObj.removeVeiculo(this);
