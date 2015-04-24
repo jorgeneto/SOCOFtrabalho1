@@ -61,7 +61,7 @@ public class Mapa {
     private JLabel[][] mapaGrafico = new JLabel[20][20];
     private ArrayList<Veiculo> veiculos;
 
-    private boolean selecaoAtica = false;
+    private boolean selecaoAtiva = false;
     private final Coordenadas coord1 = new Coordenadas(-1, -1);
 
     private JPanel painel_veiculo, painel_input, painel_output, painel_principal;
@@ -371,7 +371,7 @@ public class Mapa {
                         for (int i = 0; i < mapa.length; i++) {
                             for (int j = 0; j < mapa[0].length; j++) {
                                 if (mapaGrafico[i][j].equals(e.getComponent())) {
-                                    if (selecaoAtica) {
+                                    if (selecaoAtiva) {
                                         coord1.setCoordenadas(i, j);
                                         return;
                                     } else {

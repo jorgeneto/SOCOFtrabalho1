@@ -171,6 +171,11 @@ public class Veiculo extends Observable implements Runnable, Observer {
     @Override
     public void run() {
         procuraCaminho();
+
+        simulaVeiculoAndar();
+    }
+
+    private void simulaVeiculoAndar() {
         Coordenadas proximo;
         int distSeguranca = 0;
 
@@ -188,10 +193,18 @@ public class Veiculo extends Observable implements Runnable, Observer {
                     proximo = caminho.get(i);
 
                     //Caso a próxima posição seja um obstáculo, então envia-se um aviso aos outros carros
-                    if (((mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 10) == 19)
-                            || (mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 10) == 99) {
-                        enviaMensagem(Mensagem.TipoMensagem.Obstaculo, proximo);
-                        mapaObj.printJanelaCarros(this, "Obstáculo encontrado");
+                    if (i == 0) {
+                        switch (mapaObj.getMapa()[proximo.getX()][proximo.getY()]) {
+                            case C_O:
+                            case E_O:
+                            case B_O:
+                            case D_O:
+                            case crO:
+                                enviaMensagem(Mensagem.TipoMensagem.Obstaculo, proximo);
+                                mapaObj.printJanelaCarros(this, "Obstáculo encontrado");
+                                podeAndar = false;
+                                break;
+                        }
                     }
 
                     for (Veiculo veiculo : veiculosProximos) {
