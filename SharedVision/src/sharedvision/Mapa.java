@@ -119,24 +119,24 @@ public class Mapa {
         veiculos.remove(v);
         if (veiculos.isEmpty()) {
             //Texto para os botoes
-                        Object[] options = {"Sim",
-                            "Não"};
-                        int janela = JOptionPane.showOptionDialog(frame,
-                                "Todos os veiculos terminaram deseja fechar ?",
-                                "Desligar",
-                                JOptionPane.OK_OPTION,
-                                JOptionPane.CANCEL_OPTION,
-                                new ImageIcon("./img/obstaculo1.png"),
-                                options,
-                                options[1]);
+            Object[] options = {"Sim",
+                "Não"};
+            int janela = JOptionPane.showOptionDialog(frame,
+                    "Todos os veiculos terminaram deseja fechar ?",
+                    "Desligar",
+                    JOptionPane.OK_OPTION,
+                    JOptionPane.CANCEL_OPTION,
+                    new ImageIcon("./img/obstaculo1.png"),
+                    options,
+                    options[1]);
 
-                        if (janela == JOptionPane.OK_OPTION) {
-                            exit(0);
-                        } else if (janela == JOptionPane.CANCEL_OPTION) {
+            if (janela == JOptionPane.OK_OPTION) {
+                exit(0);
+            } else if (janela == JOptionPane.CANCEL_OPTION) {
                             // Code to use when CANCEL is PRESSED.
-                            // Não faz nada
-                        }
-            
+                // Não faz nada
+            }
+
         }
     }
 
