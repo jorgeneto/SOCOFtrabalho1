@@ -32,7 +32,7 @@ public class Mapa {
     private final int C_W = 111, E_W = 211, B_W = 311, D_W = 411, crW = 511;// Paralelo Molhado
     private final int C_N = 102, E_N = 202, B_N = 302, D_N = 402, crN = 502;// Neve
     private final int C_G = 103, E_G = 203, B_G = 303, D_G = 403, crG = 503;// Gelo
-    private final int C_O = 190, E_O = 190, B_O = 190, D_O = 190, crO = 590, Obs = 999;// Obstaculo
+    private final int C_O = 190, E_O = 290, B_O = 390, D_O = 490, crO = 590, Obs = 999;// Obstaculo
 
     private int[][] mapa = {
         /*0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19*/
@@ -97,9 +97,9 @@ public class Mapa {
             exit(0);
         }
     }
-    
-    public void printJanelaCarros(Veiculo v, String print){
-                      
+
+    public void printJanelaCarros(Veiculo v, String print) {
+
         painel_principal = new JPanel();
         painel_principal.setLayout(new BoxLayout(painel_principal, BoxLayout.PAGE_AXIS));
 
@@ -146,9 +146,9 @@ public class Mapa {
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
-        for (int i = 0; i<veiculos.size(); i++) {
-            painel_veiculo = new JPanel(new BorderLayout());          
-            
+        for (int i = 0; i < veiculos.size(); i++) {
+            painel_veiculo = new JPanel(new BorderLayout());
+
             painel_input = new JPanel(new GridLayout(2, 1));
             label = new JLabel("Veiculo " + veiculos.get(i).getId());
             label.setFont(new Font("Arial", Font.BOLD, 14));
@@ -158,10 +158,11 @@ public class Mapa {
             painel_veiculo.add(painel_input, BorderLayout.WEST);
 
             painel_print[i] = new JPanel(new FlowLayout());
-            if(v.getId() == i)
-            painel_print[i].add(new JLabel(print));
-            else
-            painel_print[i].add(new JLabel("Mensagem"));
+            if (v.getId() == i) {
+                painel_print[i].add(new JLabel(print));
+            } else {
+                painel_print[i].add(new JLabel("Mensagem"));
+            }
             painel_veiculo.add(painel_print[i], BorderLayout.CENTER);
 
             painel_principal.add(painel_veiculo);
@@ -172,7 +173,7 @@ public class Mapa {
         frame.pack();
         //5. Mostra a janela
         frame.setVisible(true);
-     }
+    }
 
     public void redesenhar(Veiculo v) {
         JLabel anterior, atual;
@@ -402,7 +403,10 @@ public class Mapa {
                 }
                 break;
             // ISTO É PARA APAGAR
-            case C_O | E_O | B_O | D_O:
+            case C_O:
+            case E_O:
+            case B_O:
+            case D_O:
                 img = new ImageIcon("./img/obstaculo1.png");
                 break;
             case crO:
@@ -514,7 +518,7 @@ public class Mapa {
 
     //Método que gera o mapa
     public void vistaCarros() {
-       
+
         //1. Cria a janela
         frame = new JFrame("Carros");
         frame.setLocation(32 * mapa.length + 4, 0);
@@ -567,9 +571,9 @@ public class Mapa {
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
-        for (int i = 0; i<veiculos.size(); i++) {
-            painel_veiculo = new JPanel(new BorderLayout());          
-            
+        for (int i = 0; i < veiculos.size(); i++) {
+            painel_veiculo = new JPanel(new BorderLayout());
+
             painel_input = new JPanel(new GridLayout(2, 1));
             label = new JLabel("Veiculo " + veiculos.get(i).getId());
             label.setFont(new Font("Arial", Font.BOLD, 14));

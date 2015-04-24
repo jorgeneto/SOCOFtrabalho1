@@ -16,7 +16,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private final int C_W = 111, E_W = 211, B_W = 311, D_W = 411, crW = 511;// Paralelo Molhado
     private final int C_N = 102, E_N = 202, B_N = 302, D_N = 402, crN = 502;// Neve
     private final int C_G = 103, E_G = 203, B_G = 303, D_G = 403, crG = 503;// Gelo
-    private final int C_O = 190, E_O = 190, B_O = 190, D_O = 190, crO = 590, Obs = 999;// Obstaculo
+    private final int C_O = 190, E_O = 290, B_O = 390, D_O = 490, crO = 590, Obs = 999;// Obstaculo
 
     private int id;
     private Coordenadas anterior;
