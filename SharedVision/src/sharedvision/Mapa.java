@@ -97,82 +97,6 @@ public class Mapa {
             exit(0);
         }
     }
-    
-    public void printJanelaCarros(Veiculo v, String print){
-                      
-        painel_principal = new JPanel();
-        painel_principal.setLayout(new BoxLayout(painel_principal, BoxLayout.PAGE_AXIS));
-
-        painel_veiculo = new JPanel(new BorderLayout());
-
-        painel_input = new JPanel(new GridLayout(4, 1));
-        label = new JLabel("Novo veiculo");
-        label.setFont(new Font("Arial", Font.BOLD, 14));
-        label.setForeground(Color.BLUE);
-        painel_input.add(label);
-        btn = new JButton("Adicionar novo veiculo");
-        btn.addActionListener((ActionEvent e) -> {
-            if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
-                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
-            }
-        });
-        painel_input.add(btn);
-        btn = new JButton("Parar Veiculos");
-        btn.addActionListener((ActionEvent e) -> {
-            if (estadoParado) {
-                ((JButton) e.getSource()).setText("Parar Veiculos");
-                estadoParado = false;
-            } else {
-                ((JButton) e.getSource()).setText("Continuar Veiculos");
-                estadoParado = true;
-            }
-        });
-        painel_input.add(btn);
-        painel_veiculo.add(painel_input, BorderLayout.WEST);
-
-        painel_output = new JPanel(new FlowLayout());
-        painel_output.add(new JLabel("ID"));
-        painel_output.add(nID = new JTextField(2));
-        painel_output.add(new JButton("Escolher no mapa"));
-        painel_output.add(new JLabel("X"));
-        painel_output.add(nXi = new JTextField(2));
-        painel_output.add(new JLabel("Y"));
-        painel_output.add(nYi = new JTextField(2));
-        painel_output.add(new JButton("Escolher no mapa"));
-        painel_output.add(new JLabel("X"));
-        painel_output.add(nXf = new JTextField(2));
-        painel_output.add(new JLabel("Y"));
-        painel_output.add(nYf = new JTextField(2));
-        painel_veiculo.add(painel_output, BorderLayout.CENTER);
-        painel_principal.add(painel_veiculo);
-
-        for (int i = 0; i<veiculos.size(); i++) {
-            painel_veiculo = new JPanel(new BorderLayout());          
-            
-            painel_input = new JPanel(new GridLayout(2, 1));
-            label = new JLabel("Veiculo " + veiculos.get(i).getId());
-            label.setFont(new Font("Arial", Font.BOLD, 14));
-            label.setForeground(Color.red);
-            painel_input.add(label);
-            painel_input.add(new JButton("Perder o controlo"));
-            painel_veiculo.add(painel_input, BorderLayout.WEST);
-
-            painel_print[i] = new JPanel(new FlowLayout());
-            if(v.getId() == i)
-            painel_print[i].add(new JLabel(print));
-            else
-            painel_print[i].add(new JLabel("Mensagem"));
-            painel_veiculo.add(painel_print[i], BorderLayout.CENTER);
-
-            painel_principal.add(painel_veiculo);
-        }
-        frame.add(painel_principal, BorderLayout.CENTER);
-
-        //4. Determina o tamanho automatico da janela
-        frame.pack();
-        //5. Mostra a janela
-        frame.setVisible(true);
-     }
 
     public void redesenhar(Veiculo v) {
         JLabel anterior, atual;
@@ -514,7 +438,7 @@ public class Mapa {
 
     //Método que gera o mapa
     public void vistaCarros() {
-       
+
         //1. Cria a janela
         frame = new JFrame("Carros");
         frame.setLocation(32 * mapa.length + 4, 0);
@@ -567,9 +491,9 @@ public class Mapa {
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
-        for (int i = 0; i<veiculos.size(); i++) {
-            painel_veiculo = new JPanel(new BorderLayout());          
-            
+        for (int i = 0; i < veiculos.size(); i++) {
+            painel_veiculo = new JPanel(new BorderLayout());
+
             painel_input = new JPanel(new GridLayout(2, 1));
             label = new JLabel("Veiculo " + veiculos.get(i).getId());
             label.setFont(new Font("Arial", Font.BOLD, 14));
@@ -580,6 +504,83 @@ public class Mapa {
 
             painel_print[i] = new JPanel(new FlowLayout());
             painel_print[i].add(new JLabel("Mensagem"));
+            painel_veiculo.add(painel_print[i], BorderLayout.CENTER);
+
+            painel_principal.add(painel_veiculo);
+        }
+        frame.add(painel_principal, BorderLayout.CENTER);
+
+        //4. Determina o tamanho automatico da janela
+        frame.pack();
+        //5. Mostra a janela
+        frame.setVisible(true);
+    }
+
+    public void printJanelaCarros(Veiculo v, String print) {
+
+        painel_principal = new JPanel();
+        painel_principal.setLayout(new BoxLayout(painel_principal, BoxLayout.PAGE_AXIS));
+
+        painel_veiculo = new JPanel(new BorderLayout());
+
+        painel_input = new JPanel(new GridLayout(4, 1));
+        label = new JLabel("Novo veiculo");
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        label.setForeground(Color.BLUE);
+        painel_input.add(label);
+        btn = new JButton("Adicionar novo veiculo");
+        btn.addActionListener((ActionEvent e) -> {
+            if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
+                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
+            }
+        });
+        painel_input.add(btn);
+        btn = new JButton("Parar Veiculos");
+        btn.addActionListener((ActionEvent e) -> {
+            if (estadoParado) {
+                ((JButton) e.getSource()).setText("Parar Veiculos");
+                estadoParado = false;
+            } else {
+                ((JButton) e.getSource()).setText("Continuar Veiculos");
+                estadoParado = true;
+            }
+        });
+        painel_input.add(btn);
+        painel_veiculo.add(painel_input, BorderLayout.WEST);
+
+        painel_output = new JPanel(new FlowLayout());
+        painel_output.add(new JLabel("ID"));
+        painel_output.add(nID = new JTextField(2));
+        painel_output.add(new JButton("Ponto Inicial"));
+        painel_output.add(new JLabel("X"));
+        painel_output.add(nXi = new JTextField(2));
+        painel_output.add(new JLabel("Y"));
+        painel_output.add(nYi = new JTextField(2));
+        painel_output.add(new JButton("Ponto Final"));
+        painel_output.add(new JLabel("X"));
+        painel_output.add(nXf = new JTextField(2));
+        painel_output.add(new JLabel("Y"));
+        painel_output.add(nYf = new JTextField(2));
+        painel_veiculo.add(painel_output, BorderLayout.CENTER);
+        painel_principal.add(painel_veiculo);
+
+        for (int i = 0; i < veiculos.size(); i++) {
+            painel_veiculo = new JPanel(new BorderLayout());
+
+            painel_input = new JPanel(new GridLayout(2, 1));
+            label = new JLabel("Veiculo " + veiculos.get(i).getId());
+            label.setFont(new Font("Arial", Font.BOLD, 14));
+            label.setForeground(Color.red);
+            painel_input.add(label);
+            painel_input.add(new JButton("Perder o controlo"));
+            painel_veiculo.add(painel_input, BorderLayout.WEST);
+
+            painel_print[i] = new JPanel(new FlowLayout());
+            if (v.getId() == i) {
+                painel_print[i].add(new JLabel(print));
+            } else {
+                painel_print[i].add(new JLabel("Mensagem"));
+            }
             painel_veiculo.add(painel_print[i], BorderLayout.CENTER);
 
             painel_principal.add(painel_veiculo);
