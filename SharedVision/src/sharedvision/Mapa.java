@@ -554,12 +554,12 @@ public class Mapa {
         painel_output = new JPanel(new FlowLayout());
         painel_output.add(new JLabel("ID"));
         painel_output.add(nID = new JTextField(2));
-        painel_output.add(new JButton("Escolher no mapa"));
+        painel_output.add(new JButton("Ponto inicial"));
         painel_output.add(new JLabel("X"));
         painel_output.add(nXi = new JTextField(2));
         painel_output.add(new JLabel("Y"));
         painel_output.add(nYi = new JTextField(2));
-        painel_output.add(new JButton("Escolher no mapa"));
+        painel_output.add(new JButton("Ponto final"));
         painel_output.add(new JLabel("X"));
         painel_output.add(nXf = new JTextField(2));
         painel_output.add(new JLabel("Y"));
