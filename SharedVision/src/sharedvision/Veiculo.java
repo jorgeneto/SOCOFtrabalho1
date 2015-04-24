@@ -1,13 +1,9 @@
 package sharedvision;
 
 import Ajuda.Ajuda;
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 
 public class Veiculo extends Observable implements Runnable, Observer {
 
@@ -108,7 +104,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
             caminho.add(new Coordenadas(0, 1));
             caminho.add(new Coordenadas(0, 0));
             fim = new Coordenadas(0, 0);
-            return false;
+            //return false;
         }
         if (caminho == null) {
             return false;

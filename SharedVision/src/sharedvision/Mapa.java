@@ -536,7 +536,7 @@ public class Mapa {
             painel_veiculo.add(painel_input, BorderLayout.WEST);
 
             panelPrint.add(new JPanel(new FlowLayout()));
-            stringOutput.add(new JTextArea("Mensagem " + i));
+            stringOutput.add(new JTextArea("Mensagems do veiculo " + i));
             stringOutput.get(i).setEditable(false);
             stringOutput.get(i).setBackground(new Color(238, 238, 238));
             panelPrint.get(i).add(stringOutput.get(i));
