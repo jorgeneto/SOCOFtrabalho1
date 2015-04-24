@@ -277,7 +277,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                             case crO:
                                 mapaObj.addObstaculo(proximo);
                                 enviaMensagem(Mensagem.TipoMensagem.Obstaculo, proximo);
-                                mapaObj.printJanelaCarros(this, "Obstáculo encontrado");
+                                mapaObj.printJanelaCarros(this, "Obstáculo encontrado em " + proximo);
                                 podeAndar = false;
                                 encontraObstaculo();
                                 return;
