@@ -557,9 +557,36 @@ public class Mapa {
     //partir por \n e buscar as últimas 5.
     public void printJanelaCarros(Veiculo v, String print) {
         if (v.getId() < stringOutput.size()) {
-            stringOutput.get(v.getId()).setText(stringOutput.get(v.getId()).getText()+"\n"+print);
+            
+            ArrayList<String> list = new ArrayList<>();
+            //Partir o array
+            String[]splitArray = stringOutput.get(v.getId()).getText().split("\n");
+            
+            String aux = "";
+            
+            //Se tivermos + mais que 4 mensagens para aparecer
+            if(splitArray.length > 4){
+             
+                //Converter array em lista
+                for(String s : splitArray){list.add(s);}
+                //Remover 1º linha (mensagem mais desatualizada)
+                list.remove(0);
+                for(int i = 0; i<list.size();i++) {
+                    if(i!=list.size()){
+                        aux = aux + list.get(i) + "\n";
+                    }
+             }
+                //Metemos o texto sem o 1º elemento + o texto a imprimir na Text Area
+                stringOutput.get(v.getId()).setText(aux+print);
+        }
+             
+            //Se não precisarmos de tratamento de linhas, então faz o print normal
+            if(splitArray.length <=4){
+                    stringOutput.get(v.getId()).setText(stringOutput.get(v.getId()).getText()+"\n"+print);
+            }        
             stringOutput.get(v.getId()).revalidate();
             stringOutput.get(v.getId()).repaint();
         }
+        }
     }
-}
+
