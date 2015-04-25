@@ -62,11 +62,13 @@ public class Mapa {
     private JLabel[][] mapaGrafico = new JLabel[20][20];
     private ArrayList<Veiculo> veiculos;
 
-    private boolean selecaoAtiva = false;
+    private boolean selecaoAtiva, selecaoFinal = false;
     private final Coordenadas coord1 = new Coordenadas(-1, -1);
+    private final Coordenadas coordInicial = new Coordenadas(-1, -1);
+    private final Coordenadas coordFinal = new Coordenadas(-1, -1);
 
     private JPanel painel_veiculo, painel_input, painel_output, painel_principal;
-    private JButton btn;
+    private JButton btn, btnEscolherMapaInicio, btnEscolherMapaFim;
     private JLabel label;
     private boolean estadoParado = false;
 
@@ -100,6 +102,7 @@ public class Mapa {
     }
 
     public void addVeiculo(int id, Coordenadas inicio, Coordenadas fim) {
+
         Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim);
         for (Veiculo veiculo : veiculos) {
             veiculo.adicionaObserver(novoVeiculo);
@@ -416,8 +419,14 @@ public class Mapa {
                         for (int i = 0; i < mapa.length; i++) {
                             for (int j = 0; j < mapa[0].length; j++) {
                                 if (mapaGrafico[i][j].equals(e.getComponent())) {
-                                    if (selecaoAtiva) {
+                                    if (selecaoFinal) {
+                                        coordFinal.setCoordenadas(i, j);
+                                        //System.err.println("FIM " + coordFinal.getX() + " " + coordFinal.getY());
+                                        return;
+                                    } else if (selecaoAtiva) {
                                         coord1.setCoordenadas(i, j);
+                                        coordInicial.setCoordenadas(i, j);
+                                        //System.err.println("INICIO " + coordInicial.getX() + " " + coordInicial.getY());
                                         return;
                                     } else {
                                         coord1.setCoordenadas(i, j);
@@ -425,6 +434,7 @@ public class Mapa {
                                 }
                             }
                         }
+
                         //Texto para os botoes
                         Object[] options = {"Sim",
                             "Não"};
@@ -511,6 +521,12 @@ public class Mapa {
             if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
                 addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
             }
+            if (!nID.getText().equals("") && coordInicial.getX() != -1 && coordInicial.getY() != -1 && coordFinal.getX() != -1 && coordFinal.getY() != -1) {
+                System.err.println("Caminho entre: " + coordInicial.getX() + ", " + coordInicial.getY() + " a " + coordFinal.getX() + ", " + coordFinal.getY());
+                addVeiculo(Integer.parseInt(nID.getText()), coordInicial, coordFinal);
+                selecaoFinal = false;
+                selecaoAtiva = false;
+            }
         });
         painel_input.add(btn);
         btn = new JButton("Parar Veiculos");
@@ -526,15 +542,24 @@ public class Mapa {
         painel_input.add(btn);
         painel_veiculo.add(painel_input, BorderLayout.WEST);
 
+        btnEscolherMapaInicio = new JButton("Ponto inicial");
+        btnEscolherMapaInicio.addActionListener((ActionEvent e) -> {
+            selecaoAtiva = true;
+        });
+        btnEscolherMapaFim = new JButton("Ponto final");
+        btnEscolherMapaFim.addActionListener((ActionEvent e) -> {
+            selecaoFinal = true;
+        });
+
         painel_output = new JPanel(new FlowLayout());
         painel_output.add(new JLabel("ID"));
         painel_output.add(nID = new JTextField(2));
-        painel_output.add(new JButton("Ponto inicial"));
+        painel_output.add(btnEscolherMapaInicio);
         painel_output.add(new JLabel("X"));
         painel_output.add(nXi = new JTextField(2));
         painel_output.add(new JLabel("Y"));
         painel_output.add(nYi = new JTextField(2));
-        painel_output.add(new JButton("Ponto final"));
+        painel_output.add(btnEscolherMapaFim);
         painel_output.add(new JLabel("X"));
         painel_output.add(nXf = new JTextField(2));
         painel_output.add(new JLabel("Y"));
