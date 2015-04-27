@@ -103,7 +103,7 @@ public class Astar {
                         }
                         break;
                     case 5:
-                        boolean adicionouPeloMenosUm = false;
+//                        boolean adicionouPeloMenosUm = false;
 //                        System.out.println("        case 5");
                         AstarMembro atual = new AstarMembro(caminhos.get(0));
                         proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
@@ -113,7 +113,7 @@ public class Astar {
                                 atual.soma += 1;
                                 atual.calcula(fim);
                                 caminhos.add(atual);
-                                adicionouPeloMenosUm = true;
+//                                adicionouPeloMenosUm = true;
                             }
                         }
                         atual = new AstarMembro(caminhos.get(0));
@@ -124,7 +124,7 @@ public class Astar {
                                 atual.soma += 1;
                                 atual.calcula(fim);
                                 caminhos.add(atual);
-                                adicionouPeloMenosUm = true;
+//                                adicionouPeloMenosUm = true;
                             }
                         }
                         atual = new AstarMembro(caminhos.get(0));
@@ -135,21 +135,32 @@ public class Astar {
                                 atual.soma += 1;
                                 atual.calcula(fim);
                                 caminhos.add(atual);
-                                adicionouPeloMenosUm = true;
+//                                adicionouPeloMenosUm = true;
                             }
                         }
+                        atual = new AstarMembro(caminhos.get(0));
                         proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
-                            if (!caminhos.get(0).lista.contains(proximo)) {
-                                caminhos.get(0).lista.add(0, proximo);
-                                caminhos.get(0).soma += 1;
-                                caminhos.get(0).calcula(fim);
-                                adicionouPeloMenosUm = false;
+                            if (!atual.lista.contains(proximo)) {
+                                atual.lista.add(0, proximo);
+                                atual.soma += 1;
+                                atual.calcula(fim);
+                                caminhos.add(atual);
+//                                adicionouPeloMenosUm = true;
                             }
                         }
-                        if (adicionouPeloMenosUm) {
+//                        proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
+//                        if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
+//                            if (!caminhos.get(0).lista.contains(proximo)) {
+//                                caminhos.get(0).lista.add(0, proximo);
+//                                caminhos.get(0).soma += 1;
+//                                caminhos.get(0).calcula(fim);
+//                                adicionouPeloMenosUm = false;
+//                            }
+//                        }
+//                        if (adicionouPeloMenosUm) {
                             caminhos.remove(0);
-                        }
+//                        }
                         break;
                     default:
                         //System.out.println("              apaga= " + caminhos.get(0));

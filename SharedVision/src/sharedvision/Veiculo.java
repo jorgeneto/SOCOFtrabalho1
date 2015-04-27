@@ -151,6 +151,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
             //return false;
         }
         if (caminho == null) {
+            System.out.println("caminho = [ null ]");
             return false;
         } else {
             new Ajuda().sleepDuracao(200);
@@ -211,7 +212,9 @@ public class Veiculo extends Observable implements Runnable, Observer {
 
     @Override
     public void run() {
-        procuraCaminho();
+        if (!procuraCaminho()) {
+            veiculoTermina();
+        }
 
         simulaVeiculoAndar();
     }
