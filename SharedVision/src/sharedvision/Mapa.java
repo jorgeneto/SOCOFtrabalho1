@@ -265,7 +265,7 @@ public class Mapa {
         return true;
     }
 
-    //____________________________________________ INTERFACE GRAVICA ____________________________________________
+    //____________________________________________ INTERFACE GRAFICA ____________________________________________
     public void redesenhar(Coordenadas coord) {
         JLabel anterior;
 
@@ -619,6 +619,7 @@ public class Mapa {
     private ArrayList<JTextArea> stringOutput = new ArrayList<>();
     private ArrayList<JPanel> panelPrint = new ArrayList<>();
     private JFrame frame;
+    private ArrayList<JButton> btnControlo = new ArrayList<>();
 
     //Método que gera o mapa
     public void vistaCarros() {
@@ -690,6 +691,14 @@ public class Mapa {
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
+        for (Veiculo v : veiculos) {
+            JButton b = new JButton("Perder o controlo");
+            btnControlo.add(b);
+            b.addActionListener((ActionEvent e) -> {
+                v.perdaControlo();
+            });
+        }
+
         for (int i = 0; i < veiculos.size(); i++) {
             painel_veiculo = new JPanel(new BorderLayout());
 
@@ -698,7 +707,8 @@ public class Mapa {
             label.setFont(new Font("Arial", Font.BOLD, 14));
             label.setForeground(Color.red);
             painel_input.add(label);
-            painel_input.add(new JButton("Perder o controlo"));
+            painel_input.add(btnControlo.get(i));
+//            painel_input.add(new JButton("Perder o controlo"));
             painel_veiculo.add(painel_input, BorderLayout.WEST);
 
             panelPrint.add(new JPanel(new FlowLayout()));

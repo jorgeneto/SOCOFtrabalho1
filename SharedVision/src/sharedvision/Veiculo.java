@@ -25,7 +25,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private ArrayList<Veiculo> veiculosProximos;
     private boolean sentidoContrarioAtivado = false;
     private boolean caminhoObstruido = false;
-    private boolean intersecao = false;
+    private boolean perdeuControlo = false;
 
     private Mapa mapaObj;
 
@@ -38,6 +38,34 @@ public class Veiculo extends Observable implements Runnable, Observer {
 
         this.veiculosProximos = new ArrayList<>();
         //this.addObserver(o);
+    }
+
+    public Coordenadas getAnterior() {
+        return anterior;
+    }
+
+    public Coordenadas getAtual() {
+        return atual;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void perdaControlo() {
+        perdeuControlo = true;
+
+        // se a minha posicao é um cruzamento
+        if (mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 == 5) {
+            mapaObj.libertaIntersecao(atual);
+        }
+
+        mapaObj.printJanelaCarros(this, "Veiculo " + id + " perdeu o controlo");
+        enviaMensagem(Mensagem.TipoMensagem.PerdaDeControlo, atual);
+        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
+        mapaObj.removeVeiculo(this);
+        // tornar o veiculo num obstaculo
+        mapaObj.addObstaculo(atual);
     }
 
     public void adicionaObserver(Observer o) {
@@ -80,6 +108,11 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 }
                 break;
             case PerdaDeControlo:
+                if (Math.abs(mensagem.getPerigoCoord().getX() - atual.getX()) < 7) {
+                    if (Math.abs(mensagem.getPerigoCoord().getY() - atual.getY()) < 7) {
+                        mapaObj.printJanelaCarros(this, "Carro " + mensagem.getVeiculo() + " perdeu o controlo em " + mensagem.getPerigoCoord());
+                    }
+                }
                 break;
             case Obstaculo:
                 if (Math.abs(mensagem.getPerigoCoord().getX() - atual.getX()) < 7) {
@@ -131,18 +164,6 @@ public class Veiculo extends Observable implements Runnable, Observer {
             mapaObj.printJanelaCarros(this, "caminho= " + aux);
             return true;
         }
-    }
-
-    public Coordenadas getAnterior() {
-        return anterior;
-    }
-
-    public Coordenadas getAtual() {
-        return atual;
-    }
-
-    public int getId() {
-        return id;
     }
 
     private int distSeguranca(int mapa) {
@@ -288,6 +309,9 @@ public class Veiculo extends Observable implements Runnable, Observer {
         int distSeguranca = 0;
 
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
+            if (perdeuControlo) {
+                return;
+            }
             if (mapaObj.getEstadoParado()) {
                 new Ajuda().sleepDuracao(1000);
             } else {
