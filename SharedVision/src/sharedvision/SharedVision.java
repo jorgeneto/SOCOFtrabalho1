@@ -13,9 +13,10 @@ public class SharedVision {
         mapa.vistaGrafica();
 
         // teste distancia de seguranca
-        mapa.addVeiculo(0, new Coordenadas(19, 19), new Coordenadas(10, 0));
-        mapa.addVeiculo(1, new Coordenadas(19, 18), new Coordenadas(10, 0));
-
+//        mapa.addVeiculo(0, new Coordenadas(19, 19), new Coordenadas(10, 0));
+//        mapa.addVeiculo(1, new Coordenadas(19, 18), new Coordenadas(10, 0));
+        mapa.addVeiculo(0, new Coordenadas(19, 19), new Coordenadas(11, 0));
+        mapa.addVeiculo(1, new Coordenadas(19, 18), new Coordenadas(12, 0));
         mapa.vistaCarros();
     }
 

@@ -46,17 +46,17 @@ public class Mapa {
         {B_N, 000, 000, B_E, C_E, 000, crE, crE, crE, crE, E_E, E_E, E_E, E_E, E_E, crE, crE, 000, B_E, C_E},// 6
         {B_N, 000, 000, B_E, C_E, 000, crE, 000, crE, crE, D_E, D_E, D_E, D_E, D_E, crE, crE, 000, B_E, C_E},// 7
         {B_N, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_E, C_E, 000, B_E, C_E},// 8
-        {crE, D_E, D_E, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE, E_E, E_E, C_E},// 9
-        {crE, D_E, D_E, crE, crE, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, crE, D_E, crE, C_E},// 10
-        {C_E, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_P, C_P},// 11
-        {C_E, 000, 000, B_E, C_E, 000, 000, B_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, 000, B_P, C_P},// 12
-        {C_E, 000, 000, B_E, C_E, 000, 000, B_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, B_P, C_P, 000, B_P, C_P},// 13
-        {C_E, 000, 000, B_E, C_E, 000, 000, B_P, C_P, 000, 000, 000, 000, 000, 000, B_P, C_P, 000, B_P, C_P},// 14
-        {C_E, 000, 000, B_E, C_E, 000, 000, crP, crP, E_P, E_P, E_P, E_P, E_P, E_P, crP, crP, E_P, E_P, C_P},// 15
-        {C_E, 000, 000, B_E, C_E, 000, 000, crP, crP, D_P, D_P, D_P, D_P, D_P, D_P, crP, crP, D_P, D_P, C_P},// 16
-        {C_E, 000, 000, B_E, C_E, 000, 000, B_P, C_P, 000, 000, 000, 000, 000, 000, B_P, C_P, 000, 000, C_P},// 17
-        {C_E, 000, 000, crE, crE, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, C_P, 000, 000, C_P},// 18
-        {C_E, E_E, E_E, crE, crE, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, crP, D_P, D_P, C_P},// 19
+        {crN, D_N, D_N, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE, E_E, E_E, C_E},// 9
+        {crG, D_G, D_G, crE, crE, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, crE, D_E, crE, C_E},// 10
+        {C_G, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_P, C_P},// 11
+        {C_G, 000, 000, B_E, C_E, 000, 000, B_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, 000, B_P, C_P},// 12
+        {C_G, 000, 000, B_E, C_E, 000, 000, B_W, D_W, D_W, D_W, D_W, D_W, D_W, D_W, B_W, C_W, 000, B_P, C_P},// 13
+        {C_G, 000, 000, B_E, C_E, 000, 000, B_W, C_W, 000, 000, 000, 000, 000, 000, B_W, C_W, 000, B_P, C_P},// 14
+        {C_G, 000, 000, B_E, C_E, 000, 000, crP, crP, E_P, E_P, E_P, E_P, E_P, E_P, crP, crP, E_P, E_P, C_P},// 15
+        {C_G, 000, 000, B_E, C_E, 000, 000, crP, crP, D_P, D_P, D_P, D_P, D_P, D_P, crP, crP, D_P, D_P, C_P},// 16
+        {C_G, 000, 000, B_E, C_E, 000, 000, B_P, C_P, 000, 000, 000, 000, 000, 000, B_P, C_P, 000, 000, C_P},// 17
+        {C_G, 000, 000, crE, crE, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, C_P, 000, 000, C_P},// 18
+        {C_G, E_G, E_G, crE, crE, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, crP, D_P, D_P, C_P},// 19
     };
 
     private JLabel[][] mapaGrafico = new JLabel[20][20];
@@ -499,6 +499,22 @@ public class Mapa {
                 }
                 break;
 
+            case C_W:
+                img = new ImageIcon("./img/paralelo_molhado_sobe.png");
+                break;
+            case E_W:
+                img = new ImageIcon("./img/paralelo_molhado_esquerda.png");
+                break;
+            case B_W:
+                img = new ImageIcon("./img/paralelo_molhado_desce.png");
+                break;
+            case D_W:
+                img = new ImageIcon("./img/paralelo_molhado_direita.png");
+                break;
+            case crW:
+                img = new ImageIcon("./img/paralelo_molhado.png");
+                break;
+
             case C_N:
                 img = new ImageIcon("./img/neve_sobe.png");
                 break;
@@ -513,6 +529,22 @@ public class Mapa {
                 break;
             case crN:
                 img = new ImageIcon("./img/neve.png");
+                break;
+
+            case C_G:
+                img = new ImageIcon("./img/gelo_sobe.png");
+                break;
+            case E_G:
+                img = new ImageIcon("./img/gelo_esquerda.png");
+                break;
+            case B_G:
+                img = new ImageIcon("./img/gelo_desce.png");
+                break;
+            case D_G:
+                img = new ImageIcon("./img/gelo_direita.png");
+                break;
+            case crG:
+                img = new ImageIcon("./img/gelo.png");
                 break;
 
             // ISTO É PARA APAGAR
@@ -581,8 +613,8 @@ public class Mapa {
                         Object[] options = {"Sim",
                             "Não"};
                         int janela = JOptionPane.showOptionDialog(frame,
-                                "Deseja colocar um obstaculo em X=" + coord1.getX() + " Y=" + coord1.getY() + " ?",
-                                "Obstaculo",
+                                "Deseja colocar um obstáculo em X=" + coord1.getX() + " Y=" + coord1.getY() + " ?",
+                                "Obstáculo",
                                 JOptionPane.OK_OPTION,
                                 JOptionPane.CANCEL_OPTION,
                                 new ImageIcon("./img/obstaculo1.png"),
