@@ -1,24 +1,18 @@
-<mapa> Na classe mapa temos de implementar um metodo que recebe um carro como parametro um vaiculo e uma string </mapa>
-<mapa> o metodo vai se chamar tipo print e vai servir para que cada veiculo em vez de fazer prints envia</mapa>
-<mapa> as mensagens. O metodo tem como objectivo fazer um label.adicionaTexto() e adicionar o texto na segunda janela</mapa>
-<mapa> vai servir para remover os prints da consola</mapa>
 
-<mapaVistaCarro> quase todos as labels têm de passar para uma variavel global (um vetor/array) </mapaVistaCarro>
-<mapaVistaCarro> de forma a ser pussivel fazer o set text nelas </mapaVistaCarro>
+Se quiseres fazer alguma coisa podes implementar a parte de quando crias o carro na UI a opcao escolher coordenadas no mapa 
+Isso faz se assim quando carregas no botao escolher no mapa metes a variavel selecao activa =true 
+Depois no sitio onde criamos joptionpane para criar um obstaculo metes um if e caso selecao activa metes as corrdenadas senao
+Abres o joptionpane
 
+Ok ja esta implementado :-)  
 
-O que alterei:
+So se quiseres faz com que cada veiculo que recebe uma mensagem de um obstaculo volte a enviala 
+No método update da classe veiculo
 
-<mapa>Acrescentei o método "public void printJanelaCarros(Veiculo v, String print")
-Este método basicamente faz update à janela dos carros. Testei isto da seguinte forma:
-se o carro encontrar o obstaculo, ele manda a mensagem
-e então é como se substituisse o print. (Foi só para testar
-podes tirar a linha onde chamo o método na classe Veículo, se quiseres)</mapa>
-<mapa>Meti quase todas as variáveis globais e substituí o painel_output por painel_print
-(que é agora um array de JPanels para distinguir os carros que mandam as mensagem)</mapa>
+Quando um veiculo envia uma mensagem de cruzamento verifica todos os cruzamentos a uma casa de diferenca
 
-<veiculo>Só acrescentei a linha de chamar o método printJanelCarros, podes tirar se quiseres,
-foi só para testar</veiculo>
+Coloca uma atributo no veiculo boolean a dizer se vai andar em sentido contrario (sentidocontrarioativado)
+Caso esteja activado no método procura caminho fazemos reverse na lista 
 
-Podes mudar o que quiseres, não sei se era +/- isto que estavas a pensar. Se não concordares ou assim muda
-ou a gente amanhã fala melhor. <3
+Cada carro verifica se tem um carro numa posicao a frente (distancia) caso tenha verifica se o outro carro vem para a mesma
+minha posicao caso sim manda mensagem de colisao frontal
