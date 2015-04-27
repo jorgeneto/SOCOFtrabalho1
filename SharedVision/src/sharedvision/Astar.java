@@ -24,9 +24,11 @@ public class Astar {
     }
 
     private ArrayList<Coordenadas> caminho(ArrayList<AstarMembro> caminhos, Coordenadas fim) {
-        while (true) {
-//            System.out.println("size = " + caminhos.size());
+        int iteracao = 0;
+        while (iteracao < 8000) {
+//            System.out.println("                ASTAR size = " + caminhos.size() + " iteracao = " + iteracao);
             if (caminhos.size() < 1) {
+//                System.out.println("                ASTAR nao encontrou");
                 return null;
             }
             if (caminhos.get(0).lista.get(0).getX() == fim.getX() && caminhos.get(0).lista.get(0).getY() == fim.getY()) {
@@ -161,7 +163,9 @@ public class Astar {
 //                }
                 //return caminho(caminhos, fim);
             }
+            iteracao++;
         }
+        return null;
     }
 
     // serve para ver a versão do mapa
