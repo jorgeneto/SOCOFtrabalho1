@@ -25,7 +25,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private ArrayList<Veiculo> veiculosProximos;
     private boolean sentidoContrarioAtivado = false;
     private boolean caminhoObstruido = false;
-    private boolean perdeuControlo = false;
+    private AtomicBoolean perdeuControlo = new AtomicBoolean(false);
 
     private Mapa mapaObj;
 
@@ -53,17 +53,11 @@ public class Veiculo extends Observable implements Runnable, Observer {
     }
 
     public void perdaControlo() {
-        perdeuControlo = true;
-
-        // se a minha posicao é um cruzamento
-        if (mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 == 5) {
-            mapaObj.libertaIntersecao(atual);
-        }
+        perdeuControlo.set(true);
 
         mapaObj.printJanelaCarros(this, "Veiculo " + id + " perdeu o controlo");
         enviaMensagem(Mensagem.TipoMensagem.PerdaDeControlo, atual);
-        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
-        mapaObj.removeVeiculo(this);
+        veiculoTermina();
         // tornar o veiculo num obstaculo
         mapaObj.addObstaculo(atual);
     }
@@ -298,8 +292,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
         System.err.println("Veiculo " + id + " FICOU SEM CAMINHOS");
         mapaObj.printJanelaCarros(this, "Veiculo " + id + " FICOU SEM CAMINHOS");
         enviaMensagem(Mensagem.TipoMensagem.Obstaculo, aux);
-        enviaMensagem(Mensagem.TipoMensagem.Terminou, aux);
-        mapaObj.removeVeiculo(this);
+        veiculoTermina();
         // tornar o veiculo num obstaculo
         mapaObj.addObstaculo(aux);
     }
@@ -309,7 +302,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
         int distSeguranca = 0;
 
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
-            if (perdeuControlo) {
+            if (perdeuControlo.get()) {
                 return;
             }
             if (mapaObj.getEstadoParado()) {
@@ -322,8 +315,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                         System.err.println(this + " Fiquei sem caminhos");
                         mapaObj.printJanelaCarros(this, "Fiquei sem caminhos");
                         enviaMensagem(Mensagem.TipoMensagem.Obstaculo, atual);
-                        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
-                        mapaObj.removeVeiculo(this);
+                        veiculoTermina();
                         // tornar o veiculo num obstaculo
                         mapaObj.addObstaculo(atual);
                         return;
@@ -392,14 +384,22 @@ public class Veiculo extends Observable implements Runnable, Observer {
             }
         }
 
-        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
         new Ajuda().sleep_entre(1000, 2000);
-        mapaObj.removeVeiculo(this);
+        veiculoTermina();
     }
 
     @Override
     public String toString() {
         return "id=" + id + " coordAtual=" + atual;
+    }
+
+    private void veiculoTermina() {
+        // se a minha posicao é um cruzamento
+        if (mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 == 5) {
+            mapaObj.libertaIntersecao(atual);
+        }
+        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
+        mapaObj.removeVeiculo(this);
     }
 
 }
