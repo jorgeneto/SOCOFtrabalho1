@@ -12,8 +12,8 @@ public class SharedVision {
 
         mapa.vistaGrafica();
 
-        mapa.addVeiculo(0, new Coordenadas(18, 5), new Coordenadas(0, 0));
-        mapa.addVeiculo(1, new Coordenadas(12, 14), new Coordenadas(0, 0));
+        mapa.addVeiculo(0, new Coordenadas(4, 5), new Coordenadas(4, 12));
+        mapa.addVeiculo(1, new Coordenadas(3, 12), new Coordenadas(3, 5));
 
         mapa.vistaCarros();
     }

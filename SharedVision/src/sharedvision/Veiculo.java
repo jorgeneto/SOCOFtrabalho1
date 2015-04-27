@@ -25,6 +25,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private ArrayList<Veiculo> veiculosProximos;
     private boolean sentidoContrarioAtivado = false;
     private boolean caminhoObstruido = false;
+    private boolean intersecao = false;
 
     private Mapa mapaObj;
 
@@ -329,15 +330,20 @@ public class Veiculo extends Observable implements Runnable, Observer {
                                 podeAndar = false;
                                 encontraObstaculo();
                                 return;
-                            case crE:
-                            case crM:
-                            case crP:
-                            case crW:
-                            case crN:
-                            case crG:
-                                enviaMensagem(Mensagem.TipoMensagem.ProximidadeDeIntersecao, proximo);
-                                mapaObj.printJanelaCarros(this, "ProximidadeDeIntersecao " + proximo);
-                                break;
+                        }
+                        // se a minha proxima posicao é uma intersecao e se a atual nao é
+                        if (mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 100 == 5 && mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 != 5) {
+                            enviaMensagem(Mensagem.TipoMensagem.ProximidadeDeIntersecao, proximo);
+                            mapaObj.printJanelaCarros(this, "ProximidadeDeIntersecao " + proximo);
+                            mapaObj.lockIntersecao(proximo);
+                            break;
+                        }
+                        // se a minha proxima posicao é uma intersecao e se a atual tambem é
+                        if (mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 100 == 5 && mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 == 5) {
+                        }
+                        // se a minha proxima posicao nao é uma intersecao e a atual  é
+                        if (mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 100 != 5 && mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 == 5) {
+                            mapaObj.libertaIntersecao(atual);
                         }
                     }
 

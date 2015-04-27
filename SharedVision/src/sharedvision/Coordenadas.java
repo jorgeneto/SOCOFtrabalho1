@@ -1,6 +1,6 @@
 package sharedvision;
 
-public class Coordenadas {
+public class Coordenadas implements Comparable<Coordenadas> {
 
     private int x;
     private int y;
@@ -37,6 +37,20 @@ public class Coordenadas {
             }
         }
         return false;
+    }
+
+    @Override
+    public int compareTo(Coordenadas obj) {
+        final int BEFORE = -1;
+        final int EQUAL = 0;
+        final int AFTER = 1;
+        if (this.x < obj.getX()) {
+            return BEFORE;
+        }
+        if (this.y < obj.getY()) {
+            return AFTER;
+        }
+        return EQUAL;
     }
 
 }

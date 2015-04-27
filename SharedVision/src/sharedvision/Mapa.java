@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import static java.lang.System.exit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -59,6 +60,7 @@ public class Mapa {
     };
 
     private JLabel[][] mapaGrafico = new JLabel[20][20];
+    private AtomicBoolean[][] mapaLock = new AtomicBoolean[20][20];
     private ArrayList<Veiculo> veiculos;
 
     private boolean selecaoAtiva, selecaoFinal = false;
@@ -73,6 +75,11 @@ public class Mapa {
 
     public Mapa() {
         veiculos = new ArrayList<>();
+        for (int i = 0; i < mapa.length; i++) {
+            for (int j = 0; j < mapa.length; j++) {
+                mapaLock[i][j] = new AtomicBoolean(false);
+            }
+        }
     }
 
     public int[][] getMapa() {
@@ -145,6 +152,120 @@ public class Mapa {
         }
     }
 
+    public synchronized boolean lockIntersecao(Coordenadas coord) {
+        while (mapaLock[coord.getX()][coord.getY()].get() == true) {
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+            }
+        }
+
+        ArrayList<Coordenadas> processadas = new ArrayList<>();
+        ArrayList<Coordenadas> faltaprocessar = new ArrayList<>();
+        faltaprocessar.add(coord);
+        ArrayList<Coordenadas> validas = new ArrayList<>();
+        Coordenadas aux, atual;
+        while (faltaprocessar.size() > 0) {
+            atual = new Coordenadas(faltaprocessar.get(0).getX(), faltaprocessar.get(0).getY());
+            processadas.add(faltaprocessar.remove(0));
+            switch (mapa[atual.getX()][atual.getY()]) {
+                case crE:
+                case crM:
+                case crP:
+                case crW:
+                case crN:
+                case crG:
+                    validas.add(atual);
+                    aux = new Coordenadas(atual.getX() + 1, atual.getY());
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    aux = new Coordenadas(atual.getX() - 1, atual.getY());
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    aux = new Coordenadas(atual.getX(), atual.getY() + 1);
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    aux = new Coordenadas(atual.getX(), atual.getY() - 1);
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    break;
+            }
+        }
+        Collections.sort(validas);
+        for (Coordenadas valida : validas) {
+            mapaLock[valida.getX()][valida.getY()].set(true);
+//            System.err.println("Adquire = " + valida);
+        }
+        notifyAll();
+        return true;
+    }
+
+    public synchronized boolean libertaIntersecao(Coordenadas coord) {
+        ArrayList<Coordenadas> processadas = new ArrayList<>();
+        ArrayList<Coordenadas> faltaprocessar = new ArrayList<>();
+        faltaprocessar.add(coord);
+        ArrayList<Coordenadas> validas = new ArrayList<>();
+        Coordenadas aux, atual;
+        while (faltaprocessar.size() > 0) {
+            atual = new Coordenadas(faltaprocessar.get(0).getX(), faltaprocessar.get(0).getY());
+            processadas.add(faltaprocessar.remove(0));
+            switch (mapa[atual.getX()][atual.getY()]) {
+                case crE:
+                case crM:
+                case crP:
+                case crW:
+                case crN:
+                case crG:
+                    validas.add(atual);
+                    aux = new Coordenadas(atual.getX() + 1, atual.getY());
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    aux = new Coordenadas(atual.getX() - 1, atual.getY());
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    aux = new Coordenadas(atual.getX(), atual.getY() + 1);
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    aux = new Coordenadas(atual.getX(), atual.getY() - 1);
+                    if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
+                        if (aux.getX() < mapa.length && aux.getY() < mapa.length && aux.getX() >= 0 && aux.getY() >= 0) {
+                            faltaprocessar.add(aux);
+                        }
+                    }
+                    break;
+            }
+        }
+        Collections.sort(validas);
+        for (Coordenadas valida : validas) {
+            mapaLock[valida.getX()][valida.getY()].set(false);
+//            System.err.println("Liberta = " + valida);
+        }
+        notifyAll();
+        return true;
+    }
+
+    //____________________________________________ INTERFACE GRAVICA ____________________________________________
     public void redesenhar(Coordenadas coord) {
         JLabel anterior;
 
