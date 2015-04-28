@@ -278,6 +278,35 @@ public class Mapa {
         anterior.revalidate();
         anterior.repaint();
     }
+    
+    public void redesenhar(VeiculoNormal v) {
+        JLabel anterior, atual;
+
+        //Repor icon que o carro ocupou antes
+        anterior = mapaGrafico[v.getAnterior().getX()][v.getAnterior().getY()];
+        anterior.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
+        anterior.setText("");
+        anterior.revalidate();
+        anterior.repaint();
+
+        //Compara-se os novos X e Y com os anteriores de forma a perceber o novo sentido do carro
+        //e redesenha-se o mapa consoante o mesmo
+        atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
+        if (v.getAtual().getX() > v.getAnterior().getX()) {
+            atual.setIcon(new ImageIcon("./img/carro_desce.png"));
+        } else {
+            atual.setIcon(new ImageIcon("./img/carro_sobe.png"));
+        }
+        if (v.getAtual().getY() > v.getAnterior().getY()) {
+            atual.setIcon(new ImageIcon("./img/carro_direita.png"));
+        }
+        if (v.getAtual().getY() < v.getAnterior().getY()) {
+            atual.setIcon(new ImageIcon("./img/carro_esquerda.png"));
+        }
+
+        atual.revalidate();
+        atual.repaint();
+    }
 
     public void redesenhar(Veiculo v) {
         JLabel anterior, atual;

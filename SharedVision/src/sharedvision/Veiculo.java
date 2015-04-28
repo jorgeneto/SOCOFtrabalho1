@@ -37,7 +37,6 @@ public class Veiculo extends Observable implements Runnable, Observer {
         this.mapaObj = mapaObj;
 
         this.veiculosProximos = new ArrayList<>();
-        //this.addObserver(o);
     }
 
     public Coordenadas getAnterior() {
