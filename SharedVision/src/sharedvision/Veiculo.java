@@ -330,28 +330,30 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private boolean desviaColisao(Coordenadas coord, int probabilidade) {
         int mapa[][] = mapaObj.getMapa();
         mapa[coord.getX()][coord.getY()] = Obs;
+        ArrayList<Coordenadas> caminhoAux;
 
         try {
             Astar astar = new Astar(mapa, 0);
-            caminho = new ArrayList<>();
-            caminho = astar.caminho(atual, fim);
+            caminhoAux = new ArrayList<>();
+            caminhoAux = astar.caminho(atual, fim);
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("ASTAR estourou por isso o caminho e de 0,4 ate 0,0");
-            caminho = new ArrayList<>();
-            caminho.add(new Coordenadas(0, 4));
-            caminho.add(new Coordenadas(0, 3));
-            caminho.add(new Coordenadas(0, 2));
-            caminho.add(new Coordenadas(0, 1));
-            caminho.add(new Coordenadas(0, 0));
+            caminhoAux = new ArrayList<>();
+            caminhoAux.add(new Coordenadas(0, 4));
+            caminhoAux.add(new Coordenadas(0, 3));
+            caminhoAux.add(new Coordenadas(0, 2));
+            caminhoAux.add(new Coordenadas(0, 1));
+            caminhoAux.add(new Coordenadas(0, 0));
             fim = new Coordenadas(0, 0);
             //return false;
         }
-        if (caminho == null) {
+        if (caminhoAux == null) {
             return false;
         } else {
+            caminho = caminhoAux;
             new Ajuda().sleepDuracao(200);
-            String aux = new Ajuda().printCaminho(caminho);
+            String aux = new Ajuda().printCaminho(caminhoAux);
             mapaObj.printJanelaCarros(this, "caminho= " + aux);
             return true;
         }
@@ -453,7 +455,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                                             return;
                                         }
                                     } else {
-                                        
+
                                     }
                                     break;
                                 }
@@ -472,7 +474,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                                         veiculoTermina();
                                         return;
                                     } else {
-                                        
+
                                     }
                                 }
                             }
