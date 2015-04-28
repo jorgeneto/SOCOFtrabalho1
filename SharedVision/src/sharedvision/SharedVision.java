@@ -16,6 +16,16 @@ public class SharedVision {
         mapa.addVeiculo(0, new Coordenadas(0, 0), new Coordenadas(19, 0));
         mapa.addVeiculo(1, new Coordenadas(19, 0), new Coordenadas(0, 0));
         
+        VeiculoNormal vn = new VeiculoNormal(mapa, new Coordenadas(19, 19), new Coordenadas(0, 0));
+//        Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim);
+//        for (Veiculo veiculo : veiculos) {
+//            veiculo.adicionaObserver(novoVeiculo);
+//            novoVeiculo.adicionaObserver(veiculo);
+//        }
+//        veiculos.add(novoVeiculo);
+
+        new Thread(vn).start();
+        
 //        mapa.addVeiculo(0, new Coordenadas(3, 4), new Coordenadas(0, 0));
 //        mapa.addVeiculo(1, new Coordenadas(19, 18), new Coordenadas(12, 0));
         
