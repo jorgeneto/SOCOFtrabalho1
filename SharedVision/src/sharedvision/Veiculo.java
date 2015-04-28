@@ -129,10 +129,15 @@ public class Veiculo extends Observable implements Runnable, Observer {
             case ProximidadeDeIntersecao:
                 break;
             case PerigoColisaoFrontal:
+                   if (Math.abs(mensagem.getPerigoCoord().getX() - atual.getX()) < 7) {
+                    if (Math.abs(mensagem.getPerigoCoord().getY() - atual.getY()) < 7) {
+                        mapaObj.printJanelaCarros(this, "Perigo de colisão frontal entre " + mensagem.getVeiculo() + " e " + this.id);
+                    } 
+                }
                 break;
         }
     }
-
+ 
     private boolean procuraCaminho() {
         try {
             Astar astar = new Astar(mapaObj.getMapa(), 0);
@@ -353,7 +358,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                         // se a minha proxima posicao é uma intersecao e se a atual nao é
                         if (mapaObj.getMapa()[proximo.getX()][proximo.getY()] / 100 == 5 && mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 != 5) {
                             enviaMensagem(Mensagem.TipoMensagem.ProximidadeDeIntersecao, proximo);
-                            mapaObj.printJanelaCarros(this, "ProximidadeDeIntersecao " + proximo);
+                            mapaObj.printJanelaCarros(this, "Proximidade De Intersecao " + proximo);
                             mapaObj.lockIntersecao(proximo);
                             break;
                         }
@@ -366,9 +371,16 @@ public class Veiculo extends Observable implements Runnable, Observer {
                         }
                     }
 
-                    for (Veiculo veiculo : veiculosProximos) {
+                    for (Veiculo veiculo : veiculosProximos) {                    
+                        
                         if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
                             podeAndar = false;
+                            
+                            for(Coordenadas coordenada : veiculo.caminho){
+                                if(coordenada.getX() == atual.getX() && coordenada.getY() == atual.getY()){
+                                    enviaMensagem(Mensagem.TipoMensagem.PerigoColisaoFrontal, atual);
+                                }
+                            }
                         }
                     }
                 }
