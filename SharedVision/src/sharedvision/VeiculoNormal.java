@@ -36,16 +36,9 @@ public class VeiculoNormal extends Observable implements Runnable {
         return atual;
     }
 
-    
-    //__________________________________________
-    //__________________________________________
-    //__________________________________________
-    //__________________________________________
-    //__________________________________________
-    //__________________________________________
-    public void enviaMensagem(Mensagem.TipoMensagem tipo, Coordenadas coordenadas) {
-//        this.setChanged();
-//        this.notifyObservers(new Mensagem(tipo, coordenadas, this));
+    public void enviaMensagem(Coordenadas coordenadas) {
+        this.setChanged();
+        this.notifyObservers(new Mensagem(coordenadas));
     }
 
     @Override
@@ -160,12 +153,11 @@ public class VeiculoNormal extends Observable implements Runnable {
         atual = new Coordenadas(aux.getX(), aux.getY());
         System.err.println("veiculo normal FICOU SEM CAMINHOS");
 //        mapaObj.printJanelaCarros(this, "veiculo normal FICOU SEM CAMINHOS");
-        enviaMensagem(Mensagem.TipoMensagem.Obstaculo, aux);
         veiculoTermina();
         // tornar o veiculo num obstaculo
         mapaObj.addObstaculo(aux);
     }
-    
+
     private int distSeguranca(int mapa) {
         int distSeguranca = 0;
         switch (mapa) {
@@ -229,7 +221,7 @@ public class VeiculoNormal extends Observable implements Runnable {
                 int menor = (caminho.size() < distSeguranca) ? caminho.size() : distSeguranca;
                 for (int i = 0; i < menor; i++) {
                     proximo = caminho.get(i);
-                    
+
                     //Caso a próxima posição seja um obstáculo, então envia-se um aviso aos outros carros
                     if (i == 0) {
                         switch (mapaObj.getMapa()[proximo.getX()][proximo.getY()]) {
@@ -253,7 +245,7 @@ public class VeiculoNormal extends Observable implements Runnable {
                     atual = caminho.remove(0);
                     System.out.println("veiculo normal  anda para " + atual);
                     mapaObj.redesenhar(this);
-                    enviaMensagem(Mensagem.TipoMensagem.Movimento, anterior);
+                    enviaMensagem(anterior);
                     new Ajuda().sleep_entre(500, 1000);
                 } else {
                     // nao pode andar
@@ -272,7 +264,7 @@ public class VeiculoNormal extends Observable implements Runnable {
     }
 
     private void veiculoTermina() {
-        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
+//        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
 //        mapaObj.removeVeiculo(this);
     }
 }
