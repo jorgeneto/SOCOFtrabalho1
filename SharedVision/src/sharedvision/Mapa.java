@@ -108,7 +108,7 @@ public class Mapa {
         atual.setIcon(escolheImagem(mapa[veiculo.getAnterior().getX()][veiculo.getAnterior().getY()]));
         atual.revalidate();
         atual.repaint();
-        
+
         if (veiculosNormais.contains(veiculo)) {
             veiculosNormais.remove(veiculo);
         }
@@ -256,6 +256,7 @@ public class Mapa {
                 case crW:
                 case crN:
                 case crG:
+                case Obs:
                     validas.add(atual);
                     aux = new Coordenadas(atual.getX() + 1, atual.getY());
                     if (!faltaprocessar.contains(aux) && !processadas.contains(aux)) {
