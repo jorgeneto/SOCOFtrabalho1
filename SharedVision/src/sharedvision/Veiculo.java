@@ -24,58 +24,66 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private Coordenadas fim;
     private ArrayList<Coordenadas> caminho;
     private ArrayList<Veiculo> veiculosProximos;
-    private ArrayList<VeiculoNormal> veiculosNormal;
+    private ArrayList<VeiculoNormal> veiculosNormais;
     private boolean sentidoContrarioAtivado = false;
     private boolean caminhoObstruido = false;
     private AtomicBoolean perdeuControlo = new AtomicBoolean(false);
-    
+
     private Mapa mapaObj;
-    
+
     public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim) {
         this.id = id;
         this.anterior = inicio;
         this.atual = inicio;
         this.fim = fim;
         this.mapaObj = mapaObj;
-        
+
         this.veiculosProximos = new ArrayList<>();
-        this.veiculosNormal = new ArrayList<>();
+        this.veiculosNormais = new ArrayList<>();
     }
-    
+
     public void addVeiculoNormal(VeiculoNormal veiculo) {
-        veiculosNormal.add(veiculo);
+        if (!veiculosNormais.contains(veiculo)) {
+            veiculosNormais.add(veiculo);
+        }
     }
-    
+
     public void removeVeiculoNormal(VeiculoNormal veiculo) {
-        veiculosNormal.remove(veiculo);
+        if (veiculosNormais.contains(veiculo)) {
+            veiculosNormais.remove(veiculo);
+        }
     }
-    
+
     public Coordenadas getAnterior() {
         return anterior;
     }
-    
+
     public Coordenadas getAtual() {
         return atual;
     }
-    
+
     public int getId() {
         return id;
     }
-    
+
+    public ArrayList<Coordenadas> getCaminho() {
+        return caminho;
+    }
+
     public void perdaControlo() {
         perdeuControlo.set(true);
-        
+
         mapaObj.printJanelaCarros(this, "Veiculo " + id + " perdeu o controlo");
         enviaMensagem(Mensagem.TipoMensagem.PerdaDeControlo, atual);
         veiculoTermina();
         // tornar o veiculo num obstaculo
         mapaObj.addObstaculo(atual);
     }
-    
+
     public void adicionaObserver(Observer o) {
         this.addObserver(o);
     }
-    
+
     public void enviaMensagem(Mensagem.TipoMensagem tipo, Coordenadas coordenadas) {
         for (int i = 0; i < veiculosProximos.size(); i++) {
             try {
@@ -87,7 +95,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
         this.setChanged();
         this.notifyObservers(new Mensagem(tipo, coordenadas, this));
     }
-    
+
     @Override
     public void update(Observable o, Object m) {
         Mensagem mensagem = (Mensagem) m;
@@ -146,11 +154,11 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 }
                 break;
             case VeiculoNormal:
-                
+
                 break;
         }
     }
-    
+
     private boolean procuraCaminho() {
         try {
             Astar astar = new Astar(mapaObj.getMapa(), 0);
@@ -178,7 +186,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
             return true;
         }
     }
-    
+
     private int distSeguranca(int mapa) {
         int distSeguranca = 0;
         switch (mapa) {
@@ -227,16 +235,16 @@ public class Veiculo extends Observable implements Runnable, Observer {
         }
         return distSeguranca;
     }
-    
+
     @Override
     public void run() {
         if (!procuraCaminho()) {
             veiculoTermina();
         }
-        
+
         simulaVeiculoAndar();
     }
-    
+
     public boolean posicaoValida(Coordenadas coord) {
         if (coord.getX() >= mapaObj.getMapa().length || coord.getY() >= mapaObj.getMapa().length || coord.getX() < 0 || coord.getY() < 0) {
             return false;
@@ -256,10 +264,10 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 return false;
         }
     }
-    
+
     public void encontraObstaculo() {
         Coordenadas aux = new Coordenadas(atual.getX(), atual.getY());
-        
+
         System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
@@ -317,11 +325,11 @@ public class Veiculo extends Observable implements Runnable, Observer {
         // tornar o veiculo num obstaculo
         mapaObj.addObstaculo(aux);
     }
-    
+
     private void simulaVeiculoAndar() {
         Coordenadas proximo;
         int distSeguranca = 0;
-        
+
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
             if (perdeuControlo.get()) {
                 return;
@@ -383,15 +391,23 @@ public class Veiculo extends Observable implements Runnable, Observer {
                             mapaObj.libertaIntersecao(atual);
                         }
                     }
-                    
+
                     for (Veiculo veiculo : veiculosProximos) {
-                        
                         if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
                             podeAndar = false;
-                            
-                            for (Coordenadas coordenada : veiculo.caminho) {
+                            for (Coordenadas coordenada : veiculo.getCaminho()) {
                                 if (coordenada.getX() == atual.getX() && coordenada.getY() == atual.getY()) {
                                     enviaMensagem(Mensagem.TipoMensagem.PerigoColisaoFrontal, atual);
+                                }
+                            }
+                        }
+                    }
+                    for (VeiculoNormal veiculo : veiculosNormais) {
+                        if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
+                            podeAndar = false;
+                            for (Coordenadas coordenada : veiculo.getCaminho()) {
+                                if (coordenada.getX() == atual.getX() && coordenada.getY() == atual.getY()) {
+                                    mapaObj.printJanelaCarros(this, "Um veiculo normal vai bater contra mim AHAHAHA!!! :(");
                                 }
                             }
                         }
@@ -411,16 +427,16 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 }
             }
         }
-        
+
         new Ajuda().sleep_entre(1000, 2000);
         veiculoTermina();
     }
-    
+
     @Override
     public String toString() {
         return "id=" + id + " coordAtual=" + atual;
     }
-    
+
     private void veiculoTermina() {
         // se a minha posicao é um cruzamento
         if (mapaObj.getMapa()[atual.getX()][atual.getY()] / 100 == 5) {
@@ -429,5 +445,5 @@ public class Veiculo extends Observable implements Runnable, Observer {
         enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
         mapaObj.removeVeiculo(this);
     }
-    
+
 }

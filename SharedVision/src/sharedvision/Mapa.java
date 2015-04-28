@@ -62,6 +62,7 @@ public class Mapa {
     private JLabel[][] mapaGrafico = new JLabel[20][20];
     private AtomicBoolean[][] mapaLock = new AtomicBoolean[20][20];
     private ArrayList<Veiculo> veiculos;
+    private ArrayList<VeiculoNormal> veiculosNormais;
 
     private boolean selecaoAtiva, selecaoFinal = false;
     private final Coordenadas coord1 = new Coordenadas(-1, -1);
@@ -75,6 +76,7 @@ public class Mapa {
 
     public Mapa() {
         veiculos = new ArrayList<>();
+        veiculosNormais = new ArrayList<>();
         for (int i = 0; i < mapa.length; i++) {
             for (int j = 0; j < mapa.length; j++) {
                 mapaLock[i][j] = new AtomicBoolean(false);
@@ -88,6 +90,31 @@ public class Mapa {
 
     public boolean getEstadoParado() {
         return estadoParado;
+    }
+
+    public void addVeiculoNormal(Coordenadas inicio, Coordenadas fim) {
+        VeiculoNormal veiculo = new VeiculoNormal(this, inicio, fim);
+        if (!veiculosNormais.contains(veiculo)) {
+            veiculosNormais.add(veiculo);
+        }
+        for (Veiculo v : veiculos) {
+            v.addVeiculoNormal(veiculo);
+        }
+        new Thread(veiculo).start();
+    }
+
+    public void removeVeiculoNormal(VeiculoNormal veiculo) {
+        JLabel atual = mapaGrafico[veiculo.getAtual().getX()][veiculo.getAtual().getY()];
+        atual.setIcon(escolheImagem(mapa[veiculo.getAnterior().getX()][veiculo.getAnterior().getY()]));
+        atual.revalidate();
+        atual.repaint();
+        
+        if (veiculosNormais.contains(veiculo)) {
+            veiculosNormais.remove(veiculo);
+        }
+        for (Veiculo v : veiculos) {
+            v.removeVeiculoNormal(veiculo);
+        }
     }
 
     public void addObstaculo(Coordenadas coordenadas) {
@@ -110,7 +137,6 @@ public class Mapa {
     }
 
     public void addVeiculo(int id, Coordenadas inicio, Coordenadas fim) {
-
         Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim);
         for (Veiculo veiculo : veiculos) {
             veiculo.adicionaObserver(novoVeiculo);
@@ -278,7 +304,7 @@ public class Mapa {
         anterior.revalidate();
         anterior.repaint();
     }
-    
+
     public void redesenhar(VeiculoNormal v) {
         JLabel anterior, atual;
 

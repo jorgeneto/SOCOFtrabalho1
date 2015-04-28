@@ -36,6 +36,10 @@ public class VeiculoNormal extends Observable implements Runnable {
         return atual;
     }
 
+    public ArrayList<Coordenadas> getCaminho() {
+        return caminho;
+    }
+
     public void enviaMensagem(Coordenadas coordenadas) {
         this.setChanged();
         this.notifyObservers(new Mensagem(coordenadas));
@@ -264,6 +268,7 @@ public class VeiculoNormal extends Observable implements Runnable {
     }
 
     private void veiculoTermina() {
+        mapaObj.removeVeiculoNormal(this);
 //        enviaMensagem(Mensagem.TipoMensagem.Terminou, atual);
 //        mapaObj.removeVeiculo(this);
     }
