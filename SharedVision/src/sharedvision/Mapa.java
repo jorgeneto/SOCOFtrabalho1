@@ -85,7 +85,13 @@ public class Mapa {
     }
 
     public synchronized int[][] getMapa() {
-        return mapa;
+        int[][] aux = new int[mapa[0].length][mapa.length];
+        for (int i = 0; i < mapa.length; i++) {
+            for (int j = 0; j < mapa[i].length; j++) {
+                aux[i][j] = mapa[i][j];
+            }
+        }
+        return aux;
     }
 
     public boolean getEstadoParado() {
