@@ -37,7 +37,7 @@ public class Mapa {
 
     private int[][] mapa = {
         /*0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19*/
-        {B_N, E_N, E_N, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M},// 0
+        {crN, E_N, E_N, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, crM},// 0
         {B_N, E_N, E_N, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M},// 1
         {B_N, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, C_E},// 2
         {B_N, 000, 000, crE, crE, E_E, E_E, E_E, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE},// 3
@@ -49,14 +49,14 @@ public class Mapa {
         {crN, D_N, D_N, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE, E_E, E_E, C_E},// 9
         {crG, D_G, D_G, crE, crE, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, crE, D_E, crE, C_E},// 10
         {C_G, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_P, C_P},// 11
-        {C_G, 000, 000, B_E, C_E, 000, 000, B_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, 000, B_P, C_P},// 12
+        {C_G, 000, 000, B_E, C_E, 000, 000, crW, E_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, crW, 000, B_P, C_P},// 12
         {C_G, 000, 000, B_E, C_E, 000, 000, B_W, D_W, D_W, D_W, D_W, D_W, D_W, D_W, B_W, C_W, 000, B_P, C_P},// 13
         {C_G, 000, 000, B_E, C_E, 000, 000, B_W, C_W, 000, 000, 000, 000, 000, 000, B_W, C_W, 000, B_P, C_P},// 14
-        {C_G, 000, 000, B_E, C_E, 000, 000, crP, crP, E_P, E_P, E_P, E_P, E_P, E_P, crP, crP, E_P, E_P, C_P},// 15
-        {C_G, 000, 000, B_E, C_E, 000, 000, crP, crP, D_P, D_P, D_P, D_P, D_P, D_P, crP, crP, D_P, D_P, C_P},// 16
+        {C_G, 000, 000, B_E, C_E, 000, 000, crP, crP, E_P, E_P, E_P, E_P, E_P, E_P, crP, crP, E_P, crP, crP},// 15
+        {C_G, 000, 000, B_E, C_E, 000, 000, crP, crP, D_P, D_P, D_P, D_P, D_P, D_P, crP, crP, D_P, crP, crP},// 16
         {C_G, 000, 000, B_E, C_E, 000, 000, B_P, C_P, 000, 000, 000, 000, 000, 000, B_P, C_P, 000, 000, C_P},// 17
         {C_G, 000, 000, crE, crE, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, E_P, C_P, 000, 000, C_P},// 18
-        {C_G, E_G, E_G, crE, crE, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, crP, D_P, D_P, C_P},// 19
+        {crG, E_G, E_G, crE, crE, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, D_P, crP, D_P, D_P, crP},// 19
     };
 
     private JLabel[][] mapaGrafico = new JLabel[20][20];
