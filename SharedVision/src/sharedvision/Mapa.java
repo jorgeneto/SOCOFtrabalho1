@@ -167,11 +167,16 @@ public class Mapa implements KeyListener {
         veiculos.add(novoVeiculo);
 
         new Thread(novoVeiculo).start();
+
+        adicionarLinhaPrint(novoVeiculo);
     }
 
     public synchronized void removeVeiculo(Veiculo v) {
         // remove os prints da interface
         stringOutput.remove(veiculos.lastIndexOf(v));
+        panelPrint.remove(veiculos.lastIndexOf(v));
+        btnControlo.remove(veiculos.lastIndexOf(v));
+
         // remove o veiculo
         JLabel atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
         atual.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
@@ -867,34 +872,34 @@ public class Mapa implements KeyListener {
         painel_veiculo.add(painel_criacarros, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
-        for (Veiculo v : veiculos) {
-            JButton b = new JButton("Perder o controlo");
-            btnControlo.add(b);
-            b.addActionListener((ActionEvent e) -> {
-                v.perdaControlo();
-            });
-        }
-
+//        for (Veiculo v : veiculos) {
+//            JButton b = new JButton("Perder o controlo");
+//            btnControlo.add(b);
+//            b.addActionListener((ActionEvent e) -> {
+//                v.perdaControlo();
+//            });
+//        }
         for (int i = 0; i < veiculos.size(); i++) {
-            painel_veiculo = new JPanel(new BorderLayout());
-
-            painel_input = new JPanel(new GridLayout(2, 1));
-            label = new JLabel("Veiculo " + veiculos.get(i).getId());
-            label.setFont(new Font("Arial", Font.BOLD, 14));
-            label.setForeground(Color.red);
-            painel_input.add(label);
-            painel_input.add(btnControlo.get(i));
-//            painel_input.add(new JButton("Perder o controlo"));
-            painel_veiculo.add(painel_input, BorderLayout.WEST);
-
-            panelPrint.add(new JPanel(new FlowLayout()));
-            stringOutput.add(new JTextArea("Mensagems do veiculo " + i));
-            stringOutput.get(i).setEditable(false);
-            stringOutput.get(i).setBackground(new Color(238, 238, 238));
-            panelPrint.get(i).add(stringOutput.get(i));
-            painel_veiculo.add(panelPrint.get(i), BorderLayout.CENTER);
-
-            painel_principal.add(painel_veiculo);
+            adicionarLinhaPrint(veiculos.get(i));
+//            painel_veiculo = new JPanel(new BorderLayout());
+//
+//            painel_input = new JPanel(new GridLayout(2, 1));
+//            label = new JLabel("Veiculo " + veiculos.get(i).getId());
+//            label.setFont(new Font("Arial", Font.BOLD, 14));
+//            label.setForeground(Color.red);
+//            painel_input.add(label);
+//            painel_input.add(btnControlo.get(i));
+////            painel_input.add(new JButton("Perder o controlo"));
+//            painel_veiculo.add(painel_input, BorderLayout.WEST);
+//
+//            panelPrint.add(new JPanel(new FlowLayout()));
+//            stringOutput.add(new JTextArea("Mensagems do veiculo " + i));
+//            stringOutput.get(i).setEditable(false);
+//            stringOutput.get(i).setBackground(new Color(238, 238, 238));
+//            panelPrint.get(i).add(stringOutput.get(i));
+//            painel_veiculo.add(panelPrint.get(i), BorderLayout.CENTER);
+//
+//            painel_principal.add(painel_veiculo);
         }
         frame.add(painel_principal, BorderLayout.CENTER);
 
@@ -943,6 +948,36 @@ public class Mapa implements KeyListener {
         frame.pack();
         frame.revalidate();
         frame.repaint();
+    }
+
+    private void adicionarLinhaPrint(Veiculo v) {
+        int id_veiculo = veiculos.lastIndexOf(v);
+
+        JButton b = new JButton("Perder o controlo");
+        btnControlo.add(b);
+        b.addActionListener((ActionEvent e) -> {
+            v.perdaControlo();
+        });
+
+        painel_veiculo = new JPanel(new BorderLayout());
+
+        painel_input = new JPanel(new GridLayout(2, 1));
+        label = new JLabel("Veiculo " + veiculos.get(id_veiculo).getId());
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        label.setForeground(Color.red);
+        painel_input.add(label);
+        painel_input.add(btnControlo.get(id_veiculo));
+//            painel_input.add(new JButton("Perder o controlo"));
+        painel_veiculo.add(painel_input, BorderLayout.WEST);
+
+        panelPrint.add(new JPanel(new FlowLayout()));
+        stringOutput.add(new JTextArea("Mensagems do veiculo " + id_veiculo));
+        stringOutput.get(id_veiculo).setEditable(false);
+        stringOutput.get(id_veiculo).setBackground(new Color(238, 238, 238));
+        panelPrint.get(id_veiculo).add(stringOutput.get(id_veiculo));
+        painel_veiculo.add(panelPrint.get(id_veiculo), BorderLayout.CENTER);
+
+        painel_principal.add(painel_veiculo);
     }
 
     private void controloVeiculoNormal() {
