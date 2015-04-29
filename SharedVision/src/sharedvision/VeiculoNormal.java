@@ -221,28 +221,41 @@ public class VeiculoNormal extends Observable implements Runnable {
     }
 
     public void proximaPosicao(int controlo) {
+        Coordenadas aux;
 
         caminho = new ArrayList<Coordenadas>();
         switch (controlo) {
             //Cima
             case 1:
-                proximaPosicao = new Coordenadas(atual.getX() - 1, atual.getY());
-                caminho.add(proximaPosicao);
+                aux = new Coordenadas(atual.getX() - 1, atual.getY());
+                if (aux.getX() >= 0 && aux.getX() < 20 && aux.getY() >= 0 && aux.getY() < 20) {
+                    proximaPosicao = aux;
+                    caminho.add(proximaPosicao);
+                }
                 break;
             //Esquerda
             case 2:
-                proximaPosicao = new Coordenadas(atual.getX(), atual.getY() - 1);
-                caminho.add(proximaPosicao);
+                aux = new Coordenadas(atual.getX(), atual.getY() - 1);
+                if (aux.getX() >= 0 && aux.getX() < 20 && aux.getY() >= 0 && aux.getY() < 20) {
+                    proximaPosicao = aux;
+                    caminho.add(proximaPosicao);
+                }
                 break;
             //Baixo
             case 3:
-                proximaPosicao = new Coordenadas(atual.getX() + 1, atual.getY());
-                caminho.add(proximaPosicao);
+                aux = new Coordenadas(atual.getX() + 1, atual.getY());
+                if (aux.getX() >= 0 && aux.getX() < 20 && aux.getY() >= 0 && aux.getY() < 20) {
+                    proximaPosicao = aux;
+                    caminho.add(proximaPosicao);
+                }
                 break;
             //Direita
             case 4:
-                proximaPosicao = new Coordenadas(atual.getX(), atual.getY() + 1);
-                caminho.add(proximaPosicao);
+                aux = new Coordenadas(atual.getX(), atual.getY() + 1);
+                if (aux.getX() >= 0 && aux.getX() < 20 && aux.getY() >= 0 && aux.getY() < 20) {
+                    proximaPosicao = aux;
+                    caminho.add(proximaPosicao);
+                }
                 break;
         }
         numeroPosicoesAndadas++;

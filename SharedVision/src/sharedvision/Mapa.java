@@ -938,7 +938,7 @@ public class Mapa implements KeyListener {
     private void controloVeiculoNormal() {
 
         JFrame frame = new JFrame("Controlo Manual");
-       // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
         JPanel jp = new JPanel();
@@ -963,7 +963,7 @@ public class Mapa implements KeyListener {
         buttonRight.addActionListener((ActionEvent e) -> {
             keyPressed(new KeyEvent(buttonRight, 1, 21, 10, KeyEvent.VK_RIGHT));
         });
-        
+
         jp.add(buttonUp);
         jp.add(buttonLeft);
         jp.add(buttonDown);
@@ -983,18 +983,19 @@ public class Mapa implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == e.VK_UP) {
-            //System.err.println("CIMA");
-            veiculosNormais.get(0).proximaPosicao(1);
-        }
-        if (e.getKeyCode() == e.VK_LEFT) {
-            veiculosNormais.get(0).proximaPosicao(2);
-        }
-        if (e.getKeyCode() == e.VK_DOWN) {
-            veiculosNormais.get(0).proximaPosicao(3);
-        }
-        if (e.getKeyCode() == e.VK_RIGHT) {
-            veiculosNormais.get(0).proximaPosicao(4);
+        if (veiculosNormais.size() > 0) {
+            if (e.getKeyCode() == e.VK_UP) {
+                veiculosNormais.get(0).proximaPosicao(1);
+            }
+            if (e.getKeyCode() == e.VK_LEFT) {
+                veiculosNormais.get(0).proximaPosicao(2);
+            }
+            if (e.getKeyCode() == e.VK_DOWN) {
+                veiculosNormais.get(0).proximaPosicao(3);
+            }
+            if (e.getKeyCode() == e.VK_RIGHT) {
+                veiculosNormais.get(0).proximaPosicao(4);
+            }
         }
     }
 
