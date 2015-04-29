@@ -169,7 +169,7 @@ public class Mapa {
             Object[] options = {"Sim",
                 "Não"};
             int janela = JOptionPane.showOptionDialog(frame,
-                    "Todos os veiculos terminaram deseja fechar ?",
+                    "Todos os veículos inteligentes terminaram, deseja fechar ?",
                     "Desligar",
                     JOptionPane.OK_OPTION,
                     JOptionPane.CANCEL_OPTION,
@@ -657,16 +657,24 @@ public class Mapa {
                                 if (mapaGrafico[i][j].equals(e.getComponent())) {
                                     if (selecaoFinal) {
                                         coordFinal.setCoordenadas(i, j);
+                                        nXf.setText("" + coordFinal.getX());
+                                        nYf.setText("" + coordFinal.getY());
                                         //System.err.println("FIM " + coordFinal.getX() + " " + coordFinal.getY());
+                                        selecaoFinal = false;
                                         return;
+
                                     } else if (selecaoAtiva) {
-                                        coord1.setCoordenadas(i, j);
                                         coordInicial.setCoordenadas(i, j);
+                                        coord1.setCoordenadas(i, j);
+                                        nXi.setText("" + coordInicial.getX());
+                                        nYi.setText("" + coordInicial.getY());
                                         //System.err.println("INICIO " + coordInicial.getX() + " " + coordInicial.getY());
+                                        selecaoAtiva = false;
                                         return;
                                     } else {
                                         coord1.setCoordenadas(i, j);
                                     }
+
                                 }
                             }
                         }
@@ -732,6 +740,8 @@ public class Mapa {
     private ArrayList<JTextArea> stringOutput = new ArrayList<>();
     private ArrayList<JPanel> panelPrint = new ArrayList<>();
     private JFrame frame;
+    private boolean sentidoInvertido = false;
+    private JButton btnAddNormal, flag;
     private ArrayList<JButton> btnControlo = new ArrayList<>();
 
     //Método que gera o mapa
@@ -749,23 +759,31 @@ public class Mapa {
         painel_veiculo = new JPanel(new BorderLayout());
 
         painel_input = new JPanel(new GridLayout(4, 1));
-        label = new JLabel("Novo veiculo");
-        label.setFont(new Font("Arial", Font.BOLD, 14));
-        label.setForeground(Color.BLUE);
-        painel_input.add(label);
-        btn = new JButton("Adicionar novo veiculo");
+
+        btn = new JButton("Adicionar veículo inteligente");
         btn.addActionListener((ActionEvent e) -> {
             if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
-                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())), false);
-            }
-            if (!nID.getText().equals("") && coordInicial.getX() != -1 && coordInicial.getY() != -1 && coordFinal.getX() != -1 && coordFinal.getY() != -1) {
-                System.err.println("Caminho entre: " + coordInicial.getX() + ", " + coordInicial.getY() + " a " + coordFinal.getX() + ", " + coordFinal.getY());
-                addVeiculo(Integer.parseInt(nID.getText()), coordInicial, coordFinal, false);
-                selecaoFinal = false;
-                selecaoAtiva = false;
+                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())), sentidoInvertido);
+                nXi.setText("");
+                nXf.setText("");
+                nYi.setText("");
+                nYf.setText("");
             }
         });
         painel_input.add(btn);
+
+        btnAddNormal = new JButton("Adicionar veículo normal");
+        btnAddNormal.addActionListener((ActionEvent e) -> {
+            if (!nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
+                addVeiculoNormal(new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
+                nXi.setText("");
+                nXf.setText("");
+                nYi.setText("");
+                nYf.setText("");
+            }
+        });
+        painel_input.add(btnAddNormal);
+
         btn = new JButton("Parar Veiculos");
         btn.addActionListener((ActionEvent e) -> {
             if (estadoParado) {
@@ -801,6 +819,16 @@ public class Mapa {
         painel_output.add(nXf = new JTextField(2));
         painel_output.add(new JLabel("Y"));
         painel_output.add(nYf = new JTextField(2));
+        painel_output.add(flag = new JButton("Normal"));
+         flag.addActionListener((ActionEvent e) -> {
+            if (sentidoInvertido) {
+                ((JButton) e.getSource()).setText("Normal");
+                sentidoInvertido = false;
+            } else {
+                ((JButton) e.getSource()).setText("Inverter");
+                sentidoInvertido = true;
+            }
+        });
         painel_veiculo.add(painel_output, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
