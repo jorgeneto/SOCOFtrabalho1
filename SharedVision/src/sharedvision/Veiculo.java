@@ -500,7 +500,8 @@ public class Veiculo extends Observable implements Runnable, Observer {
                     new Ajuda().sleep_entre(500, 1000);
                 } else {
                     // nao pode andar
-//                    new Ajuda().sleep_entre(200, 400);
+                    enviaMensagem(Mensagem.TipoMensagem.Movimento, atual);
+                    new Ajuda().sleep_entre(200, 400);
                 }
             }
         }

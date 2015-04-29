@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import static java.lang.System.exit;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class Mapa {
+public class Mapa implements KeyListener {
 
     // Cima = 100.  Estrada = 00.  Molhado 1.     Estrada para cima molhada = 100 + 000 + 1 = 101
     private final int C_E = 100, E_E = 200, B_E = 300, D_E = 400, crE = 500;// Estrada
@@ -69,10 +71,9 @@ public class Mapa {
     private final Coordenadas coordInicial = new Coordenadas(-1, -1);
     private final Coordenadas coordFinal = new Coordenadas(-1, -1);
 
-    private JPanel painel_veiculo, painel_input, painel_output, painel_principal;
     private JButton btn, btnEscolherMapaInicio, btnEscolherMapaFim;
     private JLabel label;
-    private boolean estadoParado = false;
+    private boolean estadoParado = false, telecomandado = true;
 
     public Mapa() {
         veiculos = new ArrayList<>();
@@ -99,14 +100,23 @@ public class Mapa {
     }
 
     public synchronized void addVeiculoNormal(Coordenadas inicio, Coordenadas fim) {
-        VeiculoNormal veiculo = new VeiculoNormal(this, inicio, fim);
-        if (!veiculosNormais.contains(veiculo)) {
-            veiculosNormais.add(veiculo);
+        VeiculoNormal veiculo;
+        if (veiculosNormais.size() == 0) {
+            if (telecomandado) {
+                veiculo = new VeiculoNormal(this, inicio, fim, true);
+                controloVeiculoNormal();
+            } else {
+                veiculo = new VeiculoNormal(this, inicio, fim, false);
+            }
+
+            if (!veiculosNormais.contains(veiculo)) {
+                veiculosNormais.add(veiculo);
+            }
+            for (Veiculo v : veiculos) {
+                v.addVeiculoNormal(veiculo);
+            }
+            new Thread(veiculo).start();
         }
-        for (Veiculo v : veiculos) {
-            v.addVeiculoNormal(veiculo);
-        }
-        new Thread(veiculo).start();
     }
 
     public synchronized void removeVeiculoNormal(VeiculoNormal veiculo) {
@@ -741,7 +751,8 @@ public class Mapa {
     private ArrayList<JPanel> panelPrint = new ArrayList<>();
     private JFrame frame;
     private boolean sentidoInvertido = false;
-    private JButton btnAddNormal, flag;
+    private JButton btnAddNormal, flag, btnControloManual;
+    private JPanel painel_veiculo, painel_input, painel_output, painel_principal, painel_criacarros;
     private ArrayList<JButton> btnControlo = new ArrayList<>();
 
     //Método que gera o mapa
@@ -820,7 +831,7 @@ public class Mapa {
         painel_output.add(new JLabel("Y"));
         painel_output.add(nYf = new JTextField(2));
         painel_output.add(flag = new JButton("Normal"));
-         flag.addActionListener((ActionEvent e) -> {
+        flag.addActionListener((ActionEvent e) -> {
             if (sentidoInvertido) {
                 ((JButton) e.getSource()).setText("Normal");
                 sentidoInvertido = false;
@@ -829,7 +840,22 @@ public class Mapa {
                 sentidoInvertido = true;
             }
         });
-        painel_veiculo.add(painel_output, BorderLayout.CENTER);
+        painel_criacarros = new JPanel(new GridLayout(2, 1));
+        painel_criacarros.add(painel_output);
+
+        JPanel painel_aux = new JPanel((new FlowLayout()));
+        painel_aux.add(btnControloManual = new JButton("Controlo Manual Ligado"));
+         btnControloManual.addActionListener((ActionEvent e) -> {
+            if (telecomandado) {
+                ((JButton) e.getSource()).setText("Controlo Manual Ligado");
+                telecomandado = false;
+            } else {
+                ((JButton) e.getSource()).setText("Controlo Manual Desligado");
+                telecomandado = true;
+            }
+        });
+        painel_criacarros.add(painel_aux);
+        painel_veiculo.add(painel_criacarros, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
         for (Veiculo v : veiculos) {
@@ -907,5 +933,64 @@ public class Mapa {
         frame.pack();
         frame.revalidate();
         frame.repaint();
+    }
+
+    private void controloVeiculoNormal() {
+
+        JFrame frame = new JFrame("Controlo Manual");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+
+        JPanel jp = new JPanel();
+
+        JButton buttonUp = new JButton("↑");
+        buttonUp.addKeyListener(this);
+        //buttonUp.setVisible(false);
+        JButton buttonLeft = new JButton("←");
+        buttonLeft.addKeyListener(this);
+        //buttonLeft.setVisible(false);
+        JButton buttonDown = new JButton("↓");
+        buttonDown.addKeyListener(this);
+        //buttonDown.setVisible(false);
+        JButton buttonRight = new JButton("→");
+        buttonRight.addKeyListener(this);
+        //buttonRight.setVisible(false);
+
+        jp.add(buttonUp);
+        jp.add(buttonLeft);
+        jp.add(buttonDown);
+        jp.add(buttonRight);
+
+        frame.add(jp);
+
+        frame.pack();
+        //5. Mostra a janela
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == e.VK_UP) {
+            veiculosNormais.get(0).proximaPosicao(1);
+        }
+        if (e.getKeyCode() == e.VK_LEFT) {
+            veiculosNormais.get(0).proximaPosicao(2);
+        }
+        if (e.getKeyCode() == e.VK_DOWN) {
+            veiculosNormais.get(0).proximaPosicao(3);
+        }
+        if (e.getKeyCode() == e.VK_RIGHT) {
+            veiculosNormais.get(0).proximaPosicao(4);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+
     }
 }

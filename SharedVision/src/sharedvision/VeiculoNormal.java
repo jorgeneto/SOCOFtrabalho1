@@ -20,12 +20,16 @@ public class VeiculoNormal extends Observable implements Runnable {
     private Coordenadas fim;
     private ArrayList<Coordenadas> caminho;
     private Mapa mapaObj;
+    private boolean controlar;
+    private Coordenadas proximaPosicao;
+    private int numeroPosicoesAndadas = 0;
 
-    public VeiculoNormal(Mapa mapaObj, Coordenadas inicio, Coordenadas fim) {
+    public VeiculoNormal(Mapa mapaObj, Coordenadas inicio, Coordenadas fim, boolean controlar) {
         this.anterior = inicio;
         this.atual = inicio;
         this.fim = fim;
         this.mapaObj = mapaObj;
+        this.controlar = controlar;
     }
 
     public Coordenadas getAnterior() {
@@ -47,11 +51,16 @@ public class VeiculoNormal extends Observable implements Runnable {
 
     @Override
     public void run() {
-        if (!procuraCaminho()) {
-            veiculoTermina();
+
+        if (!controlar) {
+            if (!procuraCaminho()) {
+                veiculoTermina();
+            }
+            simulaVeiculoAndar();
+        } else {
+            simulaVeiculoManual();
         }
 
-        simulaVeiculoAndar();
     }
 
     private boolean procuraCaminho() {
@@ -209,6 +218,50 @@ public class VeiculoNormal extends Observable implements Runnable {
                 break;
         }
         return distSeguranca;
+    }
+
+    public void proximaPosicao(int controlo) {
+
+        Coordenadas aux;
+        caminho = new ArrayList<Coordenadas>();
+        switch (controlo) {
+            //Cima
+            case 1:
+                aux = new Coordenadas(atual.getX() - 1, atual.getY());
+                caminho.add(aux);
+                break;
+            //Esquerda
+            case 2:
+                aux = new Coordenadas(atual.getX(), atual.getY() - 1);
+                caminho.add(aux);
+                break;
+            //Baixo
+            case 3:
+                aux = new Coordenadas(atual.getX() + 1, atual.getY());
+                caminho.add(aux);
+                break;
+            //Direita
+            case 4:
+                aux = new Coordenadas(atual.getX(), atual.getY() + 1);
+                caminho.add(aux);
+                break;
+        }
+        numeroPosicoesAndadas++;
+    }
+
+    private void simulaVeiculoManual() {
+
+        int count = 0;
+        caminho = new ArrayList<Coordenadas>();
+        caminho.add(atual);
+        while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
+            new Ajuda().sleepDuracao(400);
+        }
+        if (numeroPosicoesAndadas > count) {
+            count = numeroPosicoesAndadas;
+            anterior = atual;
+            atual = proximaPosicao;
+        }
     }
 
     private void simulaVeiculoAndar() {

@@ -10,7 +10,7 @@ public class SharedVision {
 
         System.out.println(mapa);
 
-        mapa.vistaGrafica();
+        mapa.vistaGrafica();        
 
         // teste distancia de seguranca
         mapa.addVeiculo(0, new Coordenadas(0, 10), new Coordenadas(0, 0), false);
