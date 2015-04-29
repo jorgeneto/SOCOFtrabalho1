@@ -75,12 +75,6 @@ public class Mapa implements KeyListener {
     private JLabel label;
     private boolean estadoParado = false, telecomandado = true;
 
-    public void dizPosDoVeiculo() {
-        for (Veiculo v : veiculos) {
-            System.err.println("ultimoIndice = " + veiculos.lastIndexOf(v));
-        }
-    }
-
     public Mapa() {
         veiculos = new ArrayList<>();
         veiculosNormais = new ArrayList<>();
