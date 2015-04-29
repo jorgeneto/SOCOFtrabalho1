@@ -254,6 +254,7 @@ public class VeiculoNormal extends Observable implements Runnable {
         int count = 0;
         caminho = new ArrayList<Coordenadas>();
         caminho.add(atual);
+        mapaObj.redesenhar(this);
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
             new Ajuda().sleepDuracao(400);
         }
@@ -261,10 +262,12 @@ public class VeiculoNormal extends Observable implements Runnable {
             count = numeroPosicoesAndadas;
             anterior = atual;
             atual = proximaPosicao;
+            mapaObj.redesenhar(this);
         }
     }
 
     private void simulaVeiculoAndar() {
+        mapaObj.redesenhar(this);
         Coordenadas proximo;
         int distSeguranca = 0;
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {

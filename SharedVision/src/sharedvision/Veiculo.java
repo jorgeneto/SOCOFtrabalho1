@@ -368,6 +368,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
     }
 
     private void simulaVeiculoAndar() {
+        mapaObj.redesenhar(this);
         Coordenadas proximo;
         int distSeguranca = 0;
         int perigo_colisao = 5;
