@@ -84,7 +84,7 @@ public class Mapa {
         }
     }
 
-    public int[][] getMapa() {
+    public synchronized int[][] getMapa() {
         return mapa;
     }
 
@@ -117,7 +117,7 @@ public class Mapa {
         }
     }
 
-    public void addObstaculo(Coordenadas coordenadas) {
+    public synchronized void addObstaculo(Coordenadas coordenadas) {
         mapa[coordenadas.getX()][coordenadas.getY()] = Obs;
         Icon img = new ImageIcon("");
         switch (new Ajuda().random_entre(0, 3)) {
