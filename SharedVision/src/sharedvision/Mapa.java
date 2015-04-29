@@ -845,12 +845,12 @@ public class Mapa implements KeyListener {
 
         JPanel painel_aux = new JPanel((new FlowLayout()));
         painel_aux.add(btnControloManual = new JButton("Controlo Manual Ligado"));
-         btnControloManual.addActionListener((ActionEvent e) -> {
+        btnControloManual.addActionListener((ActionEvent e) -> {
             if (telecomandado) {
-                ((JButton) e.getSource()).setText("Controlo Manual Ligado");
+                ((JButton) e.getSource()).setText("Controlo Manual Desligado");
                 telecomandado = false;
             } else {
-                ((JButton) e.getSource()).setText("Controlo Manual Desligado");
+                ((JButton) e.getSource()).setText("Controlo Manual Ligado");
                 telecomandado = true;
             }
         });
@@ -938,24 +938,32 @@ public class Mapa implements KeyListener {
     private void controloVeiculoNormal() {
 
         JFrame frame = new JFrame("Controlo Manual");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
         JPanel jp = new JPanel();
 
         JButton buttonUp = new JButton("↑");
         buttonUp.addKeyListener(this);
-        //buttonUp.setVisible(false);
+        buttonUp.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(buttonUp, 1, 21, 10, KeyEvent.VK_UP));
+        });
         JButton buttonLeft = new JButton("←");
         buttonLeft.addKeyListener(this);
-        //buttonLeft.setVisible(false);
+        buttonLeft.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(buttonLeft, 1, 21, 10, KeyEvent.VK_LEFT));
+        });
         JButton buttonDown = new JButton("↓");
         buttonDown.addKeyListener(this);
-        //buttonDown.setVisible(false);
+        buttonDown.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(buttonDown, 1, 21, 10, KeyEvent.VK_DOWN));
+        });
         JButton buttonRight = new JButton("→");
         buttonRight.addKeyListener(this);
-        //buttonRight.setVisible(false);
-
+        buttonRight.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(buttonRight, 1, 21, 10, KeyEvent.VK_RIGHT));
+        });
+        
         jp.add(buttonUp);
         jp.add(buttonLeft);
         jp.add(buttonDown);
@@ -976,6 +984,7 @@ public class Mapa implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == e.VK_UP) {
+            //System.err.println("CIMA");
             veiculosNormais.get(0).proximaPosicao(1);
         }
         if (e.getKeyCode() == e.VK_LEFT) {

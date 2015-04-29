@@ -222,28 +222,27 @@ public class VeiculoNormal extends Observable implements Runnable {
 
     public void proximaPosicao(int controlo) {
 
-        Coordenadas aux;
         caminho = new ArrayList<Coordenadas>();
         switch (controlo) {
             //Cima
             case 1:
-                aux = new Coordenadas(atual.getX() - 1, atual.getY());
-                caminho.add(aux);
+                proximaPosicao = new Coordenadas(atual.getX() - 1, atual.getY());
+                caminho.add(proximaPosicao);
                 break;
             //Esquerda
             case 2:
-                aux = new Coordenadas(atual.getX(), atual.getY() - 1);
-                caminho.add(aux);
+                proximaPosicao = new Coordenadas(atual.getX(), atual.getY() - 1);
+                caminho.add(proximaPosicao);
                 break;
             //Baixo
             case 3:
-                aux = new Coordenadas(atual.getX() + 1, atual.getY());
-                caminho.add(aux);
+                proximaPosicao = new Coordenadas(atual.getX() + 1, atual.getY());
+                caminho.add(proximaPosicao);
                 break;
             //Direita
             case 4:
-                aux = new Coordenadas(atual.getX(), atual.getY() + 1);
-                caminho.add(aux);
+                proximaPosicao = new Coordenadas(atual.getX(), atual.getY() + 1);
+                caminho.add(proximaPosicao);
                 break;
         }
         numeroPosicoesAndadas++;
@@ -257,13 +256,15 @@ public class VeiculoNormal extends Observable implements Runnable {
         mapaObj.redesenhar(this);
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
             new Ajuda().sleepDuracao(400);
+
+            if (numeroPosicoesAndadas > count) {
+                count = numeroPosicoesAndadas;
+                anterior = atual;
+                atual = proximaPosicao;
+                mapaObj.redesenhar(this);
+            }
         }
-        if (numeroPosicoesAndadas > count) {
-            count = numeroPosicoesAndadas;
-            anterior = atual;
-            atual = proximaPosicao;
-            mapaObj.redesenhar(this);
-        }
+        veiculoTermina();
     }
 
     private void simulaVeiculoAndar() {
