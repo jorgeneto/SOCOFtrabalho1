@@ -136,8 +136,8 @@ public class Mapa {
         mapaGrafico[coordenadas.getX()][coordenadas.getY()].repaint();
     }
 
-    public void addVeiculo(int id, Coordenadas inicio, Coordenadas fim) {
-        Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim);
+    public void addVeiculo(int id, Coordenadas inicio, Coordenadas fim, boolean sentidoContrarioAtivado) {
+        Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim, sentidoContrarioAtivado);
         for (Veiculo veiculo : veiculos) {
             veiculo.adicionaObserver(novoVeiculo);
             novoVeiculo.adicionaObserver(veiculo);
@@ -750,11 +750,11 @@ public class Mapa {
         btn = new JButton("Adicionar novo veiculo");
         btn.addActionListener((ActionEvent e) -> {
             if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
-                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())));
+                addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())), false);
             }
             if (!nID.getText().equals("") && coordInicial.getX() != -1 && coordInicial.getY() != -1 && coordFinal.getX() != -1 && coordFinal.getY() != -1) {
                 System.err.println("Caminho entre: " + coordInicial.getX() + ", " + coordInicial.getY() + " a " + coordFinal.getX() + ", " + coordFinal.getY());
-                addVeiculo(Integer.parseInt(nID.getText()), coordInicial, coordFinal);
+                addVeiculo(Integer.parseInt(nID.getText()), coordInicial, coordFinal, false);
                 selecaoFinal = false;
                 selecaoAtiva = false;
             }

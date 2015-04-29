@@ -31,12 +31,13 @@ public class Veiculo extends Observable implements Runnable, Observer {
 
     private Mapa mapaObj;
 
-    public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim) {
+    public Veiculo(Mapa mapaObj, int id, Coordenadas inicio, Coordenadas fim, boolean sentidoContrarioAtivado) {
         this.id = id;
         this.anterior = inicio;
         this.atual = inicio;
         this.fim = fim;
         this.mapaObj = mapaObj;
+        this.sentidoContrarioAtivado = sentidoContrarioAtivado;
 
         this.veiculosProximos = new ArrayList<>();
         this.veiculosNormais = new ArrayList<>();
