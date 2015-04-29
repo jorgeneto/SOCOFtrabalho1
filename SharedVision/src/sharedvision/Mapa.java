@@ -75,6 +75,12 @@ public class Mapa implements KeyListener {
     private JLabel label;
     private boolean estadoParado = false, telecomandado = true;
 
+    public void dizPosDoVeiculo() {
+        for (Veiculo v : veiculos) {
+            System.err.println("ultimoIndice = " + veiculos.lastIndexOf(v));
+        }
+    }
+
     public Mapa() {
         veiculos = new ArrayList<>();
         veiculosNormais = new ArrayList<>();
@@ -164,6 +170,9 @@ public class Mapa implements KeyListener {
     }
 
     public synchronized void removeVeiculo(Veiculo v) {
+        // remove os prints da interface
+        stringOutput.remove(veiculos.lastIndexOf(v));
+        // remove o veiculo
         JLabel atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
         atual.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
         atual.revalidate();
@@ -896,10 +905,11 @@ public class Mapa implements KeyListener {
     }
 
     public void printJanelaCarros(Veiculo v, String print) {
-        if (v.getId() < stringOutput.size()) {
+        int id_veiculo = veiculos.lastIndexOf(v);
+        if (id_veiculo > -1 && id_veiculo < stringOutput.size()) {
             ArrayList<String> list = new ArrayList<>();
             //Partir o array
-            String[] splitArray = stringOutput.get(v.getId()).getText().split("\n");
+            String[] splitArray = stringOutput.get(id_veiculo).getText().split("\n");
             String aux = "";
 
             //Converter array em lista
@@ -923,9 +933,9 @@ public class Mapa implements KeyListener {
             }
             aux += print + "\n";
             //Metemos o texto sem o 1º elemento + o texto a imprimir na Text Area
-            stringOutput.get(v.getId()).setText(aux);
-            stringOutput.get(v.getId()).revalidate();
-            stringOutput.get(v.getId()).repaint();
+            stringOutput.get(id_veiculo).setText(aux);
+            stringOutput.get(id_veiculo).revalidate();
+            stringOutput.get(id_veiculo).repaint();
         }
         frame.pack();
         frame.revalidate();
