@@ -197,35 +197,35 @@ public class Veiculo extends Observable implements Runnable, Observer {
             case B_E:
             case D_E:
             case crE:
-                distSeguranca = 1;
+                distSeguranca = 2;
                 break;
             case C_M:
             case E_M:
             case B_M:
             case D_M:
             case crM:
-                distSeguranca = 2;
+                distSeguranca = 3;
                 break;
             case C_P:
             case E_P:
             case B_P:
             case D_P:
             case crP:
-                distSeguranca = 3;
+                distSeguranca = 4;
                 break;
             case C_W:
             case E_W:
             case B_W:
             case D_W:
             case crW:
-                distSeguranca = 4;
+                distSeguranca = 5;
                 break;
             case C_N:
             case E_N:
             case B_N:
             case D_N:
             case crN:
-                distSeguranca = 5;
+                distSeguranca = 6;
                 break;
             case C_G:
             case E_G:
@@ -262,10 +262,6 @@ public class Veiculo extends Observable implements Runnable, Observer {
         if (coord.getX() >= mapaObj.getMapa().length || coord.getY() >= mapaObj.getMapa().length || coord.getX() < 0 || coord.getY() < 0) {
             return false;
         }
-//        if (coord.getX() == anterior.getX() && coord.getY() == anterior.getY()) {
-//            return false;
-//        }
-
         switch ((mapaObj.getMapa()[coord.getX()][coord.getY()]) / 100) {
             case 1:
             case 2:
@@ -504,7 +500,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                     new Ajuda().sleep_entre(500, 1000);
                 } else {
                     // nao pode andar
-                    new Ajuda().sleep_entre(200, 400);
+//                    new Ajuda().sleep_entre(200, 400);
                 }
             }
         }
