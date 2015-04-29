@@ -98,7 +98,7 @@ public class Mapa {
         return estadoParado;
     }
 
-    public void addVeiculoNormal(Coordenadas inicio, Coordenadas fim) {
+    public synchronized void addVeiculoNormal(Coordenadas inicio, Coordenadas fim) {
         VeiculoNormal veiculo = new VeiculoNormal(this, inicio, fim);
         if (!veiculosNormais.contains(veiculo)) {
             veiculosNormais.add(veiculo);
@@ -109,7 +109,7 @@ public class Mapa {
         new Thread(veiculo).start();
     }
 
-    public void removeVeiculoNormal(VeiculoNormal veiculo) {
+    public synchronized void removeVeiculoNormal(VeiculoNormal veiculo) {
         JLabel atual = mapaGrafico[veiculo.getAtual().getX()][veiculo.getAtual().getY()];
         atual.setIcon(escolheImagem(mapa[veiculo.getAnterior().getX()][veiculo.getAnterior().getY()]));
         atual.revalidate();
@@ -142,7 +142,7 @@ public class Mapa {
         mapaGrafico[coordenadas.getX()][coordenadas.getY()].repaint();
     }
 
-    public void addVeiculo(int id, Coordenadas inicio, Coordenadas fim, boolean sentidoContrarioAtivado) {
+    public synchronized void addVeiculo(int id, Coordenadas inicio, Coordenadas fim, boolean sentidoContrarioAtivado) {
         Veiculo novoVeiculo = new Veiculo(this, id, inicio, fim, sentidoContrarioAtivado);
         for (Veiculo veiculo : veiculos) {
             veiculo.adicionaObserver(novoVeiculo);
@@ -153,7 +153,7 @@ public class Mapa {
         new Thread(novoVeiculo).start();
     }
 
-    void removeVeiculo(Veiculo v) {
+    public synchronized void removeVeiculo(Veiculo v) {
         JLabel atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
         atual.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
         atual.revalidate();
