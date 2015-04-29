@@ -167,6 +167,10 @@ public class Mapa implements KeyListener {
 
     public synchronized void removeVeiculo(Veiculo v) {
         // remove os prints da interface
+   //     painel_principal.
+        panelPrint.get(veiculos.lastIndexOf(v)).removeAll();
+        panelPrint.get(veiculos.lastIndexOf(v)).revalidate();
+        panelPrint.get(veiculos.lastIndexOf(v)).repaint();
         stringOutput.remove(veiculos.lastIndexOf(v));
         panelPrint.remove(veiculos.lastIndexOf(v));
         btnControlo.remove(veiculos.lastIndexOf(v));

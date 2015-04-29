@@ -25,7 +25,7 @@ public class Astar {
 
     private ArrayList<Coordenadas> caminho(ArrayList<AstarMembro> caminhos, Coordenadas fim) {
         int iteracao = 0;
-        while (iteracao < 8000) {
+        while (iteracao < 100000) {
 //            System.out.println("                ASTAR size = " + caminhos.size() + " iteracao = " + iteracao);
             if (caminhos.size() < 1) {
 //                System.out.println("                ASTAR nao encontrou");
@@ -183,6 +183,10 @@ public class Astar {
                 }
 
                 Collections.sort(caminhos);
+                // remove possiveis maus caminhos
+                for (int i = 1000; i < caminhos.size(); i++) {
+                    caminhos.remove(i);
+                }
 //                for (AstarMembro caminho : caminhos) {
 //                    System.out.println("                " + caminho);
 //                }
