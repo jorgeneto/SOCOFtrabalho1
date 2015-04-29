@@ -277,50 +277,50 @@ public class Veiculo extends Observable implements Runnable, Observer {
     public void encontraObstaculo() {
         Coordenadas aux = new Coordenadas(atual.getX(), atual.getY());
 
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
-                System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
+                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
                 mapaObj.redesenhar(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
         atual = new Coordenadas(aux.getX() + 1, aux.getY());
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
-                System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
+                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
                 mapaObj.redesenhar(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
         atual = new Coordenadas(aux.getX() - 1, aux.getY());
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
-                System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
+                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
                 mapaObj.redesenhar(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
         atual = new Coordenadas(aux.getX(), aux.getY() + 1);
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
-                System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
+                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
                 mapaObj.redesenhar(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
         atual = new Coordenadas(aux.getX(), aux.getY() - 1);
-        System.err.println("    x" + atual.getX() + " y" + atual.getY());
+        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
         if (posicaoValida(atual)) {
             if (procuraCaminho()) {
-                System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
+                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
                 mapaObj.redesenhar(aux);
                 simulaVeiculoAndar();
                 return;
