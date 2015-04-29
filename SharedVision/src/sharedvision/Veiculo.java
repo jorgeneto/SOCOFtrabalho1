@@ -244,6 +244,17 @@ public class Veiculo extends Observable implements Runnable, Observer {
             veiculoTermina();
         }
 
+        if (sentidoContrarioAtivado) {
+            mapaObj.printJanelaCarros(this, "sentido contrario ativado");
+            ArrayList<Coordenadas> caminhoAux = new ArrayList<>();
+            fim = new Coordenadas(caminho.get(0).getX(), caminho.get(0).getY());
+            for (Coordenadas cord : caminho) {
+                caminhoAux.add(0, cord);
+            }
+            caminho = caminhoAux;
+            atual = new Coordenadas(caminho.get(0).getX(), caminho.get(0).getY());
+            anterior = atual;
+        }
         simulaVeiculoAndar();
     }
 
