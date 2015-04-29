@@ -156,7 +156,6 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 }
                 break;
             case VeiculoNormal:
-
                 break;
         }
     }
