@@ -163,7 +163,6 @@ public class Veiculo extends Observable implements Runnable, Observer {
     private boolean procuraCaminho() {
         try {
             Astar astar = new Astar(mapaObj.getMapa(), 0);
-            caminho = new ArrayList<>();
             caminho = astar.caminho(atual, fim);
         } catch (Exception e) {
             e.printStackTrace();
@@ -334,14 +333,90 @@ public class Veiculo extends Observable implements Runnable, Observer {
         mapaObj.addObstaculo(aux);
     }
 
-    private boolean desviaColisao(Coordenadas coord, int probabilidade) {
+    private boolean desviaColisao(Coordenadas coord) {
         int mapa[][] = mapaObj.getMapa();
-        mapa[coord.getX()][coord.getY()] = Obs;
+        int original = mapa[coord.getX()][coord.getY()];
         ArrayList<Coordenadas> caminhoAux;
+        ArrayList<Coordenadas> caminhoAux_2;
+        Coordenadas coordAux;
+        Astar astar;
 
+        // se as coordenadas do outro veiculo forem iguais as minhas finais
+        if (coord.getX() == fim.getX() && coord.getY() == fim.getY()) {
+            // se as coordenadas estao no mapa e nao no caminho anterior
+            coordAux = new Coordenadas(fim.getX() + 1, fim.getY());
+            if (coordAux.getX() >= 0 && coordAux.getX() < mapa.length && !caminho.contains(coordAux)) {
+                mapa[coord.getX()][coord.getY()] = Obs;
+                astar = new Astar(mapa, 0);
+                caminhoAux = astar.caminho(atual, coordAux);
+
+                if (caminhoAux != null) {
+                    mapa[coord.getX()][coord.getY()] = original;
+                    astar = new Astar(mapa, 0);
+                    caminhoAux_2 = astar.caminho(caminhoAux.remove(caminhoAux.size() - 1), coordAux);
+                    if (caminhoAux != null) {
+                        caminhoAux.addAll(caminhoAux_2);
+                        caminho = caminhoAux;
+                        return true;
+                    }
+                }
+            }
+            coordAux = new Coordenadas(fim.getX() - 1, fim.getY());
+            if (coordAux.getX() >= 0 && coordAux.getX() < mapa.length && !caminho.contains(coordAux)) {
+                mapa[coord.getX()][coord.getY()] = Obs;
+                astar = new Astar(mapa, 0);
+                caminhoAux = astar.caminho(atual, coordAux);
+
+                if (caminhoAux != null) {
+                    mapa[coord.getX()][coord.getY()] = original;
+                    astar = new Astar(mapa, 0);
+                    caminhoAux_2 = astar.caminho(caminhoAux.remove(caminhoAux.size() - 1), coordAux);
+                    if (caminhoAux != null) {
+                        caminhoAux.addAll(caminhoAux_2);
+                        caminho = caminhoAux;
+                        return true;
+                    }
+                }
+            }
+            coordAux = new Coordenadas(fim.getX(), fim.getY() + 1);
+            if (coordAux.getY() >= 0 && coordAux.getY() < mapa.length && !caminho.contains(coordAux)) {
+                mapa[coord.getX()][coord.getY()] = Obs;
+                astar = new Astar(mapa, 0);
+                caminhoAux = astar.caminho(atual, coordAux);
+
+                if (caminhoAux != null) {
+                    mapa[coord.getX()][coord.getY()] = original;
+                    astar = new Astar(mapa, 0);
+                    caminhoAux_2 = astar.caminho(caminhoAux.remove(caminhoAux.size() - 1), coordAux);
+                    if (caminhoAux != null) {
+                        caminhoAux.addAll(caminhoAux_2);
+                        caminho = caminhoAux;
+                        return true;
+                    }
+                }
+            }
+            coordAux = new Coordenadas(fim.getX(), fim.getY() - 1);
+            if (coordAux.getY() >= 0 && coordAux.getY() < mapa.length && !caminho.contains(coordAux)) {
+                mapa[coord.getX()][coord.getY()] = Obs;
+                astar = new Astar(mapa, 0);
+                caminhoAux = astar.caminho(atual, coordAux);
+
+                if (caminhoAux != null) {
+                    mapa[coord.getX()][coord.getY()] = original;
+                    astar = new Astar(mapa, 0);
+                    caminhoAux_2 = astar.caminho(caminhoAux.remove(caminhoAux.size() - 1), coordAux);
+                    if (caminhoAux != null) {
+                        caminhoAux.addAll(caminhoAux_2);
+                        caminho = caminhoAux;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        mapa[coord.getX()][coord.getY()] = Obs;
         try {
-            Astar astar = new Astar(mapa, 0);
-            caminhoAux = new ArrayList<>();
+            astar = new Astar(mapa, 0);
             caminhoAux = astar.caminho(atual, fim);
         } catch (Exception e) {
             e.printStackTrace();
@@ -453,9 +528,10 @@ public class Veiculo extends Observable implements Runnable, Observer {
                             for (Coordenadas coordenada : veiculo.getCaminho()) {
                                 if (coordenada.getX() == atual.getX() && coordenada.getY() == atual.getY()) {
                                     enviaMensagem(Mensagem.TipoMensagem.PerigoColisaoFrontal, atual);
+                                    System.out.println("Carro " + id + " Um veiculo vai bater contra mim");
                                     mapaObj.printJanelaCarros(this, "Um veiculo vai bater contra mim");
                                     perigo_colisao--;
-                                    if (!desviaColisao(veiculo.getAtual(), perigo_colisao)) {
+                                    if (!desviaColisao(veiculo.getAtual())) {
                                         podeAndar = false;
                                         if (perigo_colisao == 1) {
                                             mapaObj.addObstaculo(atual);
@@ -475,9 +551,9 @@ public class Veiculo extends Observable implements Runnable, Observer {
                             podeAndar = false;
                             for (Coordenadas coordenada : veiculo.getCaminho()) {
                                 if (coordenada.getX() == atual.getX() && coordenada.getY() == atual.getY()) {
+                                    System.out.println("Carro " + id + " Um veiculo normal vai bater contra mim AHAHAHA!!! :(");
                                     mapaObj.printJanelaCarros(this, "Um veiculo normal vai bater contra mim AHAHAHA!!! :(");
-                                    desviaColisao(veiculo.getAtual(), 1);
-                                    if (!desviaColisao(veiculo.getAtual(), perigo_colisao)) {
+                                    if (!desviaColisao(veiculo.getAtual())) {
                                         mapaObj.addObstaculo(atual);
                                         veiculoTermina();
                                         return;

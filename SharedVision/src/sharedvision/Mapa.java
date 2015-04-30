@@ -40,7 +40,7 @@ public class Mapa implements KeyListener {
 
     private int[][] mapa = {
         /*0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19*/
-        {crN, E_N, E_N, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, crM},// 0
+        {crN, E_N, E_N, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M},// 0
         {B_N, E_N, E_N, crM, crM, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M, E_M},// 1
         {B_N, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, C_E},// 2
         {B_N, 000, 000, crE, crE, E_E, E_E, E_E, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE},// 3
@@ -49,8 +49,8 @@ public class Mapa implements KeyListener {
         {B_N, 000, 000, B_E, C_E, 000, crE, crE, crE, crE, E_E, E_E, E_E, E_E, E_E, crE, crE, 000, B_E, C_E},// 6
         {B_N, 000, 000, B_E, C_E, 000, crE, 000, crE, crE, D_E, D_E, D_E, D_E, D_E, crE, crE, 000, B_E, C_E},// 7
         {B_N, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_E, C_E, 000, B_E, C_E},// 8
-        {crN, D_N, D_N, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE, E_E, E_E, C_E},// 9
-        {crG, D_G, D_G, crE, crE, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, crE, D_E, crE, C_E},// 10
+        {D_N, D_N, D_N, crE, crE, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, E_E, crE, E_E, E_E, C_E},// 9
+        {D_G, D_G, D_G, crE, crE, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, D_E, crE, D_E, crE, C_E},// 10
         {C_G, 000, 000, B_E, C_E, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, 000, B_P, C_P},// 11
         {C_G, 000, 000, B_E, C_E, 000, 000, crW, E_W, E_W, E_W, E_W, E_W, E_W, E_W, E_W, crW, 000, B_P, C_P},// 12
         {C_G, 000, 000, B_E, C_E, 000, 000, B_W, D_W, D_W, D_W, D_W, D_W, D_W, D_W, B_W, C_W, 000, B_P, C_P},// 13
@@ -119,7 +119,7 @@ public class Mapa implements KeyListener {
 
     public synchronized void removeVeiculoNormal(VeiculoNormal veiculo) {
         JLabel atual = mapaGrafico[veiculo.getAtual().getX()][veiculo.getAtual().getY()];
-        atual.setIcon(escolheImagem(mapa[veiculo.getAnterior().getX()][veiculo.getAnterior().getY()]));
+        atual.setIcon(escolheImagem(mapa[veiculo.getAtual().getX()][veiculo.getAtual().getY()]));
         atual.revalidate();
         atual.repaint();
 
@@ -175,7 +175,7 @@ public class Mapa implements KeyListener {
 
         // remove o veiculo
         JLabel atual = mapaGrafico[v.getAtual().getX()][v.getAtual().getY()];
-        atual.setIcon(escolheImagem(mapa[v.getAnterior().getX()][v.getAnterior().getY()]));
+        atual.setIcon(escolheImagem(mapa[v.getAtual().getX()][v.getAtual().getY()]));
         atual.revalidate();
         atual.repaint();
         veiculos.remove(v);
