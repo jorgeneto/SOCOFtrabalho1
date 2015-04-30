@@ -72,8 +72,6 @@ public class Mapa implements KeyListener {
     private final Coordenadas coordInicial = new Coordenadas(-1, -1);
     private final Coordenadas coordFinal = new Coordenadas(-1, -1);
 
-    private JButton btn, btnEscolherMapaInicio, btnEscolherMapaFim;
-    private JLabel label;
     private boolean estadoParado = false, telecomandado = true;
 
     public Mapa() {
@@ -322,6 +320,9 @@ public class Mapa implements KeyListener {
         return true;
     }
 
+    //____________________________________________ INTERFACE GRAFICA ____________________________________________
+    //____________________________________________ INTERFACE GRAFICA ____________________________________________
+    //____________________________________________ INTERFACE GRAFICA ____________________________________________
     //____________________________________________ INTERFACE GRAFICA ____________________________________________
     public void redesenhar(Coordenadas coord) {
         JLabel anterior;
@@ -766,6 +767,7 @@ public class Mapa implements KeyListener {
     private JButton btnAddNormal, flag, btnControloManual;
     private JPanel painel_cria_veiculos_1, painel_coord, painel_principal, painel_cria_veiculos_2;
     private ArrayList<JButton> btnControlo = new ArrayList<>();
+    private JButton btnEscolherMapaInicio, btnEscolherMapaFim;
 
     private JButton btn_seta_sobe, btn_seta_esquerda, btn_seta_desce, btn_seta_direita;
 
@@ -785,7 +787,7 @@ public class Mapa implements KeyListener {
 
         painel_cria_veiculos_1 = new JPanel(new GridLayout(4, 1));
 
-        btn = new JButton("Adicionar veículo inteligente");
+        JButton btn = new JButton("Adicionar veículo inteligente");
         btn.addActionListener((ActionEvent e) -> {
             if (!nID.getText().equals("") && !nXi.getText().equals("") && !nYi.getText().equals("") && !nXf.getText().equals("") && !nYf.getText().equals("")) {
                 addVeiculo(Integer.parseInt(nID.getText()), new Coordenadas(Integer.parseInt(nXi.getText()), Integer.parseInt(nYi.getText())), new Coordenadas(Integer.parseInt(nXf.getText()), Integer.parseInt(nYf.getText())), sentidoInvertido);
@@ -937,7 +939,7 @@ public class Mapa implements KeyListener {
 
         panelPrint.add(new JPanel(new BorderLayout()));
         JPanel painel_opcoes = new JPanel(new GridLayout(2, 1));
-        
+
         JLabel label = new JLabel("Veiculo " + veiculos.get(id_veiculo).getId());
         label.setFont(new Font("Arial", Font.BOLD, 14));
         label.setForeground(Color.red);
