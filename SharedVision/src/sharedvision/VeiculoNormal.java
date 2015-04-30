@@ -32,16 +32,16 @@ public class VeiculoNormal extends Observable implements Runnable {
         this.controlar = controlar;
     }
 
-    public Coordenadas getAnterior() {
-        return anterior;
+    public synchronized Coordenadas getAnterior() {
+        return new Coordenadas(anterior.getX(), anterior.getY());
     }
 
-    public Coordenadas getAtual() {
-        return atual;
+    public synchronized Coordenadas getAtual() {
+        return new Coordenadas(atual.getX(), atual.getY());
     }
 
-    public ArrayList<Coordenadas> getCaminho() {
-        return caminho;
+    public synchronized ArrayList<Coordenadas> getCaminho() {
+        return new ArrayList<>(caminho);
     }
 
     public void enviaMensagem(Coordenadas coordenadas) {
