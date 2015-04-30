@@ -546,11 +546,29 @@ public class Veiculo extends Observable implements Runnable, Observer {
                             }
                         }
                     }
+                    int x_dif, y_dif;
                     for (VeiculoNormal veiculo : veiculosNormais) {
                         if (veiculo.getAtual().getX() == proximo.getX() && veiculo.getAtual().getY() == proximo.getY()) {
                             podeAndar = false;
                             for (Coordenadas coordenada : veiculo.getCaminho()) {
                                 if (coordenada.getX() == atual.getX() && coordenada.getY() == atual.getY()) {
+                                    System.out.println("Carro " + id + " Um veiculo normal vai bater contra mim AHAHAHA!!! :(");
+                                    mapaObj.printJanelaCarros(this, "Um veiculo normal vai bater contra mim AHAHAHA!!! :(");
+                                    if (!desviaColisao(veiculo.getAtual())) {
+                                        mapaObj.addObstaculo(atual);
+                                        veiculoTermina();
+                                        return;
+                                    } else {
+
+                                    }
+                                }
+                            }
+                            x_dif = veiculo.getAtual().getX() - veiculo.getAnterior().getX();
+                            y_dif = veiculo.getAtual().getY() - veiculo.getAnterior().getY();
+                            for (int j = 0; j < 4; j++) {
+                                x_dif += x_dif;
+                                y_dif += y_dif;
+                                if (veiculo.getAtual().getX() + x_dif == atual.getX() && veiculo.getAtual().getY() + y_dif == atual.getY()) {
                                     System.out.println("Carro " + id + " Um veiculo normal vai bater contra mim AHAHAHA!!! :(");
                                     mapaObj.printJanelaCarros(this, "Um veiculo normal vai bater contra mim AHAHAHA!!! :(");
                                     if (!desviaColisao(veiculo.getAtual())) {
