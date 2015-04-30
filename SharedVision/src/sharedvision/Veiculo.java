@@ -272,65 +272,137 @@ public class Veiculo extends Observable implements Runnable, Observer {
         }
     }
 
+    public boolean procuraCaminho(Coordenadas aux) {
+        Coordenadas atual_aux = new Coordenadas(atual.getX(), atual.getY());
+        atual = new Coordenadas(aux.getX(), aux.getY());
+        boolean resultado = procuraCaminho();
+        atual = new Coordenadas(atual_aux.getX(), atual_aux.getY());
+        return resultado;
+    }
+
+    private ArrayList<Coordenadas> casasAverificar(Coordenadas coord) {
+        ArrayList<Coordenadas> casas = new ArrayList<>();
+        casas.add(coord);
+        int mapa[][] = mapaObj.getMapa();
+        Coordenadas aux;
+        int i = 0;
+        while (casas.size() < 4 && i < 10) {
+            aux = new Coordenadas(casas.get(0).getX() + 1, casas.get(0).getY());
+            if (aux.getX() >= 0 && aux.getX() < mapa.length) {
+                if (mapa[aux.getX()][aux.getY()] / 100 == 1) {
+                    casas.add(0, aux);
+                }
+            }
+            aux = new Coordenadas(casas.get(0).getX() - 1, casas.get(0).getY());
+            if (aux.getX() >= 0 && aux.getX() < mapa.length) {
+                if (mapa[aux.getX()][aux.getY()] / 100 == 3) {
+                    casas.add(0, aux);
+                }
+            }
+            aux = new Coordenadas(casas.get(0).getX(), casas.get(0).getY() + 1);
+            if (aux.getY() >= 0 && aux.getY() < mapa.length) {
+                if (mapa[aux.getX()][aux.getY()] / 100 == 2) {
+                    casas.add(0, aux);
+                }
+            }
+            aux = new Coordenadas(casas.get(0).getX(), casas.get(0).getY() - 1);
+            if (aux.getY() >= 0 && aux.getY() < mapa.length) {
+                if (mapa[aux.getX()][aux.getY()] / 100 == 4) {
+                    casas.add(0, aux);
+                }
+            }
+            i++;
+        }
+//        System.out.println("casas =");
+//        new Ajuda().printCaminho(casas);
+        return casas;
+    }
+
+    public void esperaAteEstradaLivre(Coordenadas coordenadas) {
+        boolean estradaLivre = false;
+        ArrayList<Coordenadas> casas = casasAverificar(coordenadas);
+        while (true) {
+            estradaLivre = true;
+            for (Veiculo veiculo : veiculosProximos) {
+                for (Coordenadas coord : casas) {
+                    if (coord.getX() == veiculo.getAtual().getX() && coord.getY() == veiculo.getAtual().getY()) {
+                        estradaLivre = false;
+                    }
+                }
+            }
+            for (VeiculoNormal veiculo : veiculosNormais) {
+                for (Coordenadas coord : casas) {
+                    if (coord.getX() == veiculo.getAtual().getX() && coord.getY() == veiculo.getAtual().getY()) {
+                        estradaLivre = false;
+                    }
+                }
+            }
+            if (estradaLivre) {
+                return;
+            } else {
+                new Ajuda().sleepDuracao(200);
+            }
+        }
+    }
+
     public void encontraObstaculo() {
         Coordenadas aux = new Coordenadas(atual.getX(), atual.getY());
 
-        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
-        if (posicaoValida(atual)) {
-            if (procuraCaminho()) {
-                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
-                mapaObj.redesenhar(aux);
+        if (posicaoValida(aux)) {
+            if (procuraCaminho(aux)) {
+                anterior = new Coordenadas(atual.getX(), atual.getY());
+                esperaAteEstradaLivre(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
-        atual = new Coordenadas(aux.getX() + 1, aux.getY());
-        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
-        if (posicaoValida(atual)) {
-            if (procuraCaminho()) {
-                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
-                mapaObj.redesenhar(aux);
+        aux = new Coordenadas(atual.getX() + 1, atual.getY());
+        if (posicaoValida(aux)) {
+            if (procuraCaminho(aux)) {
+                caminho.add(0, aux);
+                anterior = new Coordenadas(atual.getX(), atual.getY());
+                esperaAteEstradaLivre(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
-        atual = new Coordenadas(aux.getX() - 1, aux.getY());
-        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
-        if (posicaoValida(atual)) {
-            if (procuraCaminho()) {
-                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
-                mapaObj.redesenhar(aux);
+        aux = new Coordenadas(atual.getX() - 1, atual.getY());
+        if (posicaoValida(aux)) {
+            if (procuraCaminho(aux)) {
+                caminho.add(0, aux);
+                anterior = new Coordenadas(atual.getX(), atual.getY());
+                esperaAteEstradaLivre(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
-        atual = new Coordenadas(aux.getX(), aux.getY() + 1);
-        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
-        if (posicaoValida(atual)) {
-            if (procuraCaminho()) {
-                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
-                mapaObj.redesenhar(aux);
+        aux = new Coordenadas(atual.getX(), atual.getY() + 1);
+        if (posicaoValida(aux)) {
+            if (procuraCaminho(aux)) {
+                caminho.add(0, aux);
+                anterior = new Coordenadas(atual.getX(), atual.getY());
+                esperaAteEstradaLivre(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
-        atual = new Coordenadas(aux.getX(), aux.getY() - 1);
-        //System.err.println("    x" + atual.getX() + " y" + atual.getY());
-        if (posicaoValida(atual)) {
-            if (procuraCaminho()) {
-                //System.err.println("    encontrou x" + atual.getX() + " y" + atual.getY());
-                mapaObj.redesenhar(aux);
+        aux = new Coordenadas(atual.getX(), atual.getY() - 1);
+        if (posicaoValida(aux)) {
+            if (procuraCaminho(aux)) {
+                caminho.add(0, aux);
+                anterior = new Coordenadas(atual.getX(), atual.getY());
+                esperaAteEstradaLivre(aux);
                 simulaVeiculoAndar();
                 return;
             }
         }
-        atual = new Coordenadas(aux.getX(), aux.getY());
+
         System.err.println("Veiculo " + id + " FICOU SEM CAMINHOS");
         mapaObj.printJanelaCarros(this, "Veiculo " + id + " FICOU SEM CAMINHOS");
-        enviaMensagem(Mensagem.TipoMensagem.Obstaculo, aux);
+        enviaMensagem(Mensagem.TipoMensagem.Obstaculo, atual);
         veiculoTermina();
         // tornar o veiculo num obstaculo
-        mapaObj.addObstaculo(aux);
+        mapaObj.addObstaculo(atual);
     }
 
     private boolean desviaColisao(Coordenadas coord) {
