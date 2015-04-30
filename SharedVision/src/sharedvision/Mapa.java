@@ -764,7 +764,7 @@ public class Mapa implements KeyListener {
     private ArrayList<JPanel> panelPrint = new ArrayList<>();
     private JFrame frame;
     private boolean sentidoInvertido = false;
-    private JButton btnAddNormal, flag, btnControloManual;
+    private JButton btnAddNormal, flag;
     private JPanel painel_cria_veiculos_1, painel_coord, painel_principal, painel_cria_veiculos_2;
     private ArrayList<JButton> btnControlo = new ArrayList<>();
     private JButton btnEscolherMapaInicio, btnEscolherMapaFim;
@@ -860,14 +860,22 @@ public class Mapa implements KeyListener {
         painel_cria_veiculos_2.add(painel_coord);
 
         JPanel painel_controloManual = new JPanel((new GridLayout(1, 2)));
-        btnControloManual = new JButton("Controlo Manual Ligado");
+        JButton btnControloManual = new JButton("Controlo Manual Ligado");
         btnControloManual.addActionListener((ActionEvent e) -> {
             if (telecomandado) {
                 ((JButton) e.getSource()).setText("Controlo Manual Desligado");
                 telecomandado = false;
+                btn_seta_sobe.setEnabled(false);
+                btn_seta_esquerda.setEnabled(false);
+                btn_seta_desce.setEnabled(false);
+                btn_seta_direita.setEnabled(false);
             } else {
                 ((JButton) e.getSource()).setText("Controlo Manual Ligado");
                 telecomandado = true;
+                btn_seta_sobe.setEnabled(true);
+                btn_seta_esquerda.setEnabled(true);
+                btn_seta_desce.setEnabled(true);
+                btn_seta_direita.setEnabled(true);
             }
         });
         painel_controloManual.add(btnControloManual);
