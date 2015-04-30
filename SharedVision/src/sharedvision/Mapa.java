@@ -929,9 +929,9 @@ public class Mapa implements KeyListener {
     private void adicionarLinhaPrint(Veiculo v) {
         int id_veiculo = veiculos.lastIndexOf(v);
 
-        JButton b = new JButton("Perder o controlo");
-        btnControlo.add(b);
-        b.addActionListener((ActionEvent e) -> {
+        JButton btn = new JButton("Perder o controlo");
+        btnControlo.add(btn);
+        btn.addActionListener((ActionEvent e) -> {
             v.perdaControlo();
         });
 
