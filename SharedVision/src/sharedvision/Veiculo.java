@@ -55,20 +55,20 @@ public class Veiculo extends Observable implements Runnable, Observer {
         }
     }
 
-    public Coordenadas getAnterior() {
-        return anterior;
+    public synchronized Coordenadas getAnterior() {
+        return new Coordenadas(anterior.getX(), anterior.getY());
     }
 
-    public Coordenadas getAtual() {
-        return atual;
+    public synchronized Coordenadas getAtual() {
+        return new Coordenadas(atual.getX(), atual.getY());
     }
 
     public int getId() {
         return id;
     }
 
-    public ArrayList<Coordenadas> getCaminho() {
-        return caminho;
+    public synchronized ArrayList<Coordenadas> getCaminho() {
+        return new ArrayList<>(caminho);
     }
 
     public void perdaControlo() {
