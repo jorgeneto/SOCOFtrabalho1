@@ -25,6 +25,9 @@ public class Astar {
 
     private ArrayList<Coordenadas> caminho(ArrayList<AstarMembro> caminhos, Coordenadas fim) {
         int iteracao = 0;
+        AstarMembro novoCaminho;
+        Coordenadas proximo;
+
         while (iteracao < 100000) {
 //            System.out.println("                ASTAR size = " + caminhos.size() + " iteracao = " + iteracao);
             if (caminhos.size() < 1) {
@@ -40,10 +43,34 @@ public class Astar {
             } else {
                 Coordenadas intermedio = caminhos.get(0).lista.get(0);
 //                System.out.println("    atual " + intermedio + "    mapa=" + mapa[intermedio.getX()][intermedio.getY()] + "    switch=" + mapa[intermedio.getX()][intermedio.getY()] / 100);
-                Coordenadas proximo;
                 switch (mapa[intermedio.getX()][intermedio.getY()] / 100) {
                     case 1:
 //                        System.out.println("        case 1");
+                        novoCaminho = new AstarMembro(caminhos.get(0));
+                        proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
+                        if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
+                            if (mapa[proximo.getX()][proximo.getY()] / 100 == 1) {
+                                if (!caminhos.get(0).lista.contains(proximo)) {
+                                    novoCaminho.lista.add(0, proximo);
+                                    novoCaminho.soma += 1;
+                                    novoCaminho.calcula(fim);
+                                    caminhos.add(novoCaminho);
+                                }
+                            }
+                        }
+                        novoCaminho = new AstarMembro(caminhos.get(0));
+                        proximo = new Coordenadas(intermedio.getX(), intermedio.getY() - 1);
+                        if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
+                            if (mapa[proximo.getX()][proximo.getY()] / 100 == 1) {
+                                if (!caminhos.get(0).lista.contains(proximo)) {
+                                    novoCaminho.lista.add(0, proximo);
+                                    novoCaminho.soma += 1;
+                                    novoCaminho.calcula(fim);
+                                    caminhos.add(novoCaminho);
+                                }
+                            }
+                        }
+
                         proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (!caminhos.get(0).lista.contains(proximo)) {
@@ -59,7 +86,7 @@ public class Astar {
                         break;
                     case 2:
 //                        System.out.println("        case 2");
-                        AstarMembro novoCaminho = new AstarMembro(caminhos.get(0));
+                        novoCaminho = new AstarMembro(caminhos.get(0));
                         proximo = new Coordenadas(intermedio.getX() + 1, intermedio.getY());
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (mapa[proximo.getX()][proximo.getY()] / 100 == 2) {
@@ -99,6 +126,31 @@ public class Astar {
                         break;
                     case 3:
 //                        System.out.println("        case 3");
+                        novoCaminho = new AstarMembro(caminhos.get(0));
+                        proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
+                        if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
+                            if (mapa[proximo.getX()][proximo.getY()] / 100 == 3) {
+                                if (!caminhos.get(0).lista.contains(proximo)) {
+                                    novoCaminho.lista.add(0, proximo);
+                                    novoCaminho.soma += 1;
+                                    novoCaminho.calcula(fim);
+                                    caminhos.add(novoCaminho);
+                                }
+                            }
+                        }
+                        novoCaminho = new AstarMembro(caminhos.get(0));
+                        proximo = new Coordenadas(intermedio.getX(), intermedio.getY() - 1);
+                        if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
+                            if (mapa[proximo.getX()][proximo.getY()] / 100 == 3) {
+                                if (!caminhos.get(0).lista.contains(proximo)) {
+                                    novoCaminho.lista.add(0, proximo);
+                                    novoCaminho.soma += 1;
+                                    novoCaminho.calcula(fim);
+                                    caminhos.add(novoCaminho);
+                                }
+                            }
+                        }
+
                         proximo = new Coordenadas(intermedio.getX() + 1, intermedio.getY());
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (!caminhos.get(0).lista.contains(proximo)) {
@@ -114,6 +166,31 @@ public class Astar {
                         break;
                     case 4:
 //                        System.out.println("        case 4");
+                        novoCaminho = new AstarMembro(caminhos.get(0));
+                        proximo = new Coordenadas(intermedio.getX() + 1, intermedio.getY());
+                        if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
+                            if (mapa[proximo.getX()][proximo.getY()] / 100 == 4) {
+                                if (!caminhos.get(0).lista.contains(proximo)) {
+                                    novoCaminho.lista.add(0, proximo);
+                                    novoCaminho.soma += 1;
+                                    novoCaminho.calcula(fim);
+                                    caminhos.add(novoCaminho);
+                                }
+                            }
+                        }
+                        novoCaminho = new AstarMembro(caminhos.get(0));
+                        proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
+                        if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
+                            if (mapa[proximo.getX()][proximo.getY()] / 100 == 4) {
+                                if (!caminhos.get(0).lista.contains(proximo)) {
+                                    novoCaminho.lista.add(0, proximo);
+                                    novoCaminho.soma += 1;
+                                    novoCaminho.calcula(fim);
+                                    caminhos.add(novoCaminho);
+                                }
+                            }
+                        }
+
                         proximo = new Coordenadas(intermedio.getX(), intermedio.getY() + 1);
                         if (proximo.getX() > -1 && proximo.getX() < mapaSize && proximo.getY() > -1 && proximo.getY() < mapaSize) {
                             if (!caminhos.get(0).lista.contains(proximo)) {
@@ -128,7 +205,6 @@ public class Astar {
                         }
                         break;
                     case 5:
-//                        boolean adicionouPeloMenosUm = false;
 //                        System.out.println("        case 5");
                         AstarMembro atual = new AstarMembro(caminhos.get(0));
                         proximo = new Coordenadas(intermedio.getX() - 1, intermedio.getY());
@@ -138,7 +214,6 @@ public class Astar {
                                 atual.soma += 1;
                                 atual.calcula(fim);
                                 caminhos.add(atual);
-//                                adicionouPeloMenosUm = true;
                             }
                         }
                         atual = new AstarMembro(caminhos.get(0));
@@ -149,7 +224,6 @@ public class Astar {
                                 atual.soma += 1;
                                 atual.calcula(fim);
                                 caminhos.add(atual);
-//                                adicionouPeloMenosUm = true;
                             }
                         }
                         atual = new AstarMembro(caminhos.get(0));
@@ -160,7 +234,6 @@ public class Astar {
                                 atual.soma += 1;
                                 atual.calcula(fim);
                                 caminhos.add(atual);
-//                                adicionouPeloMenosUm = true;
                             }
                         }
                         atual = new AstarMembro(caminhos.get(0));
@@ -171,7 +244,6 @@ public class Astar {
                                 atual.soma += 1;
                                 atual.calcula(fim);
                                 caminhos.add(atual);
-//                                adicionouPeloMenosUm = true;
                             }
                         }
                         caminhos.remove(0);
@@ -187,10 +259,6 @@ public class Astar {
                 for (int i = 1000; i < caminhos.size(); i++) {
                     caminhos.remove(i);
                 }
-//                for (AstarMembro caminho : caminhos) {
-//                    System.out.println("                " + caminho);
-//                }
-                //return caminho(caminhos, fim);
             }
             iteracao++;
         }
