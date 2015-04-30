@@ -446,6 +446,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
         Coordenadas proximo;
         int distSeguranca = 0;
         int perigo_colisao = 5;
+        boolean podeAndar = false;
 
         while (!(atual.getX() == fim.getX() && atual.getY() == fim.getY())) {
             if (perdeuControlo.get()) {
@@ -476,7 +477,6 @@ public class Veiculo extends Observable implements Runnable, Observer {
                 distSeguranca = distSeguranca(mapaObj.getMapa()[atual.getX()][atual.getY()]);
 
                 // verifica se tem veiculos no caminho
-                boolean podeAndar = true;
                 int menor = (caminho.size() < distSeguranca) ? caminho.size() : distSeguranca;
                 for (int i = 0; i < menor; i++) {
                     proximo = caminho.get(i);
@@ -579,6 +579,7 @@ public class Veiculo extends Observable implements Runnable, Observer {
                     enviaMensagem(Mensagem.TipoMensagem.Movimento, atual);
                     new Ajuda().sleep_entre(200, 400);
                 }
+                podeAndar = true;
             }
         }
 
