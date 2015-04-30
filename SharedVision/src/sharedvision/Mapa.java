@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -167,7 +168,7 @@ public class Mapa implements KeyListener {
 
     public synchronized void removeVeiculo(Veiculo v) {
         // remove os prints da interface
-   //     painel_principal.
+        //     painel_principal.
         panelPrint.get(veiculos.lastIndexOf(v)).removeAll();
         panelPrint.get(veiculos.lastIndexOf(v)).revalidate();
         panelPrint.get(veiculos.lastIndexOf(v)).repaint();
@@ -870,34 +871,8 @@ public class Mapa implements KeyListener {
         painel_veiculo.add(painel_criacarros, BorderLayout.CENTER);
         painel_principal.add(painel_veiculo);
 
-//        for (Veiculo v : veiculos) {
-//            JButton b = new JButton("Perder o controlo");
-//            btnControlo.add(b);
-//            b.addActionListener((ActionEvent e) -> {
-//                v.perdaControlo();
-//            });
-//        }
         for (int i = 0; i < veiculos.size(); i++) {
             adicionarLinhaPrint(veiculos.get(i));
-//            painel_veiculo = new JPanel(new BorderLayout());
-//
-//            painel_input = new JPanel(new GridLayout(2, 1));
-//            label = new JLabel("Veiculo " + veiculos.get(i).getId());
-//            label.setFont(new Font("Arial", Font.BOLD, 14));
-//            label.setForeground(Color.red);
-//            painel_input.add(label);
-//            painel_input.add(btnControlo.get(i));
-////            painel_input.add(new JButton("Perder o controlo"));
-//            painel_veiculo.add(painel_input, BorderLayout.WEST);
-//
-//            panelPrint.add(new JPanel(new FlowLayout()));
-//            stringOutput.add(new JTextArea("Mensagems do veiculo " + i));
-//            stringOutput.get(i).setEditable(false);
-//            stringOutput.get(i).setBackground(new Color(238, 238, 238));
-//            panelPrint.get(i).add(stringOutput.get(i));
-//            painel_veiculo.add(panelPrint.get(i), BorderLayout.CENTER);
-//
-//            painel_principal.add(painel_veiculo);
         }
         frame.add(painel_principal, BorderLayout.CENTER);
 
@@ -980,11 +955,11 @@ public class Mapa implements KeyListener {
 
     private void controloVeiculoNormal() {
 
-        JFrame frame = new JFrame("Controlo Manual");
+        JFrame frame = new JFrame("Setas");
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
-        JPanel jp = new JPanel();
+        JPanel painelSetas = new JPanel(new GridLayout(2, 3));
 
         JButton buttonUp = new JButton("↑");
         buttonUp.addKeyListener(this);
@@ -1007,12 +982,14 @@ public class Mapa implements KeyListener {
             keyPressed(new KeyEvent(buttonRight, 1, 21, 10, KeyEvent.VK_RIGHT));
         });
 
-        jp.add(buttonUp);
-        jp.add(buttonLeft);
-        jp.add(buttonDown);
-        jp.add(buttonRight);
+        painelSetas.add(new JPanel());
+        painelSetas.add(buttonUp);
+        painelSetas.add(new JPanel());
+        painelSetas.add(buttonLeft);
+        painelSetas.add(buttonDown);
+        painelSetas.add(buttonRight);
 
-        frame.add(jp);
+        frame.add(painelSetas);
 
         frame.pack();
         //5. Mostra a janela
