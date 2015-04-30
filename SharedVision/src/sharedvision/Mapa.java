@@ -765,7 +765,7 @@ public class Mapa implements KeyListener {
     private JFrame frame;
     private boolean sentidoInvertido = false;
     private JButton btnAddNormal, flag, btnControloManual;
-    private JPanel painel_veiculo, painel_input, painel_output, painel_principal, painel_criacarros;
+    private JPanel painel_veiculo, painel_cria_veiculos_1, painel_output, painel_principal, painel_criacarros;
     private ArrayList<JButton> btnControlo = new ArrayList<>();
 
     //Método que gera o mapa
@@ -782,7 +782,7 @@ public class Mapa implements KeyListener {
 
         painel_veiculo = new JPanel(new BorderLayout());
 
-        painel_input = new JPanel(new GridLayout(4, 1));
+        painel_cria_veiculos_1 = new JPanel(new GridLayout(4, 1));
 
         btn = new JButton("Adicionar veículo inteligente");
         btn.addActionListener((ActionEvent e) -> {
@@ -794,7 +794,7 @@ public class Mapa implements KeyListener {
                 nYf.setText("");
             }
         });
-        painel_input.add(btn);
+        painel_cria_veiculos_1.add(btn);
 
         btnAddNormal = new JButton("Adicionar veículo normal");
         btnAddNormal.addActionListener((ActionEvent e) -> {
@@ -806,7 +806,7 @@ public class Mapa implements KeyListener {
                 nYf.setText("");
             }
         });
-        painel_input.add(btnAddNormal);
+        painel_cria_veiculos_1.add(btnAddNormal);
 
         btn = new JButton("Parar Veiculos");
         btn.addActionListener((ActionEvent e) -> {
@@ -818,8 +818,8 @@ public class Mapa implements KeyListener {
                 estadoParado = true;
             }
         });
-        painel_input.add(btn);
-        painel_veiculo.add(painel_input, BorderLayout.WEST);
+        painel_cria_veiculos_1.add(btn);
+        painel_veiculo.add(painel_cria_veiculos_1, BorderLayout.WEST);
 
         btnEscolherMapaInicio = new JButton("Ponto inicial");
         btnEscolherMapaInicio.addActionListener((ActionEvent e) -> {
@@ -934,14 +934,14 @@ public class Mapa implements KeyListener {
 
         painel_veiculo = new JPanel(new BorderLayout());
 
-        painel_input = new JPanel(new GridLayout(2, 1));
+        painel_cria_veiculos_1 = new JPanel(new GridLayout(2, 1));
         label = new JLabel("Veiculo " + veiculos.get(id_veiculo).getId());
         label.setFont(new Font("Arial", Font.BOLD, 14));
         label.setForeground(Color.red);
-        painel_input.add(label);
-        painel_input.add(btnControlo.get(id_veiculo));
-//            painel_input.add(new JButton("Perder o controlo"));
-        painel_veiculo.add(painel_input, BorderLayout.WEST);
+        painel_cria_veiculos_1.add(label);
+        painel_cria_veiculos_1.add(btnControlo.get(id_veiculo));
+//            painel_cria_veiculos_1.add(new JButton("Perder o controlo"));
+        painel_veiculo.add(painel_cria_veiculos_1, BorderLayout.WEST);
 
         panelPrint.add(new JPanel(new FlowLayout()));
         stringOutput.add(new JTextArea("Mensagems do veiculo " + id_veiculo));
