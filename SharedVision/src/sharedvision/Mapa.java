@@ -935,11 +935,9 @@ public class Mapa implements KeyListener {
             v.perdaControlo();
         });
 
-        panelPrint.add(new JPanel(new BorderLayout())); //////////////////////////////////////////////////////
-
-//        JPanel painel_veiculo = new JPanel(new BorderLayout());
-
+        panelPrint.add(new JPanel(new BorderLayout()));
         JPanel painel_opcoes = new JPanel(new GridLayout(2, 1));
+        
         JLabel label = new JLabel("Veiculo " + veiculos.get(id_veiculo).getId());
         label.setFont(new Font("Arial", Font.BOLD, 14));
         label.setForeground(Color.red);
@@ -948,13 +946,11 @@ public class Mapa implements KeyListener {
         panelPrint.get(id_veiculo).add(painel_opcoes, BorderLayout.WEST);
 
         JPanel painel_label = new JPanel(new FlowLayout());
-        
-//        panelPrint.add(new JPanel(new FlowLayout())); ////////////////////////////////////////////////////////
+
         stringOutput.add(new JTextArea("Mensagems do veiculo " + id_veiculo));
         stringOutput.get(id_veiculo).setEditable(false);
         stringOutput.get(id_veiculo).setBackground(new Color(238, 238, 238));
         painel_label.add(stringOutput.get(id_veiculo));
-//        panelPrint.get(id_veiculo).add(stringOutput.get(id_veiculo));
         panelPrint.get(id_veiculo).add(painel_label, BorderLayout.CENTER);
 
         painel_principal.add(panelPrint.get(id_veiculo));
