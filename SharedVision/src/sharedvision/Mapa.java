@@ -105,7 +105,6 @@ public class Mapa implements KeyListener {
         if (veiculosNormais.size() == 0) {
             if (telecomandado) {
                 veiculo = new VeiculoNormal(this, inicio, fim, true);
-                controloVeiculoNormal();
             } else {
                 veiculo = new VeiculoNormal(this, inicio, fim, false);
             }
@@ -765,8 +764,10 @@ public class Mapa implements KeyListener {
     private JFrame frame;
     private boolean sentidoInvertido = false;
     private JButton btnAddNormal, flag, btnControloManual;
-    private JPanel painel_veiculo, painel_cria_veiculos_1, painel_output, painel_principal, painel_criacarros;
+    private JPanel painel_cria_veiculos_1, painel_coord, painel_principal, painel_cria_veiculos_2;
     private ArrayList<JButton> btnControlo = new ArrayList<>();
+
+    private JButton btn_seta_sobe, btn_seta_esquerda, btn_seta_desce, btn_seta_direita;
 
     //Método que gera o mapa
     public void vistaCarros() {
@@ -780,7 +781,7 @@ public class Mapa implements KeyListener {
         painel_principal = new JPanel();
         painel_principal.setLayout(new BoxLayout(painel_principal, BoxLayout.PAGE_AXIS));
 
-        painel_veiculo = new JPanel(new BorderLayout());
+        JPanel painel_cria_veiculo = new JPanel(new BorderLayout());
 
         painel_cria_veiculos_1 = new JPanel(new GridLayout(4, 1));
 
@@ -819,7 +820,7 @@ public class Mapa implements KeyListener {
             }
         });
         painel_cria_veiculos_1.add(btn);
-        painel_veiculo.add(painel_cria_veiculos_1, BorderLayout.WEST);
+        painel_cria_veiculo.add(painel_cria_veiculos_1, BorderLayout.WEST);
 
         btnEscolherMapaInicio = new JButton("Ponto inicial");
         btnEscolherMapaInicio.addActionListener((ActionEvent e) -> {
@@ -830,20 +831,20 @@ public class Mapa implements KeyListener {
             selecaoFinal = true;
         });
 
-        painel_output = new JPanel(new FlowLayout());
-        painel_output.add(new JLabel("ID"));
-        painel_output.add(nID = new JTextField(2));
-        painel_output.add(btnEscolherMapaInicio);
-        painel_output.add(new JLabel("X"));
-        painel_output.add(nXi = new JTextField(2));
-        painel_output.add(new JLabel("Y"));
-        painel_output.add(nYi = new JTextField(2));
-        painel_output.add(btnEscolherMapaFim);
-        painel_output.add(new JLabel("X"));
-        painel_output.add(nXf = new JTextField(2));
-        painel_output.add(new JLabel("Y"));
-        painel_output.add(nYf = new JTextField(2));
-        painel_output.add(flag = new JButton("Normal"));
+        painel_coord = new JPanel(new FlowLayout());
+        painel_coord.add(new JLabel("ID"));
+        painel_coord.add(nID = new JTextField(2));
+        painel_coord.add(btnEscolherMapaInicio);
+        painel_coord.add(new JLabel("X"));
+        painel_coord.add(nXi = new JTextField(2));
+        painel_coord.add(new JLabel("Y"));
+        painel_coord.add(nYi = new JTextField(2));
+        painel_coord.add(btnEscolherMapaFim);
+        painel_coord.add(new JLabel("X"));
+        painel_coord.add(nXf = new JTextField(2));
+        painel_coord.add(new JLabel("Y"));
+        painel_coord.add(nYf = new JTextField(2));
+        painel_coord.add(flag = new JButton("Normal"));
         flag.addActionListener((ActionEvent e) -> {
             if (sentidoInvertido) {
                 ((JButton) e.getSource()).setText("Normal");
@@ -853,11 +854,11 @@ public class Mapa implements KeyListener {
                 sentidoInvertido = true;
             }
         });
-        painel_criacarros = new JPanel(new GridLayout(2, 1));
-        painel_criacarros.add(painel_output);
+        painel_cria_veiculos_2 = new JPanel(new GridLayout(2, 1));
+        painel_cria_veiculos_2.add(painel_coord);
 
-        JPanel painel_aux = new JPanel((new FlowLayout()));
-        painel_aux.add(btnControloManual = new JButton("Controlo Manual Ligado"));
+        JPanel painel_controloManual = new JPanel((new GridLayout(1, 2)));
+        btnControloManual = new JButton("Controlo Manual Ligado");
         btnControloManual.addActionListener((ActionEvent e) -> {
             if (telecomandado) {
                 ((JButton) e.getSource()).setText("Controlo Manual Desligado");
@@ -867,9 +868,11 @@ public class Mapa implements KeyListener {
                 telecomandado = true;
             }
         });
-        painel_criacarros.add(painel_aux);
-        painel_veiculo.add(painel_criacarros, BorderLayout.CENTER);
-        painel_principal.add(painel_veiculo);
+        painel_controloManual.add(btnControloManual);
+        painel_controloManual.add(controloManualVeiculoNormal());
+        painel_cria_veiculos_2.add(painel_controloManual);
+        painel_cria_veiculo.add(painel_cria_veiculos_2, BorderLayout.CENTER);
+        painel_principal.add(painel_cria_veiculo);
 
         for (int i = 0; i < veiculos.size(); i++) {
             adicionarLinhaPrint(veiculos.get(i));
@@ -932,68 +935,63 @@ public class Mapa implements KeyListener {
             v.perdaControlo();
         });
 
-        painel_veiculo = new JPanel(new BorderLayout());
+        panelPrint.add(new JPanel(new BorderLayout())); //////////////////////////////////////////////////////
 
-        painel_cria_veiculos_1 = new JPanel(new GridLayout(2, 1));
-        label = new JLabel("Veiculo " + veiculos.get(id_veiculo).getId());
+//        JPanel painel_veiculo = new JPanel(new BorderLayout());
+
+        JPanel painel_opcoes = new JPanel(new GridLayout(2, 1));
+        JLabel label = new JLabel("Veiculo " + veiculos.get(id_veiculo).getId());
         label.setFont(new Font("Arial", Font.BOLD, 14));
         label.setForeground(Color.red);
-        painel_cria_veiculos_1.add(label);
-        painel_cria_veiculos_1.add(btnControlo.get(id_veiculo));
-//            painel_cria_veiculos_1.add(new JButton("Perder o controlo"));
-        painel_veiculo.add(painel_cria_veiculos_1, BorderLayout.WEST);
+        painel_opcoes.add(label);
+        painel_opcoes.add(btnControlo.get(id_veiculo));
+        panelPrint.get(id_veiculo).add(painel_opcoes, BorderLayout.WEST);
 
-        panelPrint.add(new JPanel(new FlowLayout()));
+        JPanel painel_label = new JPanel(new FlowLayout());
+        
+//        panelPrint.add(new JPanel(new FlowLayout())); ////////////////////////////////////////////////////////
         stringOutput.add(new JTextArea("Mensagems do veiculo " + id_veiculo));
         stringOutput.get(id_veiculo).setEditable(false);
         stringOutput.get(id_veiculo).setBackground(new Color(238, 238, 238));
-        panelPrint.get(id_veiculo).add(stringOutput.get(id_veiculo));
-        painel_veiculo.add(panelPrint.get(id_veiculo), BorderLayout.CENTER);
+        painel_label.add(stringOutput.get(id_veiculo));
+//        panelPrint.get(id_veiculo).add(stringOutput.get(id_veiculo));
+        panelPrint.get(id_veiculo).add(painel_label, BorderLayout.CENTER);
 
-        painel_principal.add(painel_veiculo);
+        painel_principal.add(panelPrint.get(id_veiculo));
     }
 
-    private void controloVeiculoNormal() {
-
-        JFrame frame = new JFrame("Setas");
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-
+    private JPanel controloManualVeiculoNormal() {
         JPanel painelSetas = new JPanel(new GridLayout(2, 3));
 
-        JButton buttonUp = new JButton("↑");
-        buttonUp.addKeyListener(this);
-        buttonUp.addActionListener((ActionEvent e) -> {
-            keyPressed(new KeyEvent(buttonUp, 1, 21, 10, KeyEvent.VK_UP));
+        btn_seta_sobe = new JButton("↑");
+        btn_seta_sobe.addKeyListener(this);
+        btn_seta_sobe.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(btn_seta_sobe, 1, 21, 10, KeyEvent.VK_UP));
         });
-        JButton buttonLeft = new JButton("←");
-        buttonLeft.addKeyListener(this);
-        buttonLeft.addActionListener((ActionEvent e) -> {
-            keyPressed(new KeyEvent(buttonLeft, 1, 21, 10, KeyEvent.VK_LEFT));
+        btn_seta_esquerda = new JButton("←");
+        btn_seta_esquerda.addKeyListener(this);
+        btn_seta_esquerda.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(btn_seta_esquerda, 1, 21, 10, KeyEvent.VK_LEFT));
         });
-        JButton buttonDown = new JButton("↓");
-        buttonDown.addKeyListener(this);
-        buttonDown.addActionListener((ActionEvent e) -> {
-            keyPressed(new KeyEvent(buttonDown, 1, 21, 10, KeyEvent.VK_DOWN));
+        btn_seta_desce = new JButton("↓");
+        btn_seta_desce.addKeyListener(this);
+        btn_seta_desce.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(btn_seta_desce, 1, 21, 10, KeyEvent.VK_DOWN));
         });
-        JButton buttonRight = new JButton("→");
-        buttonRight.addKeyListener(this);
-        buttonRight.addActionListener((ActionEvent e) -> {
-            keyPressed(new KeyEvent(buttonRight, 1, 21, 10, KeyEvent.VK_RIGHT));
+        btn_seta_direita = new JButton("→");
+        btn_seta_direita.addKeyListener(this);
+        btn_seta_direita.addActionListener((ActionEvent e) -> {
+            keyPressed(new KeyEvent(btn_seta_direita, 1, 21, 10, KeyEvent.VK_RIGHT));
         });
 
         painelSetas.add(new JPanel());
-        painelSetas.add(buttonUp);
+        painelSetas.add(btn_seta_sobe);
         painelSetas.add(new JPanel());
-        painelSetas.add(buttonLeft);
-        painelSetas.add(buttonDown);
-        painelSetas.add(buttonRight);
+        painelSetas.add(btn_seta_esquerda);
+        painelSetas.add(btn_seta_desce);
+        painelSetas.add(btn_seta_direita);
 
-        frame.add(painelSetas);
-
-        frame.pack();
-        //5. Mostra a janela
-        frame.setVisible(true);
+        return painelSetas;
     }
 
     @Override
